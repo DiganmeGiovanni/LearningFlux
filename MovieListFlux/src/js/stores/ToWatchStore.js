@@ -21,7 +21,40 @@ var objAssign        = require('object-assign')
 /*****************************************************************************/
 
 var EVENT_CHANGE = 'event-change'
-var _toWatchs = []
+var _toWatchs = [
+  {
+    id: '1',
+    isWatched: false,
+    title: 'Titanic',
+    genre: 'Romantic | Adventure',
+    director: 'James Cameron',
+    synopsis: 'El RMS Titanic fue un transatlántico británico, el mayor barco del mundo en el momento de su terminación, que se hundió en la noche del 14 al 15 de abril de 1912 durante su viaje inaugural desde Southampton a Nueva York.'
+  },
+  {
+    id: '2',
+    isWatched: false,
+    title: 'Gladiator',
+    genre: 'Adventure',
+    director: 'Ridley Scott',
+    synopsis: 'Gladiator es una película épica del género péplum estrenada en el año 2000'
+  },
+  {
+    id: '3',
+    isWatched: false,
+    title: 'The Martian',
+    genre: 'Adventure | Fiction',
+    director: 'Ridley Scott',
+    synopsis: 'The Martian es una película estadounidense de ciencia ficción de 2015 dirigida por Ridley Scott y escrita por Drew Goddard'
+  },
+  {
+    id: '4',
+    isWatched: false,
+    title: 'Armagedon',
+    genre: 'Adventure | Fiction',
+    director: 'Michael Bay',
+    synopsis: 'Armageddon es una película de ciencia ficción y cine catástrofe de 1998, dirigida por Michael Bay y producida por Jerry Bruckheimer'
+  }
+]
 
 function createToWatch(title, genre, director, synopsis) {
 
@@ -74,7 +107,7 @@ var ToWatchStore = objAssign({}, EventEmmiter.prototype, {
     var allComplete = true;
 
     for(var i=0; i<_toWatchs.length; i++) {
-      if(!_toWatchs[i].isSeen) {
+      if(!_toWatchs[i].isWatched) {
         allComplete = false
       }
     }

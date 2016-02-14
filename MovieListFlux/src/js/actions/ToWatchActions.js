@@ -21,6 +21,12 @@ var ToWatchActions = {
     })
   },
 
+  destroyWatched: function () {
+    AppDispatcher.dispatch({
+      actionType: ToWatchConstans.TOWATCH_DESTROY_COMPLETED
+    })
+  },
+
   toggleWatched: function(toWatch) {
     toWatch.isWatched = (toWatch.isWatched ? false : true)
 
