@@ -5,32 +5,42 @@ var ToWatchForm    = require('./ToWatchForm.react')
 
 /*****************************************************************************/
 
-var Header = React.createClass({
+var Toolbar = React.createClass({
 
   render: function () {
     return (
-      <div className="row">
-        <div className="row">
-          <div className="col-sm-12 text-center">
-            <h1>Movies to watch</h1>
+      <div id="main-toolbar" className="row">
+        <div className="col-xs-12">
+          <div className="btn-group" role="group">
+            <button
+              className="btn btn-primary"
+              data-target="#towatch-form-modal"
+              data-toggle="modal"
+              type="button">
+                <span>
+                  <span className="glyphicon glyphicon-film"></span>
+                  <span>&nbsp;&nbsp;Add movie</span>
+                </span>
+            </button>
+            <button
+              className="btn btn-danger"
+              onClick={this._deleteWatchedMovies}
+              type="button">
+                <span>
+                  <span className="glyphicon glyphicon-trash"></span>
+                  <span>&nbsp;&nbsp;Delete watched</span>
+                </span>
+            </button>
           </div>
-        </div>
-        <div id="main-toolbar" className="row">
-          <div className="col-xs-12 text-center">
-            <div className="btn-group" role="group">
-              <button
-                className="btn btn-primary"
-                data-target="#towatch-form-modal"
-                data-toggle="modal"
-                type="button">Add a movie to list</button>
-              <button type="button" className="btn btn-danger">Delete watched movies</button>
-            </div>
 
-            <ToWatchForm />
-          </div>
+          <ToWatchForm />
         </div>
       </div>
     )
+  },
+
+  _deleteWatchedMovies() {
+    ToWatchActions.destroyWatched()
   },
 
   _onSave: function (title) {
@@ -41,4 +51,4 @@ var Header = React.createClass({
 
 })
 
-module.exports = Header
+module.exports = Toolbar

@@ -12,19 +12,27 @@ var ToWatchList = React.createClass({
 
     var allToWatchs = this.props.allToWatchs
     var toWatchs = []
+    var watchedItems = []
 
-    /*if (allToWatchs.length === 0)  {
-      return null
-    }*/
-
+    console.log('We have ' + allToWatchs.length + " items")
     for(var i=0; i< allToWatchs.length; i++) {
-      toWatchs.push(<ToWatchItem key={allToWatchs[i].id} toWatch={allToWatchs[i]} />)
+      if(!allToWatchs[i].isWatched) {
+        toWatchs.push(<ToWatchItem key={allToWatchs[i].id} toWatch={allToWatchs[i]}/>)
+      }
+    }
+
+    for(var i=0; i<allToWatchs.length; i++) {
+      if(allToWatchs[i].isWatched) {
+        watchedItems.push(<ToWatchItem key={allToWatchs[i].id} toWatch={allToWatchs[i]} />)
+      }
     }
 
     return (
-      <section id="to-watches-container">
-        <ul id="all-to-watches">{toWatchs}</ul>
-      </section>
+      <div id="to-watches-container" className="list-group">
+        {toWatchs}
+        <hr/>
+        {watchedItems}
+      </div>
     )
   }
 })

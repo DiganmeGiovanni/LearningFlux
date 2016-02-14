@@ -7,7 +7,7 @@
 var React = require('react')
 
 // React components
-var Header      = require('./Header.react')
+var Toolbar      = require('./Toolbar.react')
 var ToWatchList = require('./ToWatchList.react')
 
 var ToWatchStore = require('../stores/ToWatchStore')
@@ -41,9 +41,18 @@ var ToWatchApp = React.createClass({
 
   render: function() {
     return (
-      <div>
-        <Header />
-        <ToWatchList allToWatchs={this.state.allToWatchs} areAllWatched={this.state.areAllWatched} />
+      <div className="row">
+        <div className="col-sm-12 col-md-8 col-md-offset-2 no-padding-on-small">
+          <div className="panel panel-default">
+            <div className="panel-heading">Movies to watch on next days</div>
+            <div className="panel-body">
+              <Toolbar />
+              <hr/>
+
+              <ToWatchList allToWatchs={this.state.allToWatchs} areAllWatched={this.state.areAllWatched} />
+            </div>
+          </div>
+        </div>
       </div>
     )
   }
