@@ -12,7 +12,7 @@ var classNames     = require('classnames')
 var TodoItem = React.createClass({
 
   propTypes: {
-    todo: ReactPropTypes.Object.isRequired
+    todo: ReactPropTypes.object.isRequired
   },
 
   getInitialState: function () {

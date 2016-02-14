@@ -1,6 +1,6 @@
 
 var React          = require('react')
-var ReactPropTypes = React.propTypes
+var ReactPropTypes = React.PropTypes
 
 var TodoActions    = require('../actions/TodoActions')
 
@@ -11,7 +11,7 @@ var Footer = React.createClass({
 
   propTypes: {
     allTodos: ReactPropTypes.object.isRequired
-  }
+  },
 
   render: function () {
     var allTodos = this.props.allTodos
@@ -53,14 +53,14 @@ var Footer = React.createClass({
       </footer>
     )
 
-  }
+  },
 
   /**
    * Event handler to delete all completed TODOs
    */
   _onClearCompletedClick: function () {
     TodoActions.destroyCompleted()
-  }
+  },
 
 })
 

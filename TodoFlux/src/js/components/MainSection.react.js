@@ -10,9 +10,9 @@ var TodoItem       = require('./TodoItem.react')
 var MainSection = React.createClass({
 
   propTypes: {
-    allTodos: ReactPropTypes.Object.isRequired,
-    areAllComplete: ReactPropTypes.Object.isRequired
-  }
+    allTodos: ReactPropTypes.object.isRequired,
+    areAllComplete: ReactPropTypes.object.isRequired
+  },
 
   render: function () {
 
@@ -41,14 +41,14 @@ var MainSection = React.createClass({
         <ul id="todo-list">{todos}</ul>
       </section>
     )
-  }
+  },
 
   /**
    * Event handler to mark all todos as complete
    */
   _onToggleCompleteAll: function () {
     TodoActions.toggleCompleteAll()
-  }
+  },
 
 })
 

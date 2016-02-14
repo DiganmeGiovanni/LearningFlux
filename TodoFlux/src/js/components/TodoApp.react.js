@@ -27,15 +27,15 @@ var TodoApp = React.createClass({
 
   getInitialState: function () {
     return getTodoState()
-  }
+  },
 
   componentDidMount: function () {
     TodoStore.addChangeListener(this._onChange)
-  }
+  },
 
   componentWillUnmount: function () {
     TodoStore.removeChangeListener(this._onChange)
-  }
+  },
 
   render: function () {
     return (
@@ -48,14 +48,14 @@ var TodoApp = React.createClass({
         <Footer allTodos={this.state.allTodos} />
       </div>
     )
-  }
+  },
 
   /**
    * Event handler for 'chage' events comming from TodoStore
    */
   _onChange: function () {
     this.setState(getTodoState())
-  }
+  },
 
 })
 

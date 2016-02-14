@@ -19,7 +19,7 @@ var Header = React.createClass({
         />
       </header>
     )
-  }
+  },
 
   /**
    * Event handler called within TodoTextInput
@@ -31,7 +31,7 @@ var Header = React.createClass({
     if (text.trim()) {
         TodoActions.create(text)
     }
-  }
+  },
 
 })
 
