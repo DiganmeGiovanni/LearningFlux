@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify -t [ babelify --presets [ react ] ] ./src/js/app.js -o ./build/bundle.js"
+    "build": "browserify -t [ babelify --presets [ react ] ] ./src/js/app.js -o ./build/bundle.js",
+    "watch": "watchify -t [ babelify --presets [ react ] ] ./src/js/app.js -o ./build/bundle.js -v"
   },
   "keywords": [
     "flux",
