@@ -80,12 +80,12 @@ var ToWatchForm = React.createClass({
                 <div className="col-sm-12 col-md-6"><br/>
                   <input
                     className="form-control"
-                    id="inp-genre"
-                    placeholder="Movie's genre"
+                    id="inp-director"
+                    placeholder="Movie's director"
                     type="text"
-                    defaultValue={this.props.genre}
+                    defaultValue={this.props.director}
                   />
-                  {genreErrorJSX}
+                  {directorErrorJSX}
                 </div>
               </div>
 
@@ -93,12 +93,22 @@ var ToWatchForm = React.createClass({
                 <div className="col-sm-12 col-md-6"><br/>
                   <input
                     className="form-control"
-                    id="inp-director"
-                    placeholder="Movie's director"
+                    id="inp-genre"
+                    placeholder="Movie's genre"
                     type="text"
-                    defaultValue={this.props.director}
+                    defaultValue={this.props.genre}
                   />
-                  {directorErrorJSX}
+                  {genreErrorJSX}
+                </div>
+
+                <div className="col-sm-12 col-md-6"><br/>
+                  <input
+                    className="form-control"
+                    id="inp-trailerUrl"
+                    placeholder="Movie's trailer url"
+                    type="text"
+                    defaultValue={this.props.trailerUrl}
+                  />
                 </div>
               </div>
 
@@ -128,11 +138,12 @@ var ToWatchForm = React.createClass({
   save: function () {
     if (this.validateForm()) {
       var title = $('#inp-title').val()
-      var genre = $('#inp-genre').val()
       var director = $('#inp-director').val()
+      var genre = $('#inp-genre').val()
+      var trailerUrl = $('#inp-trailerUrl').val()
       var synopsis = $('#inp-synopsis').val()
 
-      ToWatchActions.create(title, genre, director, synopsis)
+      ToWatchActions.create(title, director, genre, trailerUrl, synopsis)
       $('#towatch-form-modal').modal('hide')
     }
   },
@@ -153,6 +164,19 @@ var ToWatchForm = React.createClass({
       isFormOk = false
     }
 
+    var director = $('#inp-director').val()
+    if (director && director.length > 3) {
+      this.setState({
+        showErrorDirector: false
+      })
+    }
+    else {
+      this.setState({
+        showErrorDirector: true
+      })
+      isFormOk = false
+    }
+
     var genre = $('#inp-genre').val()
     if (genre && genre.length > 1) {
       this.setState({
@@ -166,18 +190,7 @@ var ToWatchForm = React.createClass({
       isFormOk = false
     }
 
-    var director = $('#inp-director').val()
-    if (director && director.length > 3) {
-      this.setState({
-        showErrorDirector: false
-      })
-    }
-    else {
-      this.setState({
-        showErrorDirector: true
-      })
-      isFormOk = false
-    }
+    // TODO Should I validate trailer URL?
 
     var synopsis = $('#inp-synopsis').val()
     if (synopsis && synopsis.length > 10) {

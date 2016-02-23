@@ -8,4 +8,6 @@ module.exports = {
   TOWATCH_MARK_AS_NOTSEEN: "towatch-mark-as-notseen",
   TOWATCH_UPDATE: "towatch-update",
 
+  USER_EMAIL: "giovanni.fi05@gmail.com" // TODO Update this on user logging
+
 }

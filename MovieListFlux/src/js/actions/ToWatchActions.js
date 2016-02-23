@@ -4,12 +4,13 @@ var ToWatchConstans = require('../constants/toWatchConstants')
 
 var ToWatchActions = {
 
-  create: function (title, genre, director, synopsis) {
+  create: function (title, director, genre, trailerUrl, synopsis) {
     AppDispatcher.dispatch({
       actionType: ToWatchConstans.TOWATCH_CREATE,
       title: title,
-      genre: genre,
       director: director,
+      genre: genre,
+      trailerUrl: trailerUrl,
       synopsis: synopsis
     })
   },

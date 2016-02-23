@@ -16,13 +16,13 @@ var ToWatchList = React.createClass({
 
     console.log('We have ' + allToWatchs.length + " items")
     for(var i=0; i< allToWatchs.length; i++) {
-      if(!allToWatchs[i].isWatched) {
+      if(!allToWatchs[i].isWatched && allToWatchs[i].isActive) {
         toWatchs.push(<ToWatchItem key={allToWatchs[i].id} toWatch={allToWatchs[i]}/>)
       }
     }
 
     for(var i=0; i<allToWatchs.length; i++) {
-      if(allToWatchs[i].isWatched) {
+      if(allToWatchs[i].isWatched && allToWatchs[i].isActive) {
         watchedItems.push(<ToWatchItem key={allToWatchs[i].id} toWatch={allToWatchs[i]} />)
       }
     }
