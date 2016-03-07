@@ -28,6 +28,14 @@ var ToWatchActions = {
     })
   },
 
+  fetchToWatchList: function () {
+    console.log("dispatching action: FETCHALL")
+    AppDispatcher.dispatch({
+      actionType: ToWatchConstans.API_FETCH_ALL
+    })
+    console.log("Dispatched")
+  },
+
   toggleWatched: function(toWatch) {
     toWatch.isWatched = (toWatch.isWatched ? false : true)
 
@@ -36,6 +44,19 @@ var ToWatchActions = {
       id: toWatch.id
     })
   },
+
+  userLoggin: function (userEmail) {
+    AppDispatcher.dispatch({
+      actionType: ToWatchConstans.USER_LOGIN,
+      userEmail: userEmail
+    })
+  },
+
+  userLogout: function() {
+    AppDispatcher.dispatch({
+      actionType: ToWatchConstans.USER_LOGOUT
+    })
+  }
 
 }
 

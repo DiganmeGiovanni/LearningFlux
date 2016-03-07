@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- Google Sign-in meta tags -->
+  <meta name="google-signin-scope" content="profile email">
+  <meta name="google-signin-client_id" content="209770429312-je3ikq0jo37b79i1f5qnjgokgi3q9d78.apps.googleusercontent.com">
+
   <title>Media to consume</title>
 
   <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
@@ -10,16 +15,18 @@
 </head>
 <body>
 
-  <!-- This section contains all the application elements -->
-  <div id="towatch-app" class="container"></div>
+<!-- This section contains all the application elements -->
+<div id="towatch-app" class="container"></div>
 
 
 
-  <!-- Third party javascript code -->
-  <script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
-  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<!-- Third party javascript code -->
+<script src="https://apis.google.com/js/platform.js"></script>
+<script src="https://www.youtube.com/iframe_api"></script>
+<script src="http://code.jquery.com/jquery-2.2.0.min.js"></script>
+<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
-  <!-- All js code compiles into one minified file -->
-  <script type="text/javascript" src="./build/bundle.js"></script>
+<!-- All js code compiles into one minified file -->
+<script type="text/javascript" src="./build/bundle.js"></script>
 </body>
 </html>

@@ -7,17 +7,20 @@
 var React = require('react')
 
 // React components
-var Toolbar      = require('./Toolbar.react')
+var Toolbar     = require('./Toolbar.react')
 var ToWatchList = require('./ToWatchList.react')
+var Welcome     = require('./Welcome.react')
 
 var ToWatchStore = require('../stores/ToWatchStore')
+var LoginStore   = require('../stores/LoginStore')
 
 /*****************************************************************************/
 
 function getToWatchState() {
   return {
     allToWatchs: ToWatchStore.getAll(),
-    areAllWatched: ToWatchStore.areAllWatched()
+    areAllWatched: ToWatchStore.areAllWatched(),
+    isUserLogged: LoginStore.isUserLogged()
   }
 }
 
@@ -29,10 +32,12 @@ var ToWatchApp = React.createClass({
 
   componentDidMount: function () {
     ToWatchStore.addChangeListener(this._onChange)
+    LoginStore.addChangeListener(this._onChange)
   },
 
   componentWillUnmount: function () {
     ToWatchStore.removeChangeListener(this._onChange)
+    LoginStore.removeChangeListener(this._onChange)
   },
 
   _onChange: function () {
@@ -40,21 +45,28 @@ var ToWatchApp = React.createClass({
   },
 
   render: function() {
-    return (
-      <div className="row">
-        <div className="col-sm-12 col-md-8 col-md-offset-2 no-padding-on-small">
-          <div className="panel panel-default">
-            <div className="panel-heading">Movies to watch on next days</div>
-            <div className="panel-body">
-              <Toolbar />
-              <hr/>
+    if(this.state.isUserLogged) {
+      return (
+        <div className="row">
+          <div className="col-sm-12 col-md-8 col-md-offset-2 no-padding-on-small">
+            <div className="panel panel-default">
+              <div className="panel-heading">Your list of Movies</div>
+              <div className="panel-body">
+                <Toolbar />
+                <hr/>
 
-              <ToWatchList allToWatchs={this.state.allToWatchs} areAllWatched={this.state.areAllWatched} />
+                <ToWatchList allToWatchs={this.state.allToWatchs} areAllWatched={this.state.areAllWatched}/>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    )
+      )
+    }
+    else {
+      return (
+        <Welcome />
+      )
+    }
   }
 
 })

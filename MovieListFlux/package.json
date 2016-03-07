@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify -t [ babelify --presets [ react ] ] ./src/js/app.js -o ./build/bundle.js",
-    "watch": "watchify -t [ babelify --presets [ react ] ] ./src/js/app.js -o ./build/bundle.js -v && npm run copyToGAE",
+    "watch": "watchify -t [ babelify --presets [ react ] ] ./src/js/app.js -o ./build/bundle.js -v",
+    "watch-and-copy": "watchify -t [ babelify --presets [ react ] ] ./src/js/app.js -o ./build/bundle.js -v && npm run copyToGAE",
     "copyToGAE": "cp ./build/bundle.js ~/Documents/Sources/Java/JavaEE/moviestowatch/src/main/webapp/build/bundle.js"
   },
   "keywords": [

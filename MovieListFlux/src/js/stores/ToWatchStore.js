@@ -21,62 +21,16 @@ var EventEmmiter     = require('events').EventEmitter
 var ToWatchConstants = require('../constants/toWatchConstants')
 var objAssign        = require('object-assign')
 
+var movieService = require('../services/movieService')
+
 /*****************************************************************************/
 
 var EVENT_CHANGE = 'event-change'
-var _toWatchs = [
-  {
-    id: '1',
-    title: 'Titanic',
-    director: 'James Cameron',
-    genre: 'Romantic | Adventure',
-    trailerUrl: "http://google.com",
-    synopsis: 'El RMS Titanic fue un transatlántico británico, el mayor barco del mundo en el momento de su terminación, que se hundió en la noche del 14 al 15 de abril de 1912 durante su viaje inaugural desde Southampton a Nueva York.',
-    userEmail: "giovanni.fi05@gmail.com",
-    isWatched: false,
-    isActive: true
-  },
-  {
-    id: '2',
-    title: 'Gladiator',
-    director: 'Ridley Scott',
-    genre: 'Adventure',
-    trailerUrl: "http://google.com",
-    synopsis: 'Gladiator es una película épica del género péplum estrenada en el año 2000',
-    userEmail: "giovanni.fi05@gmail.com",
-    isWatched: false,
-    isActive: true
-  },
-  {
-    id: '3',
-    title: 'The Martian',
-    director: 'Ridley Scott',
-    genre: 'Adventure | Fiction',
-    trailerUrl: "http://google.com",
-    synopsis: 'The Martian es una película estadounidense de ciencia ficción de 2015 dirigida por Ridley Scott y escrita por Drew Goddard',
-    userEmail: "giovanni.fi05@gmail.com",
-    isWatched: false,
-    isActive: true
-  },
-  {
-    id: '4',
-    title: 'Armagedon',
-    director: 'Michael Bay',
-    genre: 'Adventure | Fiction',
-    trailerUrl: "http://google.com",
-    synopsis: 'Armageddon es una película de ciencia ficción y cine catástrofe de 1998, dirigida por Michael Bay y producida por Jerry Bruckheimer',
-    userEmail: "giovanni.fi05@gmail.com",
-    isWatched: false,
-    isActive: true
-  }
-]
+var _toWatchs = []
 
 function createToWatch(title, director, genre, trilerUrl, synopsis) {
 
-  // Random id (TODO Should replace by incoming from web service?)
-  var id = (+new Date() + Math.floor(Math.random() * 999999)).toString(36)
   var toWatchMovie = {
-    id: id, // TODO Remove this to auto generate on server
     title: title,
     director: director,
     genre: genre,
@@ -87,16 +41,31 @@ function createToWatch(title, director, genre, trilerUrl, synopsis) {
     isActive: true
   }
 
-  // TODO Send to watch to server before pushing
-  _toWatchs.push(toWatchMovie)
+  movieService.postToWatch(toWatchMovie, function (err, toWatch) {
+    if (err) {
+      // TODO Log error
+    }
+    else {
+      _toWatchs.push(toWatch)
+      ToWatchStore.emitChange()
+    }
+  })
 }
 
 function updateToWatch(id, updatedToWatch) {
   for(var i=0; i<_toWatchs.length; i++) {
     if(_toWatchs[i].id === id) {
 
-      // TODO, Send update request to server
+      // Display update on client immediatelly and after send ajax request
       _toWatchs[i] = objAssign({}, _toWatchs[i], updatedToWatch)
+
+      // Send update request to backend
+      movieService.putToWatch(_toWatchs[i], function (err, body) {
+        if(err) {
+          // TODO Log error and Restore previous towatch state
+          ToWatchStore.emitChange()
+        }
+      })
     }
   }
 }
@@ -138,6 +107,26 @@ var ToWatchStore = objAssign({}, EventEmmiter.prototype, {
     return _toWatchs
   },
 
+  getAllFromBackend: function() {
+    console.log("Requesting all from backend with changes")
+    var self = this
+    movieService.fetchAllMovies(function(err, remoteToWatches) {
+      if(err) {
+        // TODO Log error here
+        console.error(err)
+      }
+      else {
+        remoteToWatches = JSON.parse(remoteToWatches)
+        for(var i=0; i<remoteToWatches.length; i++) {
+          console.log("Movie received: " + remoteToWatches[i].title)
+          _toWatchs.push(remoteToWatches[i])
+        }
+
+        self.emitChange()
+      }
+    })
+  },
+
   emitChange: function() {
     this.emit(EVENT_CHANGE)
   },
@@ -163,36 +152,25 @@ AppDispatcher.register(function (action) {
       var synopsis = action.synopsis
 
       createToWatch(title, director, genre, trailerUrl, synopsis)
-
-      // TODO Emit change until server creation ends
-      ToWatchStore.emitChange()
       break
 
     case ToWatchConstants.TOWATCH_DESTROY:
       destroyToWatch(action.id)
-
-      // TODO Emit change until server updates ends (Or maybe not)
       ToWatchStore.emitChange()
       break
 
     case ToWatchConstants.TOWATCH_DESTROY_COMPLETED:
       destroyWatchedToWatchs()
-
-      // TODO Emit change until server updates ends (Or maybe not)
       ToWatchStore.emitChange()
       break
 
     case ToWatchConstants.TOWATCH_MARK_AS_SEEN:
       updateToWatch(action.id, {isWatched: true})
-
-      // TODO Emit change until server updates ends (Or maybe not)
       ToWatchStore.emitChange()
       break
 
     case ToWatchConstants.TOWATCH_MARK_AS_NOTSEEN:
       updateToWatch(action.id, {isWatched: false})
-
-      // TODO Emit change until server updates ends (Or maybe not)
       ToWatchStore.emitChange()
       break
 
@@ -215,13 +193,16 @@ AppDispatcher.register(function (action) {
       }
 
       updateToWatch(action.id, updatedToWatch)
-
-      // TODO Emit change until server updates ends (Or maybe not)
       ToWatchStore.emitChange()
       break
 
-      default:
-        // Do nothing
+    case ToWatchConstants.API_FETCH_ALL:
+      console.log("Dispatch received")
+      ToWatchStore.getAllFromBackend()
+      break
+
+    default:
+      // Do nothing
 
   }
 })

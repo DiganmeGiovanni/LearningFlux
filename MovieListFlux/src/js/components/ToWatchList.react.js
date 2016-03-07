@@ -3,6 +3,7 @@
 var React = require('react')
 
 var ToWatchItem = require('./ToWatchItem.react')
+var ToWatchActions = require('../actions/ToWatchActions')
 
 /*****************************************************************************/
 
@@ -14,7 +15,6 @@ var ToWatchList = React.createClass({
     var toWatchs = []
     var watchedItems = []
 
-    console.log('We have ' + allToWatchs.length + " items")
     for(var i=0; i< allToWatchs.length; i++) {
       if(!allToWatchs[i].isWatched && allToWatchs[i].isActive) {
         toWatchs.push(<ToWatchItem key={allToWatchs[i].id} toWatch={allToWatchs[i]}/>)
