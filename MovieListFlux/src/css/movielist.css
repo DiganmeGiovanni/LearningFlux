@@ -7,10 +7,85 @@
   background: #FFF;
 }
 
+.hidden-overflow {
+  overflow: hidden;
+}
+
+.no-margin {
+  margin: 0px;
+}
+
+.no-padding-horizontal {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 .no-padding-vertical {
   padding-bottom: 0px;
   padding-top: 0px;
 }
+
+.movie-search-result-card {
+  box-shadow: 0px 0px 3px #AAA;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding-right: 5px;
+}
+
+.movie-search-result-card-buttons {
+  position: absolute;
+  bottom: 0px;
+  padding: 17px 17px 8px;
+  right: 0px
+}
+
+.movie-search-result-card-content {
+  max-height: 135px;
+  min-height: 135px;
+}
+
+.movie-search-result-card-image {
+  padding-right: 5px;
+  width: 100px;
+}
+
+/*****************************************************************************/
+
+/** Ultra small device start point */
+@media (min-width: 375px) {
+  .movie-search-result-card-image {
+    width: 120px;
+  }
+
+  .movie-search-result-card-content {
+    max-height: 172px;
+    min-height: 172px;
+  }
+}
+
+/** Small devices start point */
+@media (min-width: 758px) {
+  .movie-search-result-card-content {
+    min-height: 203px;
+    max-height: 203px;
+  }
+
+  .movie-search-result-card-image {
+    width: 140px;
+  }
+}
+
+/* Extra large devices start point */
+@media (min-width: 971px) {
+
+  .no-padding-on-small {
+    padding-top: 20px;
+  }
+}
+
+
+
+/*****************************************************************************/
 
 /** Extra small devices */
 @media (max-width: 757px) {
@@ -24,16 +99,10 @@
 
 }
 
+/* Large devices */
 @media (max-width: 970px) {
 
   .no-padding-on-small {
     padding: 0px;
-  }
-}
-
-@media (min-width: 971px) {
-
-  .no-padding-on-small {
-    padding-top: 20px;
   }
 }

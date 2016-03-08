@@ -5,27 +5,37 @@ var ToWatchActions = require('../../actions/ToWatchActions')
 var FormAddMovie   = require('./FormAddMovie.react')
 var TrailerChooser = require('./TrailerChooser.react')
 var TrailerViewer  = require('./TrailerViewer.react')
+var SearchTMDb     = require('./SearchTMDb.react')
 
 var ToWatchForm = React.createClass({
 
   getInitialState() {
     return {
       movie: {
+        id: '',
         title: '',
-        genre: '',
-        director: '',
         synopsis: '',
-        trailerId: ''
+        trailerId: '',
+        genres: [],
+        directors: []
       },
-      displaying: 'movie-form'
+      displaying: 'movie-search'
     }
   },
 
   render: function () {
     var contentJSX = ""
+    if (this.state.displaying === 'movie-search') {
+      contentJSX = (
+        <SearchTMDb chooseMovie={this.chooseMovie} />
+      )
+    }
     if (this.state.displaying === 'movie-form') {
       contentJSX = (
-        <FormAddMovie searchYoutubeTrailer={this.searchYoutubeTrailer} movie={this.state.movie} />
+        <FormAddMovie
+          cancel={this.cancel}
+          searchYoutubeTrailer={this.searchYoutubeTrailer}
+          movie={this.state.movie} />
       )
     }
     else if(this.state.displaying === 'trailer-chooser') {
@@ -53,6 +63,31 @@ var ToWatchForm = React.createClass({
         </div>
       </div>
     )
+  },
+
+  cancel() {
+    this.setState({
+      movie: {},
+      displaying: 'movie-search'
+    })
+
+    $('#towatch-form-modal').modal('hide')
+  },
+
+  /**
+   * This function is called from SearchTMDb component
+   * when a movie has been chosen from the list.
+   *
+   * So render the movie form with the recovered movie data
+   * @param chosenM
+   */
+  chooseMovie(chosenM) {
+    chosenM.trailerId = ''
+
+    this.setState({
+      movie: chosenM,
+      displaying: 'movie-form'
+    })
   },
 
   /**
@@ -87,13 +122,12 @@ var ToWatchForm = React.createClass({
   },
 
   searchYoutubeTrailer: function(movie) {
+    var currMovie = this.state.movie
+    currMovie.title = movie.title
+    currMovie.synopsis = movie.synopsis
+
     this.setState({
-      movie: {
-        title: movie.title,
-        genre: movie.genre,
-        director: movie.director,
-        synopsis: movie.synopsis
-      },
+      movie: currMovie,
     })
 
     this.showTrailersList()

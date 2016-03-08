@@ -15,37 +15,32 @@ var FormAddMovie = React.createClass({
       )
     }
 
-    var genreErrorJSX = "";
-    if (this.state.showErrorGenre) {
-      genreErrorJSX = (
-        <p id="inp-genre-error" className="alert alert-danger">
-          <span>Please choose a genre</span>
-        </p>
+    // Genres labels
+    var genresJSX = []
+    var genres = this.state.genres
+    for(var i=0; i<genres.length; i++) {
+      genresJSX.push(
+        <h4 key={i}>
+          <span className="label label-default no-margin">{genres[i]}</span>
+        </h4>
       )
     }
 
-    var directorErrorJSX = "";
-    if (this.state.showErrorDirector) {
-      directorErrorJSX = (
-        <p id="inp-title-error" className="alert alert-danger">
-          <span>Please type the director's name</span>
-        </p>
-      )
-    }
-
-    var synopsisErrorJSX = "";
-    if (this.state.showErrorSynopsis) {
-      synopsisErrorJSX = (
-        <p id="inp-title-error" className="alert alert-danger">
-          <span>Please type a little synopsis</span>
-        </p>
+    // Directors labels
+    var directorsJSX = []
+    var directors = this.state.directors
+    for(var i=0; i<directors.length; i++) {
+      directorsJSX.push(
+        <h4 key={i}>
+          <span className="label label-primary no-margin">{directors[i]}</span>
+        </h4>
       )
     }
 
     return (
       <div>
         <div className="row">
-          <div className="col-sm-12 col-md-6"><br/>
+          <div className="col-sm-12">
             <label htmlFor="inp-title">Movie's title</label>
             <input
               className="form-control"
@@ -56,48 +51,17 @@ var FormAddMovie = React.createClass({
             />
             {titleErrorJSX}
           </div>
-
-          <div className="col-sm-12 col-md-6"><br/>
-            <label htmlFor="inp-genre">Movie's genre</label>
-            <select name="inp-genre" id="inp-genre" className="form-control" defaultValue={this.props.movie.genre}>
-              <option value="Action"    >Action</option>
-              <option value="Adventure" >Adventure</option>
-              <option value="Animation" >Animation</option>
-              <option value="Biography" >Biography</option>
-              <option value="Comedy"    >Comedy</option>
-              <option value="Crime"     >Crime</option>
-              <option value="Documentary">Documentary</option>
-              <option value="Drama"     >Drama</option>
-              <option value="Family"    >Family</option>
-              <option value="Fantasy"   >Fantasy</option>
-              <option value="Film-Noir" >Film-Noir</option>
-              <option value="History"   >History</option>
-              <option value="Horror"    >Horror</option>
-              <option value="Music"     >Music</option>
-              <option value="Musical"   >Musical</option>
-              <option value="Mystery"   >Mystery</option>
-              <option value="Romance"   >Romance</option>
-              <option value="Sci-Fi"    >Sci-Fi</option>
-              <option value="Sport"     >Sport</option>
-              <option value="Thriller"  >Thriller</option>
-              <option value="War"       >War</option>
-              <option value="Western"   >Western</option>
-            </select>
-            {genreErrorJSX}
-          </div>
         </div>
 
         <div className="row">
-          <div className="col-sm-12 col-md-6"><br/>
-            <label htmlFor="inp-director">Movie's director</label>
-            <input
-              className="form-control"
-              id="inp-director"
-              placeholder="Movie's director"
-              type="text"
-              defaultValue={this.props.movie.director}
-            />
-            {directorErrorJSX}
+          <div className="col-xs-6 col-sm-6 hidden-overflow"><br/>
+            <label htmlFor="inp-director">Movie's directors</label><br/>
+            {directorsJSX}
+          </div>
+
+          <div className="col-xs-6 col-sm-6 hidden-overflow"><br/>
+            <label htmlFor="inp-genre">Movie's genres</label><br/>
+            {genresJSX}
           </div>
         </div>
 
@@ -111,7 +75,6 @@ var FormAddMovie = React.createClass({
               rows="4"
               defaultValue={this.props.movie.synopsis}
             />
-            {synopsisErrorJSX}
           </div>
         </div>
       </div>
@@ -120,7 +83,8 @@ var FormAddMovie = React.createClass({
 
   getInitialState() {
     return {
-
+      genres: this.props.movie.genres,
+      directors: this.props.movie.directors
     }
   },
 
@@ -142,15 +106,21 @@ var FormAddMovie = React.createClass({
 
         <div className="modal-footer">
           <button
-            className="btn btn-danger"
+            className="btn btn-danger pull-left"
             onClick={this.searchYoutubeTrailer}
             type="button">
-            <span>Add trailer from Youtube</span>
+
+            <span>Trailer</span>
           </button>
+
           <button
-            className="btn btn-success"
+            className="btn btn-default"
+            onClick={this.cancel}
+            type="button">Cancel</button>
+          <button
+            className="btn btn-default"
             onClick={this.save}>
-            <span>Add movie</span>
+            <span>Save</span>
           </button>
         </div>
       </div>
@@ -159,23 +129,17 @@ var FormAddMovie = React.createClass({
 
   recoverMovieFromForm() {
     var title = $('#inp-title').val()
-    var director = $('#inp-director').val()
-    var genre = $('#inp-genre').val()
     var synopsis = $('#inp-synopsis').val()
 
     return {
       title: title,
-      genre: genre,
-      director: director,
-      synopsis: synopsis
+      synopsis: synopsis,
     }
   },
 
   save() {
     if (this.validateForm()) {
       var title = $('#inp-title').val()
-      var director = $('#inp-director').val()
-      var genre = $('#inp-genre').val()
       var synopsis = $('#inp-synopsis').val()
 
       ToWatchActions.create(title, director, genre, this.props.movie.trailerId, synopsis)
@@ -183,9 +147,16 @@ var FormAddMovie = React.createClass({
     }
   },
 
+  cancel() {
+    this.props.cancel()
+  },
+
   searchYoutubeTrailer() {
     if (this.validateForm()) {
       var movie = this.recoverMovieFromForm()
+      movie.genres = this.state.genres
+      movie.directors = this.state.directors
+
       this.props.searchYoutubeTrailer(movie)
     }
   },
@@ -202,19 +173,6 @@ var FormAddMovie = React.createClass({
     else {
       this.setState({
         showErrorTitle: true
-      })
-      isFormOk = false
-    }
-
-    var genre = $('#inp-genre').val()
-    if (genre && genre.length > 1) {
-      this.setState({
-        showErrorGenre: false
-      })
-    }
-    else {
-      this.setState({
-        showErrorGenre: true
       })
       isFormOk = false
     }

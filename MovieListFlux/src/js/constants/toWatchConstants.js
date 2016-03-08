@@ -29,6 +29,17 @@ module.exports = {
   GO_YTB_API_URL_SEARCH: 'https://www.googleapis.com/youtube/v3/search',
 
   //
+  // The movie database API info
+  //
+  TMDB_API_KEY: 'b05e87f356ef223c5aeacf0bcae54d04',
+  TMDB_API_SEARCH_MOVIE: 'http://api.themoviedb.org./3/search/movie',
+  TMDB_API_MOVIE_DETAILS: 'http://api.themoviedb.org./3/movie/',         // + modieId?append_response
+  TMDB_API_IMGBASE_SM: 'http://image.tmdb.org/t/p/w300',
+  TMDB_API_IMGBASE_MD: 'http://image.tmdb.org/t/p/w780',
+  TMDB_API_IMGBASE_LG: 'http://image.tmdb.org/t/p/w1280',
+  TMDB_API_IMGBASE_OR: 'http://image.tmdb.org/t/p/original',
+
+  //
   // user in-memory data
   //
   user_data: {
