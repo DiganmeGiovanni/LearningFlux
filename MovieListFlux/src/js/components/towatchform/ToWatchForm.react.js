@@ -30,7 +30,10 @@ var ToWatchForm = React.createClass({
     }
     else if(this.state.displaying === 'trailer-chooser') {
       contentJSX = (
-        <TrailerChooser movieTitle={this.state.movie.title} playTrailer={this.playTrailer}/>
+        <TrailerChooser
+          movieTitle={this.state.movie.title}
+          chooseTrailer={this.chooseTrailer}
+          playTrailer={this.playTrailer} />
       )
     }
     else if(this.state.displaying === 'trailer-view') {
@@ -45,15 +48,24 @@ var ToWatchForm = React.createClass({
 
     return (
       <div id="towatch-form-modal" className="modal fade" role="dialog">
-        <div className="modal-dialog" role="document">
+        <div className="modal-dialog modal-responsive" role="document">
           {contentJSX}
         </div>
       </div>
     )
   },
 
-  chooseTrailer() {
+  /**
+   * This function is called from TrailerViewer component
+   * when videoId has been yet assigned to movie object, so simply
+   * render the movie form again
+   */
+  chooseTrailer(trailerId) {
+    var currMovie = this.state.movie
+    currMovie.trailerId = trailerId
+
     this.setState({
+      movie: currMovie,
       displaying: 'movie-form'
     })
   },

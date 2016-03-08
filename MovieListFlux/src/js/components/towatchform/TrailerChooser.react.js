@@ -1,6 +1,5 @@
 
 var React = require('react')
-
 var youtubeService = require('../../services/youtubeService')
 
 var TrailerChooser = React.createClass({
@@ -26,7 +25,7 @@ var TrailerChooser = React.createClass({
           <div className="col-xs-12">
             <div className="row">
               <div className="col-xs-12">
-                <h5>{trailer.videoTitle}</h5>
+                <h4>{trailer.videoTitle}</h4>
               </div>
             </div>
             <div className="row">
@@ -35,22 +34,27 @@ var TrailerChooser = React.createClass({
               </div>
               <div className="col-sm-8"><br/>
                 <div className="btn-group">
-                  <button className="btn btn-default">
+                  <button
+                      className="btn btn-default"
+                      onClick={this.chooseTrailer.bind(this, trailer.videoId)}>
                     <span className="glyphicon glyphicon-facetime-video"></span>
                     <span>&nbsp;&nbsp;Choose trailer</span>
                   </button>
-                  <button className="btn btn-default" onClick={this.playTrailer.bind(this, trailer.videoId)} >
+                  <button
+                      className="btn btn-default"
+                      onClick={this.playTrailer.bind(this, trailer.videoId)} >
                     <span className="glyphicon glyphicon-play"></span>
                     <span>&nbsp;&nbsp;Watch trailer</span>
                   </button>
                 </div>
-                <p><br/>
+                <p className="hidden-xs"><br/>
                   <small>
                     {trailer.videoDesc}
                   </small>
                 </p>
               </div>
             </div>
+            <hr/>
           </div>
         </div>
       )
@@ -76,11 +80,15 @@ var TrailerChooser = React.createClass({
           <h4 className="modal-title">Trailers for movie: {this.props.movieTitle}</h4>
         </div>
 
-        <div className="modal-body" style={styleChooser}>
+        <div className="modal-body no-padding-vertical" style={styleChooser}>
           {trailersJSX}
         </div>
       </div>
     )
+  },
+
+  chooseTrailer: function(videoId) {
+    this.props.chooseTrailer(videoId)
   },
 
   playTrailer: function (videoId) {

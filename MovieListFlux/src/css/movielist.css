@@ -1,4 +1,29 @@
 
+.background-even {
+  background: #FEFEFE;
+}
+
+.background-not-even {
+  background: #FFF;
+}
+
+.no-padding-vertical {
+  padding-bottom: 0px;
+  padding-top: 0px;
+}
+
+/** Extra small devices */
+@media (max-width: 757px) {
+  .modal-responsive {
+    margin: 0px;
+  }
+}
+
+/* Small devices */
+@media (max-width: 991px) {
+
+}
+
 @media (max-width: 970px) {
 
   .no-padding-on-small {
