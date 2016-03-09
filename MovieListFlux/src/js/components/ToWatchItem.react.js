@@ -45,8 +45,8 @@ var ToWatchItem = React.createClass({
         <h4 className="list-group-item-heading">{titleJSX}</h4>
         <div className="row">
           <div className="col-xs-12 col-sm-6">
-            <b>Director:</b> {toWatch.director} <br/>
-            <b>Genre:</b> {toWatch.genre}
+            <b>Director:</b> {toWatch.directors} <br/>
+            <b>Genre:</b> {toWatch.genres}
           </div>
           <div className="col-xs-12 col-sm-6 text-right">
             <div className="btn-toolbar pull-right" role="toolbar">
@@ -92,7 +92,7 @@ var ToWatchItem = React.createClass({
   },
 
   _onDestroyClick: function () {
-    ToWatchActions.destroy(this.props.toWatch.id)
+    ToWatchActions.destroy(this.props.toWatch.tmdbId)
   }
 
 })

@@ -73,7 +73,7 @@ var SearchTMDb = React.createClass({
           <button type="button" className="close" data-dismiss="modal">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 className="modal-title">Search the movie by title</h4>
+          <h4 className="modal-title">Search your movie by title</h4>
         </div>
 
         <div className="modal-body">
@@ -104,7 +104,7 @@ var SearchTMDb = React.createClass({
   chooseMovie: function(index) {
     var self = this
     var selectedMovie = this.state.searchResults[index]
-    tmdbService.fetchMovieDetails(selectedMovie.id, function (err, body) {
+    tmdbService.fetchMovieDetails(selectedMovie.tmdbId, function (err, body) {
       if (err) {
         console.error("Error fetching movie details from TMDb")
         console.error(err)
@@ -146,7 +146,7 @@ var SearchTMDb = React.createClass({
           var results = []
           for (var i=0; i<rawResults.length; i++) {
             results.push({
-              id: rawResults[i].id,
+              tmdbId: rawResults[i].id,
               title: rawResults[i].title,
               synopsis: rawResults[i].overview,
               poster_path: rawResults[i].poster_path

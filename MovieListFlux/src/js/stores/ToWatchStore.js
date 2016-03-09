@@ -4,11 +4,11 @@
  *
  * Each to watch has this structure;
  * {
- *    "id":       4785074604081152,
+ *    "tmdbId":   4785074604081152,
  *    "title":    "Titanic edited",
- *    "director": "Some one",
- *    "genre":    "Genre of movie",
- *    "trailerUrl": "trailer url",
+ *    "directors": [],
+ *    "genres":    [],
+ *    "trailerId": "Youtube video id",
  *    "synopsis":   "Synopsis redaction",
  *    "userEmail":  "giovanni.fi05@gmail.com",
  *    "isWatched":  false,
@@ -28,22 +28,30 @@ var movieService = require('../services/movieService')
 var EVENT_CHANGE = 'event-change'
 var _toWatchs = []
 
-function createToWatch(title, director, genre, trilerUrl, synopsis) {
+/**
+ * Adds a movie to the backend.
+ * @param movie Movie object, please be sure that object
+ *              has: [tmdbId, title, trailerId, directors, genres and synopsis]
+ *              properties.
+ */
+function createToWatch(movie) {
 
   var toWatchMovie = {
-    title: title,
-    director: director,
-    genre: genre,
-    trailerUrl: trilerUrl,
-    synopsis: synopsis,
-    userEmail: ToWatchConstants.USER_EMAIL,
+    tmdbId: movie.tmdbId,
+    title: movie.title,
+    directors: movie.directors,
+    genres: movie.genres,
+    trailerId: movie.trailerId,
+    synopsis: movie.synopsis,
+    userEmail: ToWatchConstants.user_data.email,
     isWatched: false,
     isActive: true
   }
 
   movieService.postToWatch(toWatchMovie, function (err, toWatch) {
     if (err) {
-      // TODO Log error
+      console.error("Error creating movie on backend")
+      console.error(err)
     }
     else {
       _toWatchs.push(toWatch)
@@ -52,17 +60,21 @@ function createToWatch(title, director, genre, trilerUrl, synopsis) {
   })
 }
 
-function updateToWatch(id, updatedToWatch) {
+function updateToWatch(tmdbId, updatedToWatch) {
   for(var i=0; i<_toWatchs.length; i++) {
-    if(_toWatchs[i].id === id) {
+    if(_toWatchs[i].tmdbId === tmdbId) {
 
-      // Display update on client immediatelly and after send ajax request
+      var nonUpdatedToWatch = _toWatchs[i]
       _toWatchs[i] = objAssign({}, _toWatchs[i], updatedToWatch)
 
-      // Send update request to backend
       movieService.putToWatch(_toWatchs[i], function (err, body) {
         if(err) {
-          // TODO Log error and Restore previous towatch state
+          console.error("Error updating to watch")
+          console.error(err)
+
+          _toWatchs[i] = nonUpdatedToWatch
+        }
+        else {
           ToWatchStore.emitChange()
         }
       })
@@ -70,12 +82,12 @@ function updateToWatch(id, updatedToWatch) {
   }
 }
 
-function destroyToWatch(id) {
+function destroyToWatch(tmdbId) {
   for(var i=0; i<_toWatchs.length; i++) {
-    if(_toWatchs[i].id === id) {
+    if(_toWatchs[i].tmdbId === tmdbId) {
 
       _toWatchs[i].isActive = false
-      updateToWatch(id, _toWatchs[i])
+      updateToWatch(tmdbId, _toWatchs[i])
       break
     }
   }
@@ -84,7 +96,7 @@ function destroyToWatch(id) {
 function destroyWatchedToWatchs() {
   for(var i=0; i<_toWatchs.length; i++) {
     if(_toWatchs[i].isWatched) {
-      destroyToWatch(_toWatchs[i].id)
+      destroyToWatch(_toWatchs[i].tmdbId)
     }
   }
 }
@@ -108,17 +120,17 @@ var ToWatchStore = objAssign({}, EventEmmiter.prototype, {
   },
 
   getAllFromBackend: function() {
-    console.log("Requesting all from backend with changes")
     var self = this
     movieService.fetchAllMovies(function(err, remoteToWatches) {
       if(err) {
-        // TODO Log error here
+        console.error("Error fetching movies from backend")
         console.error(err)
       }
       else {
         remoteToWatches = JSON.parse(remoteToWatches)
         for(var i=0; i<remoteToWatches.length; i++) {
-          console.log("Movie received: " + remoteToWatches[i].title)
+          console.log("Movie received: " + remoteToWatches[i])
+          console.log(remoteToWatches[i])
           _toWatchs.push(remoteToWatches[i])
         }
 
@@ -145,17 +157,11 @@ AppDispatcher.register(function (action) {
   switch (action.actionType) {
 
     case ToWatchConstants.TOWATCH_CREATE:
-      var title = action.title
-      var director = action.director
-      var genre = action.genre
-      var trailerUrl = action.trailerUrl
-      var synopsis = action.synopsis
-
-      createToWatch(title, director, genre, trailerUrl, synopsis)
+      createToWatch(action.movie)
       break
 
     case ToWatchConstants.TOWATCH_DESTROY:
-      destroyToWatch(action.id)
+      destroyToWatch(action.tmdbId)
       ToWatchStore.emitChange()
       break
 
@@ -165,39 +171,19 @@ AppDispatcher.register(function (action) {
       break
 
     case ToWatchConstants.TOWATCH_MARK_AS_SEEN:
-      updateToWatch(action.id, {isWatched: true})
+      updateToWatch(action.tmdbId, {isWatched: true})
       ToWatchStore.emitChange()
       break
 
     case ToWatchConstants.TOWATCH_MARK_AS_NOTSEEN:
-      updateToWatch(action.id, {isWatched: false})
+      updateToWatch(action.tmdbId, {isWatched: false})
       ToWatchStore.emitChange()
       break
 
     case ToWatchConstants.TOWATCH_UPDATE:
-      var updatedToWatch = {}
-      if (action.title && action.title.trim() > 0) {
-        updatedToWatch.title = action.title
-      }
-      if (action.director && action.director.trim() > 0) {
-        updatedToWatch.director = action.director
-      }
-      if (action.genre && action.genre.trim() > 0) {
-        updatedToWatch.genre = action.genre
-      }
-      if (action.trailerUrl && action.trailerUrl.trim() > 0) {
-        updatedToWatch.trailerUrl = action.trailerUrl
-      }
-      if (action.synopsis && action.synopsis.trim() > 0) {
-        updatedToWatch.synopsis = action.synopsis
-      }
-
-      updateToWatch(action.id, updatedToWatch)
-      ToWatchStore.emitChange()
       break
 
-    case ToWatchConstants.API_FETCH_ALL:
-      console.log("Dispatch received")
+    case ToWatchConstants.TOWATCH_FETCH_ALL:
       ToWatchStore.getAllFromBackend()
       break
 

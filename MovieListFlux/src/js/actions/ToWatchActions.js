@@ -4,21 +4,23 @@ var ToWatchConstans = require('../constants/toWatchConstants')
 
 var ToWatchActions = {
 
-  create: function (title, director, genre, trailerUrl, synopsis) {
+  /**
+   * Adds a movie to the backend.
+   * @param movie Movie object, please be sure that object
+   *              has: [tmdbId, title, trailerId, directors, genres and synopsis]
+   *              properties.
+   */
+  create: function (movie) {
     AppDispatcher.dispatch({
       actionType: ToWatchConstans.TOWATCH_CREATE,
-      title: title,
-      director: director,
-      genre: genre,
-      trailerUrl: trailerUrl,
-      synopsis: synopsis
+      movie: movie
     })
   },
   
-  destroy: function (id) {
+  destroy: function (tmdbId) {
     AppDispatcher.dispatch({
       actionType: ToWatchConstans.TOWATCH_DESTROY,
-      id: id
+      tmdbId: tmdbId
     })
   },
 
@@ -29,11 +31,9 @@ var ToWatchActions = {
   },
 
   fetchToWatchList: function () {
-    console.log("dispatching action: FETCHALL")
     AppDispatcher.dispatch({
-      actionType: ToWatchConstans.API_FETCH_ALL
+      actionType: ToWatchConstans.TOWATCH_FETCH_ALL
     })
-    console.log("Dispatched")
   },
 
   toggleWatched: function(toWatch) {
@@ -41,7 +41,7 @@ var ToWatchActions = {
 
     AppDispatcher.dispatch({
       actionType: (toWatch.isWatched ? ToWatchConstans.TOWATCH_MARK_AS_SEEN : ToWatchConstans.TOWATCH_MARK_AS_NOTSEEN),
-      id: toWatch.id
+      tmdbId: toWatch.tmdbId
     })
   },
 

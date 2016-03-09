@@ -4,6 +4,7 @@ module.exports = {
   //
   // To watch actions names
   //
+  TOWATCH_FETCH_ALL: "towatch-fetch-allmovies",
   TOWATCH_CREATE: "towatch-create",
   TOWATCH_DESTROY: "towatch-destroy",
   TOWATCH_DESTROY_COMPLETED: "towatch-destroy-completed",

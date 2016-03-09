@@ -1,9 +1,7 @@
 
 
-var React = require('react')
-
+var React       = require('react')
 var ToWatchItem = require('./ToWatchItem.react')
-var ToWatchActions = require('../actions/ToWatchActions')
 
 /*****************************************************************************/
 
@@ -17,13 +15,13 @@ var ToWatchList = React.createClass({
 
     for(var i=0; i< allToWatchs.length; i++) {
       if(!allToWatchs[i].isWatched && allToWatchs[i].isActive) {
-        toWatchs.push(<ToWatchItem key={allToWatchs[i].id} toWatch={allToWatchs[i]}/>)
+        toWatchs.push(<ToWatchItem key={allToWatchs[i].tmdbId} toWatch={allToWatchs[i]}/>)
       }
     }
 
     for(var i=0; i<allToWatchs.length; i++) {
       if(allToWatchs[i].isWatched && allToWatchs[i].isActive) {
-        watchedItems.push(<ToWatchItem key={allToWatchs[i].id} toWatch={allToWatchs[i]} />)
+        watchedItems.push(<ToWatchItem key={allToWatchs[i].tmdbId} toWatch={allToWatchs[i]} />)
       }
     }
 

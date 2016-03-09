@@ -128,8 +128,8 @@ var FormAddMovie = React.createClass({
   },
 
   recoverMovieFromForm() {
-    var title = $('#inp-title').val()
-    var synopsis = $('#inp-synopsis').val()
+    var title = document.getElementById('inp-title').value
+    var synopsis = document.getElementById('inp-synopsis').value
 
     return {
       title: title,
@@ -139,11 +139,14 @@ var FormAddMovie = React.createClass({
 
   save() {
     if (this.validateForm()) {
-      var title = $('#inp-title').val()
-      var synopsis = $('#inp-synopsis').val()
+      var title = document.getElementById('inp-title').value
+      var synopsis = document.getElementById('inp-synopsis').value
+      var movie = this.props.movie
+      movie.title = title
+      movie.synopsis = synopsis
 
-      ToWatchActions.create(title, director, genre, this.props.movie.trailerId, synopsis)
-      $('#towatch-form-modal').modal('hide')
+      ToWatchActions.create(movie)
+      this.props.cancel()
     }
   },
 
@@ -164,7 +167,7 @@ var FormAddMovie = React.createClass({
   validateForm: function () {
     var isFormOk = true;
 
-    var title = $('#inp-title').val()
+    var title = document.getElementById('inp-title').value
     if (title && title.length > 1) {
       this.setState({
         showErrorTitle: false

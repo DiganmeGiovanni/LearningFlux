@@ -12,7 +12,7 @@ var ToWatchForm = React.createClass({
   getInitialState() {
     return {
       movie: {
-        id: '',
+        tmdbId: '',
         title: '',
         synopsis: '',
         trailerId: '',

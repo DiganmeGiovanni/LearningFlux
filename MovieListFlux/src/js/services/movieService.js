@@ -23,6 +23,9 @@ module.exports = {
 
   postToWatch: function (toWatch, callback) {
 
+    // TODO Replace with implementation real
+    toWatch.rating = 3
+
     var params = {
       method: 'POST',
       url: API_URL + "addmovie",

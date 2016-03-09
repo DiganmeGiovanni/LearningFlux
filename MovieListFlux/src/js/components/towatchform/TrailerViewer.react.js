@@ -10,7 +10,6 @@ var TrailerViewer = React.createClass({
   },
 
   componentDidMount() {
-    console.log('Lets to see: ' + this.props.videoId)
     new YT.Player('yt-player', {
       width: '100%',
       videoId: this.props.videoId,
@@ -29,7 +28,7 @@ var TrailerViewer = React.createClass({
           <button type="button" className="close" data-dismiss="modal">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 className="modal-title">Trailers for movie: {this.props.movieTitle}</h4>
+          <h4 className="modal-title">Trailer for movie: {this.props.movieTitle}</h4>
         </div>
 
         <div className="modal-body">
