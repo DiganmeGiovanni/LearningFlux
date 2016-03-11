@@ -36,11 +36,13 @@ var TrailerViewer = React.createClass({
         </div>
 
         <div className="modal-footer">
-          <button className="btn btn-default" onClick={this.backToList.bind(this)}>
-            <span>Back to list</span>
+          <button className="btn btn-default" onClick={this.backToList}>
+            <span className="glyphicon glyphicon-chevron-left"></span>
+            <span>&nbsp;&nbsp;Back to list</span>
           </button>
-          <button className="btn btn-success" onClick={this.chooseTrailer.bind(this)}>
-            <span>Choose trailer</span>
+          <button className="btn btn-default" onClick={this.chooseTrailer}>
+            <span className="glyphicon glyphicon-check"></span>
+            <span>&nbsp;&nbsp;Choose trailer</span>
           </button>
         </div>
       </div>

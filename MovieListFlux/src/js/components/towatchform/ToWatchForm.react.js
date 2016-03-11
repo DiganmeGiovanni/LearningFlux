@@ -42,6 +42,7 @@ var ToWatchForm = React.createClass({
       contentJSX = (
         <TrailerChooser
           movieTitle={this.state.movie.title}
+          backToForm={this.showMovieForm}
           chooseTrailer={this.chooseTrailer}
           playTrailer={this.playTrailer} />
       )
@@ -101,6 +102,12 @@ var ToWatchForm = React.createClass({
 
     this.setState({
       movie: currMovie,
+      displaying: 'movie-form'
+    })
+  },
+
+  showMovieForm() {
+    this.setState({
       displaying: 'movie-form'
     })
   },

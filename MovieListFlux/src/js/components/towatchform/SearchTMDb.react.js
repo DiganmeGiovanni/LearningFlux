@@ -16,17 +16,20 @@ var SearchTMDb = React.createClass({
     var resultsJSX = []
     var searchResults = this.state.searchResults
     var overViewStyle = {
-      maxHeight: '100px',
+      maxHeight: '60px',
       overflow: 'hidden'
     }
 
     for(var i=0; i<searchResults.length; i++) {
       var result = searchResults[i]
-      var imageSrc = ToWatchConstants.TMDB_API_IMGBASE_MD + result.poster_path
+      var imageSrc = "./src/img/movie-icon.jpg"
+      if (result.poster_path && result.poster_path.length > 0) {
+        imageSrc = ToWatchConstants.TMDB_API_IMGBASE_MD + result.poster_path
+      }
       var releaseDate = moment(result.release_date).format('YYYY, MMMM Do')
 
       resultsJSX.push(
-        <div key={result.id} className="row">
+        <div key={result.tmdbId} className="row">
           <div className="col-xs-12">
             <div className="movie-search-result-card">
               <div className="row">
@@ -37,15 +40,26 @@ var SearchTMDb = React.createClass({
                     className="movie-search-result-card-image" />
                 </div>
                 <div className="col-xs-8 col-sm-9 movie-search-result-card-content">
-                  <h4><mark>{result.title}</mark></h4>
-                  <small><cite>{releaseDate}</cite></small>
+                  <h4>{result.title}</h4>
+                  <p>
+                    <span>
+                      <span className="glyphicon glyphicon-calendar"></span>
+                      <span>&nbsp;&nbsp;{releaseDate}</span>
+                    </span><br/>
+                    <span>
+                      <span className="glyphicon glyphicon-star"></span>
+                      <span>&nbsp;&nbsp;{result.vote_average}</span>
+                    </span>
+                  </p>
+
                   <p style={overViewStyle} className="hidden-xs">
                       {result.synopsis}
                   </p>
+
                   <div className="text-right movie-search-result-card-buttons">
                     <button
-                        className="btn btn-default btn-sm"
-                        onClick={this.chooseMovie.bind(this, i)}>
+                        className="btn btn-default"
+                        onClick={this.chooseMovie.bind(null, i)}>
                       Add this one
                     </button>
                   </div>
@@ -119,7 +133,7 @@ var SearchTMDb = React.createClass({
         var directors = []
         for(var i=0; i<body.credits.crew.length; i++) {
           var currCrew = body.credits.crew[i]
-          if (currCrew.job === 'Producer') {
+          if (currCrew.job === 'Director') {
             directors.push(currCrew.name)
           }
         }
@@ -149,7 +163,9 @@ var SearchTMDb = React.createClass({
               tmdbId: rawResults[i].id,
               title: rawResults[i].title,
               synopsis: rawResults[i].overview,
-              poster_path: rawResults[i].poster_path
+              poster_path: rawResults[i].poster_path,
+              release_date: rawResults[i].release_date,
+              vote_average: rawResults[i].vote_average
             })
           }
 

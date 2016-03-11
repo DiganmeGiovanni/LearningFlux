@@ -6,18 +6,10 @@ var ToWatchActions = require('../../actions/ToWatchActions')
 var FormAddMovie = React.createClass({
 
   constructsFormFields: function() {
-    var titleErrorJSX = "";
-    if (this.state.showErrorTitle) {
-      titleErrorJSX = (
-        <p id="inp-title-error" className="alert alert-danger">
-          <span>Please type the movie's title</span>
-        </p>
-      )
-    }
 
     // Genres labels
     var genresJSX = []
-    var genres = this.state.genres
+    var genres = this.props.movie.genres
     for(var i=0; i<genres.length; i++) {
       genresJSX.push(
         <h4 key={i}>
@@ -28,7 +20,7 @@ var FormAddMovie = React.createClass({
 
     // Directors labels
     var directorsJSX = []
-    var directors = this.state.directors
+    var directors = this.props.movie.directors
     for(var i=0; i<directors.length; i++) {
       directorsJSX.push(
         <h4 key={i}>
@@ -37,19 +29,60 @@ var FormAddMovie = React.createClass({
       )
     }
 
+    // Yet has trailer assigned?
+    var trailerJXS = ""
+    if (this.props.movie.trailerId && this.props.movie.trailerId.length > 0) {
+      trailerJXS = (
+        <div className="row">
+          <div className="col-xs-12"><br/>
+            <label htmlFor="">Movie's trailer</label><br/>
+            <div>
+              <span htmlFor="" className="label label-success">
+                <span className="glyphicon glyphicon-ok"></span>
+                <span>&nbsp;&nbsp;Trailer has been assigned&nbsp;&nbsp;</span>
+              </span>
+              &nbsp;&nbsp;&nbsp;
+              <button
+                className="btn btn-default btn-sm"
+                onClick={this.searchYoutubeTrailer}
+                type="button">
+                <span className="glyphicon glyphicon-facetime-video"></span>
+                <span>&nbsp;&nbsp;Change</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+    }
+    else {
+      trailerJXS = (
+        <div className="row">
+          <div className="col-xs-12"><br/>
+            <label htmlFor="">Movie's trailer</label><br/>
+            <div>
+              <button
+                className="btn btn-default"
+                onClick={this.searchYoutubeTrailer}
+                type="button">
+                <span className="glyphicon glyphicon-facetime-video"></span>
+                <span>&nbsp;&nbsp;Search from Youtube</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
     return (
       <div>
         <div className="row">
           <div className="col-sm-12">
             <label htmlFor="inp-title">Movie's title</label>
-            <input
-              className="form-control"
-              id="inp-title"
-              placeholder="Movie's title"
-              type="text"
-              defaultValue={this.props.movie.title}
-            />
-            {titleErrorJSX}
+            <p className="lead">
+              <mark>
+                {this.props.movie.title}
+              </mark>
+            </p>
           </div>
         </div>
 
@@ -68,23 +101,19 @@ var FormAddMovie = React.createClass({
         <div className="row">
           <div className="col-sm-12"><br/>
             <label htmlFor="inp-synopsis">Movie's Synopsis</label>
-            <textarea
-              className="form-control"
-              id="inp-synopsis"
-              placeholder="Synopsis"
-              rows="4"
-              defaultValue={this.props.movie.synopsis}
-            />
+            <p>
+              {this.props.movie.synopsis}
+            </p>
           </div>
         </div>
+
+        {trailerJXS}
       </div>
     )
   },
 
   getInitialState() {
     return {
-      genres: this.props.movie.genres,
-      directors: this.props.movie.directors
     }
   },
 
@@ -105,13 +134,6 @@ var FormAddMovie = React.createClass({
         </div>
 
         <div className="modal-footer">
-          <button
-            className="btn btn-danger pull-left"
-            onClick={this.searchYoutubeTrailer}
-            type="button">
-
-            <span>Trailer</span>
-          </button>
 
           <button
             className="btn btn-default"
@@ -127,25 +149,9 @@ var FormAddMovie = React.createClass({
     )
   },
 
-  recoverMovieFromForm() {
-    var title = document.getElementById('inp-title').value
-    var synopsis = document.getElementById('inp-synopsis').value
-
-    return {
-      title: title,
-      synopsis: synopsis,
-    }
-  },
-
   save() {
     if (this.validateForm()) {
-      var title = document.getElementById('inp-title').value
-      var synopsis = document.getElementById('inp-synopsis').value
-      var movie = this.props.movie
-      movie.title = title
-      movie.synopsis = synopsis
-
-      ToWatchActions.create(movie)
+      ToWatchActions.create(this.props.movie)
       this.props.cancel()
     }
   },
@@ -156,31 +162,16 @@ var FormAddMovie = React.createClass({
 
   searchYoutubeTrailer() {
     if (this.validateForm()) {
-      var movie = this.recoverMovieFromForm()
-      movie.genres = this.state.genres
-      movie.directors = this.state.directors
-
-      this.props.searchYoutubeTrailer(movie)
+      this.props.searchYoutubeTrailer(this.props.movie)
     }
   },
 
   validateForm: function () {
-    var isFormOk = true;
 
-    var title = document.getElementById('inp-title').value
-    if (title && title.length > 1) {
-      this.setState({
-        showErrorTitle: false
-      })
-    }
-    else {
-      this.setState({
-        showErrorTitle: true
-      })
-      isFormOk = false
-    }
-
-    return isFormOk
+    // Just now there is nothing to validate,
+    // but method stills here for future possible implementations
+    // of custom user edits
+    return true
   },
 
 })

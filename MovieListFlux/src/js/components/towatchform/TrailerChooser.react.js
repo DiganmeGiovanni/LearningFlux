@@ -16,46 +16,46 @@ var TrailerChooser = React.createClass({
 
   constructTrailersList() {
     var trailers = this.state.youtubeTrailers
+
     var youtubeTrailersJSX = []
     for(var i=0; i<trailers.length; i++) {
       var trailer = trailers[i]
 
       youtubeTrailersJSX.push(
         <div key={trailer.videoId} className="row">
-          <div className="col-xs-12">
-            <div className="row">
-              <div className="col-xs-12">
-                <h4>{trailer.videoTitle}</h4>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-sm-4">
-                <img src={trailer.videoImgUrl} alt="Trailer image" height="100" width="150"/>
-              </div>
-              <div className="col-sm-8"><br/>
-                <div className="btn-group">
-                  <button
-                      className="btn btn-default"
-                      onClick={this.chooseTrailer.bind(this, trailer.videoId)}>
-                    <span className="glyphicon glyphicon-facetime-video"></span>
-                    <span>&nbsp;&nbsp;Choose trailer</span>
-                  </button>
-                  <button
-                      className="btn btn-default"
-                      onClick={this.playTrailer.bind(this, trailer.videoId)} >
-                    <span className="glyphicon glyphicon-play"></span>
-                    <span>&nbsp;&nbsp;Watch trailer</span>
-                  </button>
-                </div>
-                <p className="hidden-xs"><br/>
-                  <small>
-                    {trailer.videoDesc}
-                  </small>
-                </p>
-              </div>
-            </div>
-            <hr/>
+          <div className="col-xs-12 visible-xs-block">
+            <h5>{trailer.videoTitle}</h5>
           </div>
+          <div className="col-xs-12">
+            <img
+              src={trailer.videoImgUrl}
+              alt="Youtube video image"
+              width="196"
+              height="110"
+              className="pull-left trailer-chooser-result-image" />
+
+            <h5 className="hidden-xs">{trailer.videoTitle}</h5>
+            <div className="movie-search-result-card-buttons">
+              <div className="btn-group">
+                <button
+                    className="btn btn-default"
+                    onClick={this.chooseTrailer.bind(null, trailer.videoId)}
+                    type="button">
+                  <span className="glyphicon glyphicon-check"></span>
+                  <span className="hidden-xs">&nbsp;&nbsp;Choose</span>
+                </button>
+                <button
+                    className="btn btn-default"
+                    onClick={this.playTrailer.bind(null, trailer.videoId)}
+                    type="button">
+                  <span className="glyphicon glyphicon-play"></span>
+                  <span className="hidden-xs">&nbsp;&nbsp;Watch</span>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-xs-12"><hr/></div>
         </div>
       )
     }
@@ -83,6 +83,15 @@ var TrailerChooser = React.createClass({
         <div className="modal-body no-padding-vertical" style={styleChooser}>
           {trailersJSX}
         </div>
+
+        <div className="modal-footer">
+          <button
+              className="btn btn-default"
+              onClick={this.backToForm}
+              type="button">
+            <span>Skip trailer chooser</span>
+          </button>
+        </div>
       </div>
     )
   },
@@ -93,6 +102,10 @@ var TrailerChooser = React.createClass({
 
   playTrailer: function (videoId) {
     this.props.playTrailer(videoId)
+  },
+
+  backToForm: function () {
+    this.props.backToForm()
   },
 
   searchYoutubeTrailer: function () {

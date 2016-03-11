@@ -1,4 +1,8 @@
 
+body {
+  font-family: 'Open Sans';
+}
+
 .background-even {
   background: #FEFEFE;
 }
@@ -35,7 +39,7 @@
 .movie-search-result-card-buttons {
   position: absolute;
   bottom: 0px;
-  padding: 17px 17px 8px;
+  padding: 17px 17px 0px;
   right: 0px
 }
 
@@ -49,10 +53,18 @@
   width: 100px;
 }
 
+.trailer-chooser-result-image {
+  margin-right: 10px;
+}
+
 /*****************************************************************************/
 
 /** Ultra small device start point */
 @media (min-width: 375px) {
+  .movie-search-result-card-buttons {
+    padding: 17px 17px 8px;
+  }
+
   .movie-search-result-card-image {
     width: 120px;
   }

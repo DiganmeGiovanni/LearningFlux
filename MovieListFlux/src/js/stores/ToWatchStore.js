@@ -129,8 +129,6 @@ var ToWatchStore = objAssign({}, EventEmmiter.prototype, {
       else {
         remoteToWatches = JSON.parse(remoteToWatches)
         for(var i=0; i<remoteToWatches.length; i++) {
-          console.log("Movie received: " + remoteToWatches[i])
-          console.log(remoteToWatches[i])
           _toWatchs.push(remoteToWatches[i])
         }
 
