@@ -47,16 +47,15 @@ var ToWatchApp = React.createClass({
   render: function() {
     if(this.state.isUserLogged) {
       return (
-        <div className="row">
-          <div className="col-sm-12 col-md-8 col-md-offset-2 no-padding-on-small">
-            <div className="panel panel-default">
-              <div className="panel-heading">Your list of Movies</div>
-              <div className="panel-body">
-                <Toolbar />
-                <hr/>
+        <div className="container">
+          <Toolbar />
 
-                <ToWatchList allToWatchs={this.state.allToWatchs} areAllWatched={this.state.areAllWatched}/>
-              </div>
+          <div className="row" style={{marginTop: '100px'}}>
+            <div className="col-xs-12">
+              <ToWatchList
+                allToWatchs={this.state.allToWatchs}
+                areAllWatched={this.state.areAllWatched}
+              />
             </div>
           </div>
         </div>

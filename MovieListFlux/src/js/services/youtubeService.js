@@ -36,7 +36,7 @@ module.exports = {
       url: ToWatchConstants.GO_YTB_API_URL_SEARCH,
       qs: {
         part: 'snippet',
-        q: movieTitle + ' Teaser Trailer',
+        q: movieTitle + ' Official Trailer',
         type: 'video',
         key: ToWatchConstants.GO_YTB_API_KEY
       }

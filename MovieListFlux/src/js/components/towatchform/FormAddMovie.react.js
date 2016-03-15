@@ -5,11 +5,50 @@ var ToWatchActions = require('../../actions/ToWatchActions')
 
 var FormAddMovie = React.createClass({
 
+  getInitialState: function () {
+    var movie = this.props.movie
+    return {
+      movie: movie
+    }
+  },
+
+  render() {
+    var formFieldsJSX = this.constructsFormFields()
+
+    return (
+      <div className="modal-content">
+        <div className="modal-header">
+          <button type="button" className="close" data-dismiss="modal">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 className="modal-title">Add a movie to the list</h4>
+        </div>
+
+        <div className="modal-body">
+          {formFieldsJSX}
+        </div>
+
+        <div className="modal-footer">
+
+          <button
+            className="btn btn-default"
+            onClick={this.cancel}
+            type="button">Cancel</button>
+          <button
+            className="btn btn-default"
+            onClick={this.save}>
+            <span>Save</span>
+          </button>
+        </div>
+      </div>
+    )
+  },
+
   constructsFormFields: function() {
 
     // Genres labels
     var genresJSX = []
-    var genres = this.props.movie.genres
+    var genres = this.state.movie.genres
     for(var i=0; i<genres.length; i++) {
       genresJSX.push(
         <h4 key={i}>
@@ -20,7 +59,7 @@ var FormAddMovie = React.createClass({
 
     // Directors labels
     var directorsJSX = []
-    var directors = this.props.movie.directors
+    var directors = this.state.movie.directors
     for(var i=0; i<directors.length; i++) {
       directorsJSX.push(
         <h4 key={i}>
@@ -31,7 +70,7 @@ var FormAddMovie = React.createClass({
 
     // Yet has trailer assigned?
     var trailerJXS = ""
-    if (this.props.movie.trailerId && this.props.movie.trailerId.length > 0) {
+    if (this.state.movie.trailerId && this.state.movie.trailerId.length > 0) {
       trailerJXS = (
         <div className="row">
           <div className="col-xs-12"><br/>
@@ -80,7 +119,7 @@ var FormAddMovie = React.createClass({
             <label htmlFor="inp-title">Movie's title</label>
             <p className="lead">
               <mark>
-                {this.props.movie.title}
+                {this.state.movie.title}
               </mark>
             </p>
           </div>
@@ -102,7 +141,7 @@ var FormAddMovie = React.createClass({
           <div className="col-sm-12"><br/>
             <label htmlFor="inp-synopsis">Movie's Synopsis</label>
             <p>
-              {this.props.movie.synopsis}
+              {this.state.movie.synopsis}
             </p>
           </div>
         </div>
@@ -112,46 +151,9 @@ var FormAddMovie = React.createClass({
     )
   },
 
-  getInitialState() {
-    return {
-    }
-  },
-
-  render() {
-    var formFieldsJSX = this.constructsFormFields()
-
-    return (
-      <div className="modal-content">
-        <div className="modal-header">
-          <button type="button" className="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 className="modal-title">Add a movie to the list</h4>
-        </div>
-
-        <div className="modal-body">
-          {formFieldsJSX}
-        </div>
-
-        <div className="modal-footer">
-
-          <button
-            className="btn btn-default"
-            onClick={this.cancel}
-            type="button">Cancel</button>
-          <button
-            className="btn btn-default"
-            onClick={this.save}>
-            <span>Save</span>
-          </button>
-        </div>
-      </div>
-    )
-  },
-
   save() {
     if (this.validateForm()) {
-      ToWatchActions.create(this.props.movie)
+      ToWatchActions.create(this.state.movie)
       this.props.cancel()
     }
   },
@@ -162,7 +164,7 @@ var FormAddMovie = React.createClass({
 
   searchYoutubeTrailer() {
     if (this.validateForm()) {
-      this.props.searchYoutubeTrailer(this.props.movie)
+      this.props.searchYoutubeTrailer(this.state.movie)
     }
   },
 

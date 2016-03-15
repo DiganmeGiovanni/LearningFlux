@@ -43,6 +43,9 @@ function createToWatch(movie) {
     genres: movie.genres,
     trailerId: movie.trailerId,
     synopsis: movie.synopsis,
+    posterPath: movie.posterPath,
+    releaseDate: movie.releaseDate,
+    voteAverage: movie.voteAverage,
     userEmail: ToWatchConstants.user_data.email,
     isWatched: false,
     isActive: true

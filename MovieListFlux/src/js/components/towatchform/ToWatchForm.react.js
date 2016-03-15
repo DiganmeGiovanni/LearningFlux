@@ -16,6 +16,9 @@ var ToWatchForm = React.createClass({
         title: '',
         synopsis: '',
         trailerId: '',
+        posterPath: '',
+        releaseDate: '',
+        voteAverage: '',
         genres: [],
         directors: []
       },
@@ -58,7 +61,7 @@ var ToWatchForm = React.createClass({
 
 
     return (
-      <div id="towatch-form-modal" className="modal fade" role="dialog">
+      <div id="towatch-form-modal" className="modal fade" role="dialog" style={{zIndex: '1200'}}>
         <div className="modal-dialog modal-responsive" role="document">
           {contentJSX}
         </div>

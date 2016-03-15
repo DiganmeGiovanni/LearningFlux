@@ -23,10 +23,10 @@ var SearchTMDb = React.createClass({
     for(var i=0; i<searchResults.length; i++) {
       var result = searchResults[i]
       var imageSrc = "./src/img/movie-icon.jpg"
-      if (result.poster_path && result.poster_path.length > 0) {
-        imageSrc = ToWatchConstants.TMDB_API_IMGBASE_MD + result.poster_path
+      if (result.posterPath && result.posterPath.length > 0) {
+        imageSrc = ToWatchConstants.TMDB_API_IMGBASE_MD + result.posterPath
       }
-      var releaseDate = moment(result.release_date).format('YYYY, MMMM Do')
+      var releaseDate = moment(result.releaseDate).format('YYYY, MMMM Do')
 
       resultsJSX.push(
         <div key={result.tmdbId} className="row">
@@ -48,7 +48,7 @@ var SearchTMDb = React.createClass({
                     </span><br/>
                     <span>
                       <span className="glyphicon glyphicon-star"></span>
-                      <span>&nbsp;&nbsp;{result.vote_average}</span>
+                      <span>&nbsp;&nbsp;{result.voteAverage}</span>
                     </span>
                   </p>
 
@@ -163,9 +163,9 @@ var SearchTMDb = React.createClass({
               tmdbId: rawResults[i].id,
               title: rawResults[i].title,
               synopsis: rawResults[i].overview,
-              poster_path: rawResults[i].poster_path,
-              release_date: rawResults[i].release_date,
-              vote_average: rawResults[i].vote_average
+              posterPath: rawResults[i].poster_path,
+              releaseDate: rawResults[i].release_date,
+              voteAverage: rawResults[i].vote_average
             })
           }
 

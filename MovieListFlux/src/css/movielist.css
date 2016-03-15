@@ -11,6 +11,15 @@ body {
   background: #FFF;
 }
 
+.btn:focus {
+  outline: none !important;
+}
+
+.card-towatch-item {
+  box-shadow: 0px 0px 3px #AAA;
+  padding-right: 10px;
+}
+
 .hidden-overflow {
   overflow: hidden;
 }
@@ -21,6 +30,10 @@ body {
 
 .no-padding-horizontal {
   padding-left: 0px;
+  padding-right: 0px;
+}
+
+.no-padding-right {
   padding-right: 0px;
 }
 
@@ -51,6 +64,21 @@ body {
 .movie-search-result-card-image {
   padding-right: 5px;
   width: 100px;
+}
+
+.top-bar {
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid #EEE;
+  color: #555;
+  height: 60px;
+  left: 0;
+  max-height: 60px;
+  min-height: 60px;
+  padding: 10px 2%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1030;
 }
 
 .trailer-chooser-result-image {
