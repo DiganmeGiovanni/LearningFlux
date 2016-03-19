@@ -120,7 +120,7 @@ var ToWatchItem = React.createClass({
     }
 
     return (
-      <div id={toWatch.idDatastore} className={itemStyleClass} style={{padding: '5px'}}>
+      <div id={toWatch.idDatastore} className={itemStyleClass} style={{padding: '12px'}}>
         <div className="card-towatch-item">
 
           <div className="row">

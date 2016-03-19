@@ -61,7 +61,7 @@ var ToWatchForm = React.createClass({
 
 
     return (
-      <div id="towatch-form-modal" className="modal fade" role="dialog" style={{zIndex: '1200'}}>
+      <div id="towatch-form-modal" className="modal fade" role="dialog">
         <div className="modal-dialog modal-responsive" role="document">
           {contentJSX}
         </div>
