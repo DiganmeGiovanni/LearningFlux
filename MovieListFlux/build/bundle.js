@@ -82410,10 +82410,10 @@ ReactDOM.render(React.createElement(ToWatchApp, null), document.getElementById('
  */
 
 var React = require('react');
+var WatchList = require('./WatchList.react');
 
 // React components
 var Toolbar = require('./Toolbar.react');
-var ToWatchList = require('./ToWatchList.react');
 var Welcome = require('./Welcome.react');
 
 var ToWatchStore = require('../stores/ToWatchStore');
@@ -82456,18 +82456,13 @@ var ToWatchApp = React.createClass({
       return React.createElement(
         'div',
         { className: 'container' },
-        React.createElement(Toolbar, null),
         React.createElement(
           'div',
-          { className: 'row', style: { marginTop: '100px' } },
-          React.createElement(
-            'div',
-            { className: 'col-xs-12' },
-            React.createElement(ToWatchList, {
-              allToWatchs: this.state.allToWatchs,
-              areAllWatched: this.state.areAllWatched
-            })
-          )
+          { style: { marginTop: '100px' } },
+          React.createElement(WatchList, {
+            toWatches: this.state.allToWatchs,
+            areAllWatched: this.state.areAllWatched
+          })
         )
       );
     } else {
@@ -82479,482 +82474,7 @@ var ToWatchApp = React.createClass({
 
 module.exports = ToWatchApp;
 
-},{"../stores/LoginStore":461,"../stores/ToWatchStore":462,"./ToWatchList.react":448,"./Toolbar.react":449,"./Welcome.react":450,"react":368}],447:[function(require,module,exports){
-
-var React = require('react');
-
-var ToWatchActions = require('../actions/ToWatchActions');
-var ToWatchConstants = require('../constants/toWatchConstants');
-
-/*****************************************************************************/
-
-var ToWatchItem = React.createClass({
-  displayName: 'ToWatchItem',
-
-
-  getInitialState() {
-    return {
-      playingTrailer: false
-    };
-  },
-
-  componentDidUpdate() {
-    if (this.state.playingTrailer) {
-      var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.idDatastore;
-      new YT.Player(trailerContainerId, {
-        width: '100%',
-        videoId: this.props.toWatch.trailerId,
-        events: {
-          'onReady': function (event) {
-            event.target.playVideo();
-          }
-        }
-      });
-    }
-
-    if (this.props.displayDetails) {
-      document.getElementById(this.props.toWatch.idDatastore + "").scrollIntoView();
-    }
-  },
-
-  render: function () {
-    var toWatch = this.props.toWatch;
-
-    // JSX Form movie trailer modal
-    var trailerModalJSX = this.constructTrailerModal();
-
-    // Title of movie (Watched?)
-    var titleJSX = toWatch.title;
-    if (toWatch.isWatched) {
-      titleJSX = React.createElement(
-        'span',
-        null,
-        React.createElement('span', { className: 'glyphicon glyphicon-eye-open' }),
-        '   ',
-        React.createElement(
-          'del',
-          null,
-          toWatch.title
-        )
-      );
-    }
-
-    // Styles for directors and genres labels
-    var styleLabel = {
-      display: 'inline-block',
-      marginBottom: '5px',
-      marginRight: '5px'
-    };
-
-    // Directors JSX
-    var dirs = toWatch.directors;
-    var directorsJSX = [];
-    for (var i = 0; i < dirs.length; i++) {
-      directorsJSX.push(React.createElement(
-        'span',
-        { key: i, style: styleLabel },
-        React.createElement(
-          'span',
-          { className: 'label label-primary' },
-          dirs[i]
-        ),
-        React.createElement(
-          'span',
-          null,
-          ' '
-        )
-      ));
-    }
-
-    // Genres JSX
-    var genres = toWatch.genres;
-    var genresJSX = [];
-    for (var i = 0; i < genres.length; i++) {
-      genresJSX.push(React.createElement(
-        'span',
-        { key: i, style: styleLabel },
-        React.createElement(
-          'span',
-          { className: 'label label-default' },
-          genres[i]
-        ),
-        React.createElement(
-          'span',
-          null,
-          ' '
-        )
-      ));
-    }
-
-    // Synopsis JSX
-    var synopsisJSX = React.createElement(
-      'p',
-      null,
-      toWatch.synopsis
-    );
-
-    // Joining details in a single node
-    var detailsJSX = React.createElement(
-      'div',
-      { className: 'row' },
-      React.createElement(
-        'div',
-        { className: 'col-xs-6' },
-        React.createElement('br', null),
-        React.createElement(
-          'b',
-          null,
-          'Directors:'
-        ),
-        React.createElement('br', null),
-        directorsJSX
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-xs-6' },
-        React.createElement('br', null),
-        React.createElement(
-          'b',
-          null,
-          'Genres'
-        ),
-        React.createElement('br', null),
-        genresJSX
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-xs-12' },
-        React.createElement('br', null),
-        React.createElement(
-          'b',
-          null,
-          'Synopsis'
-        ),
-        React.createElement('br', null),
-        synopsisJSX
-      )
-    );
-
-    // Styles for movie container
-    var itemStyleClass = "col-xs-12";
-    if (toWatch.isWatched) {
-      itemStyleClass += " disabled";
-    }
-    if (this.props.displayDetails) {
-      itemStyleClass += " col-sm-12 col-lg-8";
-    } else {
-      itemStyleClass += " col-sm-6 col-lg-4";
-    }
-
-    return React.createElement(
-      'div',
-      { id: toWatch.idDatastore, className: itemStyleClass, style: { padding: '12px' } },
-      React.createElement(
-        'div',
-        { className: 'card-towatch-item' },
-        React.createElement(
-          'div',
-          { className: 'row' },
-          React.createElement(
-            'div',
-            { className: 'col-xs-4 no-padding-right' },
-            React.createElement('img', { src: ToWatchConstants.TMDB_API_IMGBASE_LG + toWatch.posterPath, alt: '', width: '100%' })
-          ),
-          React.createElement(
-            'div',
-            { className: 'col-xs-8' },
-            React.createElement(
-              'div',
-              { className: 'row' },
-              React.createElement(
-                'div',
-                { className: 'col-xs-12' },
-                React.createElement(
-                  'h4',
-                  null,
-                  titleJSX
-                )
-              )
-            ),
-            React.createElement(
-              'div',
-              { className: 'row' },
-              React.createElement(
-                'div',
-                { className: 'col-xs-12' },
-                React.createElement(
-                  'p',
-                  null,
-                  React.createElement(
-                    'span',
-                    null,
-                    React.createElement('span', { className: 'glyphicon glyphicon-calendar' }),
-                    React.createElement(
-                      'span',
-                      null,
-                      '  ',
-                      toWatch.releaseDate
-                    )
-                  ),
-                  React.createElement('br', null),
-                  React.createElement(
-                    'span',
-                    null,
-                    React.createElement('span', { className: 'glyphicon glyphicon-star' }),
-                    React.createElement(
-                      'span',
-                      null,
-                      '  ',
-                      toWatch.voteAverage
-                    )
-                  )
-                )
-              ),
-              React.createElement(
-                'div',
-                { className: 'col-xs-12 text-right' },
-                React.createElement(
-                  'div',
-                  { className: 'btn-toolbar' },
-                  React.createElement(
-                    'div',
-                    { className: 'btn-group' },
-                    React.createElement(
-                      'button',
-                      { className: toWatch.isWatched ? "btn btn-default active" : "btn btn-default" },
-                      React.createElement('span', { className: 'glyphicon glyphicon-eye-open' })
-                    ),
-                    React.createElement(
-                      'button',
-                      {
-                        className: this.props.displayDetails ? "btn btn-default active" : "btn btn-default",
-                        onClick: this._onToggleDisplayDetails },
-                      React.createElement('span', { className: 'glyphicon glyphicon-list-alt' })
-                    ),
-                    React.createElement(
-                      'button',
-                      {
-                        className: 'btn btn-default',
-                        onClick: this.playTrailer },
-                      React.createElement('span', { className: 'glyphicon glyphicon-facetime-video' })
-                    ),
-                    React.createElement(
-                      'button',
-                      { className: 'btn btn-default dropdown-toggle', 'data-toggle': 'dropdown' },
-                      React.createElement('span', { className: 'glyphicon glyphicon-option-horizontal' })
-                    ),
-                    React.createElement(
-                      'ul',
-                      { className: 'dropdown-menu' },
-                      React.createElement(
-                        'li',
-                        null,
-                        React.createElement(
-                          'a',
-                          { href: '#' },
-                          React.createElement('span', { className: 'glyphicon glyphicon-pencil' }),
-                          React.createElement(
-                            'span',
-                            null,
-                            '  Edit'
-                          )
-                        )
-                      ),
-                      React.createElement(
-                        'li',
-                        null,
-                        React.createElement(
-                          'a',
-                          { href: '#' },
-                          React.createElement('span', { className: 'glyphicon glyphicon-trash' }),
-                          React.createElement(
-                            'span',
-                            null,
-                            '  Delete'
-                          )
-                        )
-                      )
-                    )
-                  )
-                )
-              ),
-              React.createElement(
-                'div',
-                { className: this.props.displayDetails ? "hidden-xs col-xs-12" : "hidden" },
-                detailsJSX
-              )
-            )
-          )
-        ),
-        React.createElement(
-          'div',
-          { className: this.props.displayDetails ? "visible-xs-block row" : "hidden" },
-          React.createElement(
-            'div',
-            { className: 'col-xs-12', style: { padding: '0px 30px 0px 30px' } },
-            detailsJSX
-          )
-        )
-      ),
-      trailerModalJSX
-    );
-  },
-
-  constructTrailerModal() {
-    var idTrailerModal = 'modal-trailer-' + this.props.toWatch.idDatastore;
-    var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.idDatastore;
-
-    return React.createElement(
-      'div',
-      { className: 'modal fade', id: idTrailerModal, tabIndex: '-1', role: 'dialog' },
-      React.createElement(
-        'div',
-        { className: 'modal-dialog', role: 'document' },
-        React.createElement(
-          'div',
-          { className: 'modal-content' },
-          React.createElement(
-            'div',
-            { className: 'modal-header' },
-            React.createElement(
-              'button',
-              { type: 'button', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' },
-              React.createElement(
-                'span',
-                { 'aria-hidden': 'true' },
-                '×'
-              )
-            ),
-            React.createElement(
-              'h4',
-              { className: 'modal-title' },
-              this.props.toWatch.title
-            )
-          ),
-          React.createElement(
-            'div',
-            { className: 'modal-body' },
-            React.createElement(
-              'div',
-              { className: 'row' },
-              React.createElement(
-                'div',
-                { className: 'col-xs-12' },
-                React.createElement('div', { id: trailerContainerId })
-              )
-            )
-          )
-        )
-      )
-    );
-  },
-
-  playTrailer() {
-    var idTrailerModal = 'modal-trailer-' + this.props.toWatch.idDatastore;
-    $('#' + idTrailerModal).modal('show');
-
-    this.setState({
-      playingTrailer: true
-    });
-  },
-
-  _onToggleDisplayDetails: function () {
-    if (!this.props.displayDetails) {
-      this.props.displayNoWatchedDetails(this.props.toWatch.idDatastore);
-    } else {
-      this.props.displayNoWatchedDetails('');
-    }
-  },
-
-  _onToggleWatched: function () {
-    ToWatchActions.toggleWatched(this.props.toWatch);
-  },
-
-  _onDestroyClick: function () {
-    ToWatchActions.destroy(this.props.toWatch.tmdbId);
-  }
-
-});
-
-module.exports = ToWatchItem;
-
-},{"../actions/ToWatchActions":444,"../constants/toWatchConstants":456,"react":368}],448:[function(require,module,exports){
-
-
-var React = require('react');
-var ToWatchItem = require('./ToWatchItem.react');
-
-/*****************************************************************************/
-
-var ToWatchList = React.createClass({
-  displayName: 'ToWatchList',
-
-
-  getInitialState() {
-    return {
-      noWatchedDetailedItemId: '', // IdDatastore of item which display details
-      watchedDetailsItemId: '' // IdDatastore of item which display details
-    };
-  },
-
-  render: function () {
-    var self = this;
-
-    var allToWatchs = this.props.allToWatchs;
-    var toWatchs = [];
-    var watchedItems = [];
-
-    for (var i = 0; i < allToWatchs.length; i++) {
-      if (!allToWatchs[i].isWatched && allToWatchs[i].isActive) {
-        var displayedIdDatastore = self.state.noWatchedDetailedItemId;
-        var displayDetails = displayedIdDatastore === allToWatchs[i].idDatastore;
-
-        toWatchs.push(React.createElement(ToWatchItem, {
-          key: allToWatchs[i].tmdbId,
-          displayDetails: displayDetails,
-          displayNoWatchedDetails: this.displayNoWatchedDetails,
-          toWatch: allToWatchs[i] }));
-      }
-    }
-
-    for (var i = 0; i < allToWatchs.length; i++) {
-      if (allToWatchs[i].isWatched && allToWatchs[i].isActive) {
-        watchedItems.push(React.createElement(ToWatchItem, { key: allToWatchs[i].tmdbId, toWatch: allToWatchs[i] }));
-      }
-    }
-
-    return React.createElement(
-      'div',
-      { id: 'to-watches-container', className: 'row' },
-      React.createElement(
-        'div',
-        { className: 'col-xs-12' },
-        toWatchs
-      ),
-      React.createElement(
-        'div',
-        { className: 'col-xs-12' },
-        watchedItems
-      )
-    );
-  },
-
-  displayNoWatchedDetails(idDatastore) {
-    this.setState({
-      noWatchedDetailedItemId: idDatastore
-    });
-  },
-
-  displayWatchedDetails(idDatastore) {
-    this.setState({
-      noWatchedDetailedItemId: idDatastore
-    });
-  }
-});
-
-module.exports = ToWatchList;
-
-},{"./ToWatchItem.react":447,"react":368}],449:[function(require,module,exports){
+},{"../stores/LoginStore":461,"../stores/ToWatchStore":462,"./Toolbar.react":447,"./WatchList.react":448,"./Welcome.react":450,"react":368}],447:[function(require,module,exports){
 
 var React = require('react');
 var ToWatchActions = require('../actions/ToWatchActions');
@@ -83107,7 +82627,463 @@ var Toolbar = React.createClass({
 
 module.exports = Toolbar;
 
-},{"../actions/LoginActions":443,"../actions/ToWatchActions":444,"./towatchform/ToWatchForm.react":453,"react":368}],450:[function(require,module,exports){
+},{"../actions/LoginActions":443,"../actions/ToWatchActions":444,"./towatchform/ToWatchForm.react":453,"react":368}],448:[function(require,module,exports){
+
+var React = require('react');
+var WatchListItem = require('./WatchListItem.react');
+
+var WatchList = React.createClass({
+  displayName: 'WatchList',
+
+
+  getInitialState() {
+    return {
+      allToWatches: this.props.toWatches,
+      idDisplayedItem: '' // The id data store of item which display details
+    };
+  },
+
+  render() {
+    var self = this;
+    var allToWatches = this.state.allToWatches;
+    var toWatchesJSX = [];
+
+    //
+    // Construct the JSX for each 'to watch' item
+    for (var i = 0; i < allToWatches.length; i++) {
+      if (allToWatches[i].isActive && !allToWatches[i].isWatched) {
+
+        // Should display details?
+        var idDisplayedItem = self.state.idDisplayedItem;
+        var displayDetails = idDisplayedItem === allToWatches[i].idDatastore;
+
+        // Create Watch list item and push it to JSX array
+        toWatchesJSX.push(React.createElement(WatchListItem, {
+          key: allToWatches[i].tmdbId,
+          displayDetails: displayDetails,
+          displayItemDetails: this.displayItemDetails,
+          toWatch: allToWatches[i] }));
+      }
+    }
+
+    return React.createElement(
+      'div',
+      { className: 'row' },
+      toWatchesJSX
+    );
+  },
+
+  displayItemDetails(idDatastore) {
+    this.setState({
+      idDisplayedItem: idDatastore
+    });
+  }
+
+});
+
+module.exports = WatchList;
+
+},{"./WatchListItem.react":449,"react":368}],449:[function(require,module,exports){
+
+var React = require('react');
+var ToWatchActions = require('../actions/ToWatchActions');
+var ToWatchConstants = require('../constants/toWatchConstants');
+
+var WatchListItem = React.createClass({
+  displayName: 'WatchListItem',
+
+
+  getInitialState() {
+    return {
+      playingTrailer: false
+    };
+  },
+
+  componentDidUpdate() {
+    if (this.state.playingTrailer) {
+      var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.idDatastore;
+      new YT.Player(trailerContainerId, {
+        width: '100%',
+        videoId: this.props.toWatch.trailerId,
+        events: {
+          'onReady': function (event) {
+            event.target.playVideo();
+          }
+        }
+      });
+    }
+
+    if (this.props.displayDetails) {
+      document.getElementById(this.props.toWatch.idDatastore + "").scrollIntoView();
+    }
+  },
+
+  render() {
+    var toWatch = this.props.toWatch;
+
+    // Get details JSX
+    var detailsJSX = this.constructDetails();
+
+    // Get trailer player JSX
+    var trailerModalJSX = this.constructTrailerModal();
+
+    // Style classes for watch list item
+    var watchItemClasses = "";
+    if (this.props.displayDetails) {
+      watchItemClasses += "card-towatch-item col-xs-12";
+    } else {
+      watchItemClasses += " col-xs-6 col-sm-4 col-md-3 col-lg-2";
+    }
+
+    // Styles for watch list item
+    var watchItemStyles = {
+      marginBottom: '20px',
+      marginTop: '10px'
+    };
+
+    // Style classes for action buttons
+    var actionBtnClasses = "btn btn-default btn-lg btn-dark-trans";
+
+    return React.createElement(
+      'div',
+      { id: toWatch.idDatastore, className: watchItemClasses, style: watchItemStyles },
+      React.createElement(
+        'div',
+        { className: 'row' },
+        React.createElement(
+          'div',
+          { className: this.props.displayDetails ? "hidden-xs col-sm-12" : "hidden" },
+          React.createElement(
+            'div',
+            { className: 'btn-toolbar' },
+            React.createElement(
+              'div',
+              { className: 'btn-group pull-right' },
+              React.createElement(
+                'button',
+                {
+                  className: actionBtnClasses,
+                  onClick: this._onToggleDisplayDetails,
+                  style: { paddingRight: '0px' } },
+                React.createElement('span', { className: 'glyphicon glyphicon-remove' })
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'btn-group pull-right' },
+              React.createElement(
+                'button',
+                { className: actionBtnClasses },
+                React.createElement('span', { className: 'glyphicon glyphicon-eye-open' })
+              ),
+              React.createElement(
+                'button',
+                {
+                  className: actionBtnClasses,
+                  onClick: this.playTrailer },
+                React.createElement('span', { className: 'glyphicon glyphicon-facetime-video' })
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'btn-group pull-right' },
+              React.createElement(
+                'button',
+                { className: actionBtnClasses, style: { color: '#e74c3c' } },
+                React.createElement('span', { className: 'glyphicon glyphicon-trash' })
+              )
+            )
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: this.props.displayDetails ? "col-xs-9 col-sm-4" : "col-xs-12" },
+          React.createElement(
+            'div',
+            { onClick: this._onToggleDisplayDetails, style: { width: '100%' } },
+            React.createElement('img', {
+              src: ToWatchConstants.TMDB_API_IMGBASE_SM + toWatch.posterPath,
+              alt: '',
+              width: '100%' })
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: this.props.displayDetails ? "col-xs-3 visible-xs-block text-right" : "hidden" },
+          React.createElement(
+            'div',
+            { className: 'btn-group-vertical' },
+            React.createElement(
+              'button',
+              {
+                className: actionBtnClasses,
+                onClick: this._onToggleDisplayDetails,
+                style: { paddingTop: '0px' } },
+              React.createElement('span', { className: 'glyphicon glyphicon-remove' })
+            )
+          ),
+          React.createElement('br', null),
+          React.createElement('br', null),
+          React.createElement(
+            'div',
+            { className: 'btn-group-vertical' },
+            React.createElement(
+              'button',
+              { className: actionBtnClasses },
+              React.createElement('span', { className: 'glyphicon glyphicon-eye-open' })
+            ),
+            React.createElement(
+              'button',
+              {
+                className: actionBtnClasses,
+                onClick: this.playTrailer },
+              React.createElement('span', { className: 'glyphicon glyphicon-facetime-video' })
+            )
+          ),
+          React.createElement('br', null),
+          React.createElement('br', null),
+          React.createElement(
+            'div',
+            { className: 'btn-group-vertical' },
+            React.createElement(
+              'button',
+              { className: actionBtnClasses, style: { color: '#e74c3c' } },
+              React.createElement('span', { className: 'glyphicon glyphicon-trash' })
+            )
+          )
+        ),
+        React.createElement(
+          'div',
+          { className: this.props.displayDetails ? "col-xs-12 col-sm-8" : "hidden" },
+          detailsJSX
+        )
+      ),
+      trailerModalJSX
+    );
+  },
+
+  constructDetails() {
+    var toWatch = this.props.toWatch;
+
+    // Styles for directors and genres labels
+    var styleLabel = {
+      display: 'inline-block',
+      marginBottom: '5px',
+      marginRight: '5px'
+    };
+
+    // Directors JSX
+    var dirs = toWatch.directors;
+    var directorsJSX = [];
+    for (var i = 0; i < dirs.length; i++) {
+      directorsJSX.push(React.createElement(
+        'span',
+        { key: i, style: styleLabel },
+        React.createElement(
+          'span',
+          { className: 'label label-primary' },
+          dirs[i]
+        ),
+        React.createElement(
+          'span',
+          null,
+          ' '
+        )
+      ));
+    }
+
+    // Genres JSX
+    var genres = toWatch.genres;
+    var genresJSX = [];
+    for (var i = 0; i < genres.length; i++) {
+      genresJSX.push(React.createElement(
+        'span',
+        { key: i, style: styleLabel },
+        React.createElement(
+          'span',
+          { className: 'label label-default' },
+          genres[i]
+        ),
+        React.createElement(
+          'span',
+          null,
+          ' '
+        )
+      ));
+    }
+
+    // Synopsis JSX
+    var synopsisJSX = React.createElement(
+      'p',
+      null,
+      toWatch.synopsis
+    );
+
+    // Joining details in a single node
+    return React.createElement(
+      'div',
+      { className: 'row' },
+      React.createElement(
+        'div',
+        { className: 'col-xs-12' },
+        React.createElement('br', { className: 'visible-xs-block' }),
+        React.createElement(
+          'p',
+          null,
+          React.createElement(
+            'b',
+            { style: { fontSize: '1.2em', paddingBottom: '5px' } },
+            React.createElement('span', { className: 'glyphicon glyphicon-film' }),
+            React.createElement(
+              'span',
+              null,
+              '  ',
+              toWatch.title
+            )
+          ),
+          React.createElement('br', null),
+          React.createElement('br', null),
+          React.createElement(
+            'span',
+            null,
+            React.createElement('span', { className: 'glyphicon glyphicon-calendar' }),
+            React.createElement(
+              'span',
+              null,
+              '  ',
+              toWatch.releaseDate
+            )
+          ),
+          React.createElement('br', null),
+          React.createElement(
+            'span',
+            null,
+            React.createElement('span', { className: 'glyphicon glyphicon-star', style: { color: '#e67e22' } }),
+            React.createElement(
+              'span',
+              null,
+              '  ',
+              toWatch.voteAverage
+            )
+          )
+        )
+      ),
+      React.createElement(
+        'div',
+        { className: 'col-xs-6' },
+        React.createElement(
+          'b',
+          null,
+          'Directors:'
+        ),
+        React.createElement('br', null),
+        directorsJSX
+      ),
+      React.createElement(
+        'div',
+        { className: 'col-xs-6' },
+        React.createElement(
+          'b',
+          null,
+          'Genres'
+        ),
+        React.createElement('br', null),
+        genresJSX
+      ),
+      React.createElement(
+        'div',
+        { className: 'col-xs-12' },
+        React.createElement('br', null),
+        React.createElement(
+          'b',
+          null,
+          'Synopsis'
+        ),
+        React.createElement('br', null),
+        synopsisJSX
+      )
+    );
+  },
+
+  constructTrailerModal() {
+    var idTrailerModal = 'modal-trailer-' + this.props.toWatch.idDatastore;
+    var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.idDatastore;
+
+    return React.createElement(
+      'div',
+      { className: 'modal fade', id: idTrailerModal, tabIndex: '-1', role: 'dialog' },
+      React.createElement(
+        'div',
+        { className: 'modal-dialog modal-responsive', role: 'document' },
+        React.createElement(
+          'div',
+          { className: 'modal-content modal-dark' },
+          React.createElement(
+            'div',
+            { className: 'modal-header' },
+            React.createElement(
+              'button',
+              { type: 'button', className: 'close', 'data-dismiss': 'modal', 'aria-label': 'Close' },
+              React.createElement(
+                'span',
+                { 'aria-hidden': 'true', style: { color: 'white' } },
+                '×'
+              )
+            ),
+            React.createElement(
+              'h4',
+              { className: 'modal-title' },
+              this.props.toWatch.title
+            )
+          ),
+          React.createElement(
+            'div',
+            { className: 'modal-body' },
+            React.createElement(
+              'div',
+              { className: 'row' },
+              React.createElement(
+                'div',
+                { className: 'col-xs-12' },
+                React.createElement('div', { id: trailerContainerId })
+              )
+            )
+          )
+        )
+      )
+    );
+  },
+
+  playTrailer() {
+    var idTrailerModal = 'modal-trailer-' + this.props.toWatch.idDatastore;
+    $('#' + idTrailerModal).modal('show');
+
+    this.setState({
+      playingTrailer: true
+    });
+  },
+
+  _onToggleDisplayDetails: function () {
+    if (!this.props.displayDetails) {
+      this.props.displayItemDetails(this.props.toWatch.idDatastore);
+    } else {
+      this.props.displayItemDetails('');
+    }
+  },
+
+  _onToggleWatched: function () {
+    ToWatchActions.toggleWatched(this.props.toWatch);
+  },
+
+  _onDestroyClick: function () {
+    ToWatchActions.destroy(this.props.toWatch.tmdbId);
+  }
+
+});
+
+module.exports = WatchListItem;
+
+},{"../actions/ToWatchActions":444,"../constants/toWatchConstants":456,"react":368}],450:[function(require,module,exports){
 
 var React = require('react');
 var LoginActions = require('../actions/LoginActions');

@@ -5,10 +5,10 @@
  */
 
 var React = require('react')
+var WatchList = require('./WatchList.react')
 
 // React components
 var Toolbar     = require('./Toolbar.react')
-var ToWatchList = require('./ToWatchList.react')
 var Welcome     = require('./Welcome.react')
 
 var ToWatchStore = require('../stores/ToWatchStore')
@@ -48,15 +48,13 @@ var ToWatchApp = React.createClass({
     if(this.state.isUserLogged) {
       return (
         <div className="container">
-          <Toolbar />
+          {/*<Toolbar />*/}
 
-          <div className="row" style={{marginTop: '100px'}}>
-            <div className="col-xs-12">
-              <ToWatchList
-                allToWatchs={this.state.allToWatchs}
-                areAllWatched={this.state.areAllWatched}
-              />
-            </div>
+          <div style={{marginTop: '100px'}}>
+            <WatchList
+              toWatches={this.state.allToWatchs}
+              areAllWatched={this.state.areAllWatched}
+            />
           </div>
         </div>
       )

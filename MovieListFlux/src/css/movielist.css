@@ -1,5 +1,8 @@
 
 body {
+  /*background: #22313F;*/
+  background: #00141b;
+  color: #DDD;
   font-family: 'Open Sans';
 }
 
@@ -15,13 +18,49 @@ body {
   outline: none !important;
 }
 
+.btn-dark-trans {
+  background: transparent;
+  border: none;
+  color: #DDD;
+}
+
+.btn-dark-trans:hover,
+.btn-dark-trans:active {
+  background: transparent;
+  border: none;
+  color: #EEE;
+}
+
+.btn-dark-blue {
+  background: #00AFF0;
+  border: 1px solid #21759b;
+  color: #22313F;
+}
+
+.bordered {
+  border: 1px solid #FFF;
+}
+
 .card-towatch-item {
-  box-shadow: 0px 0px 3px #AAA;
-  padding-right: 10px;
+  background: #22313F;
+  padding-bottom: 15px;
+  padding-top: 30px;
+}
+
+.card-towatch-item-image-container {
+  width: 100%;
 }
 
 .hidden-overflow {
   overflow: hidden;
+}
+
+.modal-dark {
+  /*background: #22313F;*/
+
+  background: #22313F;
+  box-shadow: 0px 0px 15px #000;
+  /*background: #00141b;*/
 }
 
 .no-margin {
@@ -105,6 +144,10 @@ body {
 
 /** Small devices start point */
 @media (min-width: 758px) {
+  .card-towatch-item {
+    padding-top: 0px;
+  }
+
   .movie-search-result-card-content {
     min-height: 203px;
     max-height: 203px;
