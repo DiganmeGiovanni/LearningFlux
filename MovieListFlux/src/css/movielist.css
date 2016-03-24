@@ -209,11 +209,6 @@ body {
 
 /** Ultra small device start point */
 @media (min-width: 375px) {
-  .card-result-bottom-buttons {
-    bottom: 0px;
-    padding: 17px 17px 8px;
-  }
-
   .movie-search-result-card-image {
     width: 120px;
   }

@@ -63,7 +63,8 @@ var SearchTMDb = React.createClass({
                     <button
                         className="btn btn-default btn-sm"
                         onClick={this.chooseMovie.bind(null, i)}>
-                      Add this one
+                      <span className="glyphicon glyphicon-film"></span>
+                      <span>&nbsp;&nbsp;Add movie</span>
                     </button>
                   </div>
                 </div>
