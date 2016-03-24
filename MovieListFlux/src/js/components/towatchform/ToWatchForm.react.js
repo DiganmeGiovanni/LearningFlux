@@ -7,12 +7,15 @@ var TrailerChooser = require('./TrailerChooser.react')
 var TrailerViewer  = require('./TrailerViewer.react')
 var SearchTMDb     = require('./SearchTMDb.react')
 
+/******************************************************************************/
+
 var ToWatchForm = React.createClass({
 
   getInitialState() {
     return {
       movie: {
         tmdbId: '',
+        idDatastore: '',
         title: '',
         synopsis: '',
         trailerId: '',
@@ -22,6 +25,7 @@ var ToWatchForm = React.createClass({
         genres: [],
         directors: []
       },
+
       displaying: 'movie-search'
     }
   },
@@ -55,6 +59,7 @@ var ToWatchForm = React.createClass({
         <TrailerViewer
           videoId={this.state.movie.trailerId}
           chooseTrailer={this.chooseTrailer}
+          movieTitle={this.state.movie.title}
           showTrailersList={this.showTrailersList} />
       )
     }

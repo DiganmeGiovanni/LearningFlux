@@ -1,7 +1,11 @@
 
 var React = require('react')
+var moment = require('moment')
+
 var ToWatchActions   = require('../actions/ToWatchActions')
 var ToWatchConstants = require('../constants/toWatchConstants')
+
+/******************************************************************************/
 
 var WatchListItem = React.createClass({
 
@@ -27,6 +31,7 @@ var WatchListItem = React.createClass({
 
     if(this.props.displayDetails) {
       document.getElementById(this.props.toWatch.idDatastore + "").scrollIntoView()
+      window.scrollBy(0, -70)
     }
   },
 
@@ -55,7 +60,7 @@ var WatchListItem = React.createClass({
     }
 
     // Style classes for action buttons
-    var actionBtnClasses = "btn btn-default btn-lg btn-dark-trans"
+    var actionBtnClasses = "btn btn-primary btn-lg btn-dark-trans"
 
     return (
       <div id={toWatch.idDatastore} className={watchItemClasses} style={watchItemStyles}>
@@ -96,7 +101,11 @@ var WatchListItem = React.createClass({
           <div className={this.props.displayDetails ? "col-xs-9 col-sm-4" : "col-xs-12"}>
             <div onClick={this._onToggleDisplayDetails} style={{width: '100%'}}>
               <img
-                src={ToWatchConstants.TMDB_API_IMGBASE_SM + toWatch.posterPath}
+                src={
+                  this.props.displayDetails ?
+                      ToWatchConstants.TMDB_API_IMGBASE_MD + toWatch.posterPath :
+                      ToWatchConstants.TMDB_API_IMGBASE_SM + toWatch.posterPath
+                }
                 alt=""
                 width="100%"/>
             </div>
@@ -151,7 +160,7 @@ var WatchListItem = React.createClass({
     // Styles for directors and genres labels
     var styleLabel = {
       display: 'inline-block',
-      marginBottom: '5px',
+      marginBottom: '10px',
       marginRight: '5px'
     }
 
@@ -186,6 +195,9 @@ var WatchListItem = React.createClass({
       </p>
     )
 
+    // Formatted release date
+    var releaseDate = moment(toWatch.releaseDate).format('YYYY, MMMM Do')
+
     // Joining details in a single node
     return (
       <div className="row">
@@ -198,7 +210,7 @@ var WatchListItem = React.createClass({
             </b><br/><br/>
             <span>
               <span className="glyphicon glyphicon-calendar"></span>
-              <span>&nbsp;&nbsp;{toWatch.releaseDate}</span>
+              <span>&nbsp;&nbsp;{releaseDate}</span>
             </span><br/>
             <span>
               <span className="glyphicon glyphicon-star" style={{color: '#e67e22'}}></span>
@@ -229,7 +241,7 @@ var WatchListItem = React.createClass({
     return (
       <div className="modal fade" id={idTrailerModal} tabIndex="-1" role="dialog">
         <div className="modal-dialog modal-responsive" role="document">
-          <div className="modal-content modal-dark">
+          <div className="modal-content">
             <div className="modal-header">
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true" style={{color: 'white'}}>&times;</span>

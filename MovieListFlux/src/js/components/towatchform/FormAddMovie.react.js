@@ -3,6 +3,8 @@ var React = require('react')
 
 var ToWatchActions = require('../../actions/ToWatchActions')
 
+/******************************************************************************/
+
 var FormAddMovie = React.createClass({
 
   getInitialState: function () {
@@ -21,7 +23,7 @@ var FormAddMovie = React.createClass({
           <button type="button" className="close" data-dismiss="modal">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 className="modal-title">Add a movie to the list</h4>
+          <h4 className="modal-title">Add movie to list</h4>
         </div>
 
         <div className="modal-body">
@@ -31,11 +33,11 @@ var FormAddMovie = React.createClass({
         <div className="modal-footer">
 
           <button
-            className="btn btn-default"
+            className="btn btn-primary btn-sm"
             onClick={this.cancel}
             type="button">Cancel</button>
           <button
-            className="btn btn-default"
+            className="btn btn-primary btn-sm"
             onClick={this.save}>
             <span>Save</span>
           </button>
@@ -46,25 +48,34 @@ var FormAddMovie = React.createClass({
 
   constructsFormFields: function() {
 
-    // Genres labels
-    var genresJSX = []
-    var genres = this.state.movie.genres
-    for(var i=0; i<genres.length; i++) {
-      genresJSX.push(
-        <h4 key={i}>
-          <span className="label label-default no-margin">{genres[i]}</span>
-        </h4>
+    // Styles for directors and genres labels
+    var styleLabel = {
+      display: 'inline-block',
+      marginBottom: '10px',
+      marginRight: '5px'
+    }
+
+    // Directors JSX
+    var dirs = this.state.movie.directors
+    var directorsJSX = []
+    for (var i=0; i<dirs.length; i++) {
+      directorsJSX.push(
+        <span key={i} style={styleLabel}>
+          <span className="label label-primary">{dirs[i]}</span>
+          <span>&nbsp;</span>
+        </span>
       )
     }
 
-    // Directors labels
-    var directorsJSX = []
-    var directors = this.state.movie.directors
-    for(var i=0; i<directors.length; i++) {
-      directorsJSX.push(
-        <h4 key={i}>
-          <span className="label label-primary no-margin">{directors[i]}</span>
-        </h4>
+    // Genres JSX
+    var genres = this.state.movie.genres
+    var genresJSX = []
+    for (var i=0; i<genres.length; i++) {
+      genresJSX.push(
+        <span key={i} style={styleLabel}>
+          <span className="label label-default">{genres[i]}</span>
+          <span>&nbsp;</span>
+        </span>
       )
     }
 
@@ -82,7 +93,7 @@ var FormAddMovie = React.createClass({
               </span>
               &nbsp;&nbsp;&nbsp;
               <button
-                className="btn btn-default btn-sm"
+                className="btn btn-danger btn-sm"
                 onClick={this.searchYoutubeTrailer}
                 type="button">
                 <span className="glyphicon glyphicon-facetime-video"></span>
@@ -100,7 +111,7 @@ var FormAddMovie = React.createClass({
             <label htmlFor="">Movie's trailer</label><br/>
             <div>
               <button
-                className="btn btn-default"
+                className="btn btn-danger btn-sm"
                 onClick={this.searchYoutubeTrailer}
                 type="button">
                 <span className="glyphicon glyphicon-facetime-video"></span>
@@ -116,30 +127,28 @@ var FormAddMovie = React.createClass({
       <div>
         <div className="row">
           <div className="col-sm-12">
-            <label htmlFor="inp-title">Movie's title</label>
+            <label>Movie's title</label>
             <p className="lead">
-              <mark>
-                {this.state.movie.title}
-              </mark>
+              {this.state.movie.title}
             </p>
           </div>
         </div>
 
         <div className="row">
           <div className="col-xs-6 col-sm-6 hidden-overflow"><br/>
-            <label htmlFor="inp-director">Movie's directors</label><br/>
+            <label>Movie's directors</label><br/>
             {directorsJSX}
           </div>
 
           <div className="col-xs-6 col-sm-6 hidden-overflow"><br/>
-            <label htmlFor="inp-genre">Movie's genres</label><br/>
+            <label>Movie's genres</label><br/>
             {genresJSX}
           </div>
         </div>
 
         <div className="row">
           <div className="col-sm-12"><br/>
-            <label htmlFor="inp-synopsis">Movie's Synopsis</label>
+            <label>Movie's Synopsis</label>
             <p>
               {this.state.movie.synopsis}
             </p>

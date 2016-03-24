@@ -1,14 +1,16 @@
 
 var React = require('react')
+
 var WatchListItem = require('./WatchListItem.react')
 
+/******************************************************************************/
 
 var WatchList = React.createClass({
 
   getInitialState() {
     return {
       allToWatches: this.props.toWatches,
-      idDisplayedItem: ''                // The id data store of item which display details
+      idDisplayedItem: '' // The id data store of item which display details
     }
   },
 
@@ -17,7 +19,6 @@ var WatchList = React.createClass({
     var allToWatches = this.state.allToWatches
     var toWatchesJSX = []
 
-    //
     // Construct the JSX for each 'to watch' item
     for(var i=0; i< allToWatches.length; i++) {
       if (allToWatches[i].isActive && !allToWatches[i].isWatched) {

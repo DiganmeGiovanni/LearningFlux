@@ -1,6 +1,8 @@
 
 var React = require('react')
 
+/******************************************************************************/
+
 var TrailerViewer = React.createClass({
 
   getInitialState() {
@@ -28,7 +30,7 @@ var TrailerViewer = React.createClass({
           <button type="button" className="close" data-dismiss="modal">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 className="modal-title">Trailer for movie: {this.props.movieTitle}</h4>
+          <h4 className="modal-title">{this.props.movieTitle}</h4>
         </div>
 
         <div className="modal-body">
@@ -36,11 +38,11 @@ var TrailerViewer = React.createClass({
         </div>
 
         <div className="modal-footer">
-          <button className="btn btn-default" onClick={this.backToList}>
+          <button className="btn btn-primary btn-sm" onClick={this.backToList}>
             <span className="glyphicon glyphicon-chevron-left"></span>
             <span>&nbsp;&nbsp;Back to list</span>
           </button>
-          <button className="btn btn-default" onClick={this.chooseTrailer}>
+          <button className="btn btn-primary btn-sm" onClick={this.chooseTrailer}>
             <span className="glyphicon glyphicon-check"></span>
             <span>&nbsp;&nbsp;Choose trailer</span>
           </button>

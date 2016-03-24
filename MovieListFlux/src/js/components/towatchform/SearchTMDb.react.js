@@ -1,8 +1,11 @@
 
 var React = require('react')
 var moment = require('moment')
+
 var tmdbService = require('../../services/tmdbService')
 var ToWatchConstants = require('../../constants/toWatchConstants')
+
+/******************************************************************************/
 
 var SearchTMDb = React.createClass({
 
@@ -24,14 +27,14 @@ var SearchTMDb = React.createClass({
       var result = searchResults[i]
       var imageSrc = "./src/img/movie-icon.jpg"
       if (result.posterPath && result.posterPath.length > 0) {
-        imageSrc = ToWatchConstants.TMDB_API_IMGBASE_MD + result.posterPath
+        imageSrc = ToWatchConstants.TMDB_API_IMGBASE_SM + result.posterPath
       }
       var releaseDate = moment(result.releaseDate).format('YYYY, MMMM Do')
 
       resultsJSX.push(
         <div key={result.tmdbId} className="row">
           <div className="col-xs-12">
-            <div className="movie-search-result-card">
+            <div className="card-result">
               <div className="row">
                 <div className="col-xs-4 col-sm-3">
                   <img
@@ -47,7 +50,7 @@ var SearchTMDb = React.createClass({
                       <span>&nbsp;&nbsp;{releaseDate}</span>
                     </span><br/>
                     <span>
-                      <span className="glyphicon glyphicon-star"></span>
+                      <span className="glyphicon glyphicon-star" style={{color: '#e67e22'}}></span>
                       <span>&nbsp;&nbsp;{result.voteAverage}</span>
                     </span>
                   </p>
@@ -56,9 +59,9 @@ var SearchTMDb = React.createClass({
                       {result.synopsis}
                   </p>
 
-                  <div className="text-right movie-search-result-card-buttons">
+                  <div className="text-right card-result-bottom-buttons">
                     <button
-                        className="btn btn-default"
+                        className="btn btn-default btn-sm"
                         onClick={this.chooseMovie.bind(null, i)}>
                       Add this one
                     </button>
@@ -78,7 +81,13 @@ var SearchTMDb = React.createClass({
     var resultsJSX = this.constructsResultsList()
     var resultsViewerStyle = {
       maxHeight: '400px',
+      paddingTop: '20px',
       overflow: 'auto'
+    }
+
+    var searchBoxStyle = {
+      paddingBottom: '20px',
+      borderBottom: '2px solid #AAA'
     }
 
     return (
@@ -87,12 +96,12 @@ var SearchTMDb = React.createClass({
           <button type="button" className="close" data-dismiss="modal">
             <span aria-hidden="true">&times;</span>
           </button>
-          <h4 className="modal-title">Search your movie by title</h4>
+          <h4 className="modal-title">Add movie</h4>
         </div>
 
         <div className="modal-body">
           <div className="row">
-            <div className="col-xs-12">
+            <div className="col-xs-12" style={searchBoxStyle}>
               <label htmlFor="">Movie's title</label>
               <input
                 id="inp-movie-title"
@@ -100,8 +109,6 @@ var SearchTMDb = React.createClass({
                 onKeyUp={this.searchMovies}
                 placeholder="Type to search your movie"
                 type="text" />
-
-              <hr />
             </div>
           </div>
 

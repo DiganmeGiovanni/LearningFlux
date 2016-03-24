@@ -1,21 +1,8 @@
 
 body {
-  /*background: #22313F;*/
   background: #00141b;
   color: #DDD;
   font-family: 'Open Sans';
-}
-
-.background-even {
-  background: #FEFEFE;
-}
-
-.background-not-even {
-  background: #FFF;
-}
-
-.btn:focus {
-  outline: none !important;
 }
 
 .btn-dark-trans {
@@ -31,14 +18,34 @@ body {
   color: #EEE;
 }
 
-.btn-dark-blue {
-  background: #00AFF0;
-  border: 1px solid #21759b;
-  color: #22313F;
+.btn-topbar {
+  background: transparent;
+  border: none;
+  color: #EEE;
 }
 
-.bordered {
-  border: 1px solid #FFF;
+.btn-topbar:hover {
+  background: transparent;
+  color: #FFF;
+}
+
+.btn-fab-blue {
+  background: #337ab7;
+  border-color: #2e6da4;
+  /*background: #f94877;
+  border-color: #f94877;*/
+  border-radius: 50%;
+  bottom: 20px;
+  box-shadow: 0px 0px 5px #333;
+  color: #EEE;
+  height: 45px;
+  max-height: 45px;
+  min-height: 45px;
+  padding: 10px 2%;
+  position: fixed;
+  right: 20px;
+  width: 45px;
+  z-index: 2;
 }
 
 .card-towatch-item {
@@ -51,16 +58,131 @@ body {
   width: 100%;
 }
 
-.hidden-overflow {
-  overflow: hidden;
+.card-result {
+  background: #FFF;
+  box-shadow: 0px 0px 5px #888;
+  margin-bottom: 10px;
+  margin-top: 10px;
+  padding-right: 5px;
 }
 
-.modal-dark {
-  /*background: #22313F;*/
+.card-result-bottom-buttons {
+  position: absolute;
+  bottom: 0px;
+  padding: 17px 17px 8px;
+  right: 0px
+}
 
-  background: #22313F;
-  box-shadow: 0px 0px 15px #000;
-  /*background: #00141b;*/
+.movie-search-result-card-content {
+  max-height: 135px;
+  min-height: 135px;
+}
+
+.movie-search-result-card-image {
+  padding-right: 5px;
+  width: 100px;
+}
+
+.modal-dialog > .modal-content {
+  border: none;
+  border-radius: 0px;
+}
+
+.modal-dialog > .modal-content > .modal-body {
+  background: #F2F1EF;
+  color: #111;
+}
+
+.modal-dialog > .modal-content > .modal-footer {
+  background: #F2F1EF;
+  color: #111;
+}
+
+.modal-dialog > .modal-content > .modal-header {
+  background: #317589;
+  border-bottom: none;
+  color: #F2F1EF;
+}
+
+.modal-dialog > .modal-content > .modal-header .close {
+  color: #FFF;
+}
+
+.top-bar {
+  /*background: rgba(255, 255, 255, 0.95);*/
+  /*background: #111;*/
+  background: #2980b9;
+  /*background: #f94877;*/
+  border-bottom: 2px solid #000;
+  color: #DDD;
+  height: 55px;
+  left: 0;
+  max-height: 55px;
+  min-height: 55px;
+  padding: 10px 2%;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 2;
+}
+
+.trailer-chooser-result-image {
+  margin-right: 10px;
+}
+
+
+
+/******************************************************************************/
+/******************************************************************************/
+
+
+
+.background-even {
+  background: #FEFEFE;
+}
+
+.background-not-even {
+  background: #FFF;
+}
+
+.btn:focus {
+  outline: none !important;
+}
+
+.btn-dark-black {
+  background: #34465D;
+  border-color: #2980b9;
+  border-radius: 5px;
+  /*border-color: #f94877;*/
+  color: #DDD;
+}
+
+.btn-dark-black:hover {
+  background: #34465D;
+  border: 1px solid #2980b9;
+  color: #FFF;
+}
+
+.btn-dark-black:active {
+  background: #000;
+}
+
+
+
+.btn-dark-blue {
+  background: #00AFF0;
+  border: 1px solid #21759b;
+  color: #22313F;
+}
+
+.bordered {
+  border: 1px solid #FFF;
+}
+
+
+
+.hidden-overflow {
+  overflow: hidden;
 }
 
 .no-margin {
@@ -81,54 +203,14 @@ body {
   padding-top: 0px;
 }
 
-.movie-search-result-card {
-  box-shadow: 0px 0px 3px #AAA;
-  margin-bottom: 10px;
-  margin-top: 10px;
-  padding-right: 5px;
-}
 
-.movie-search-result-card-buttons {
-  position: absolute;
-  bottom: 0px;
-  padding: 17px 17px 0px;
-  right: 0px
-}
-
-.movie-search-result-card-content {
-  max-height: 135px;
-  min-height: 135px;
-}
-
-.movie-search-result-card-image {
-  padding-right: 5px;
-  width: 100px;
-}
-
-.top-bar {
-  background: rgba(255, 255, 255, 0.95);
-  border-bottom: 1px solid #EEE;
-  color: #555;
-  height: 60px;
-  left: 0;
-  max-height: 60px;
-  min-height: 60px;
-  padding: 10px 2%;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 2;
-}
-
-.trailer-chooser-result-image {
-  margin-right: 10px;
-}
 
 /*****************************************************************************/
 
 /** Ultra small device start point */
 @media (min-width: 375px) {
-  .movie-search-result-card-buttons {
+  .card-result-bottom-buttons {
+    bottom: 0px;
     padding: 17px 17px 8px;
   }
 
@@ -171,8 +253,8 @@ body {
 /*****************************************************************************/
 
 /** Extra small devices */
-@media (max-width: 757px) {
-  .modal-responsive {
+@media (max-width: 767px) {
+  .modal-dialog {
     margin: 0px;
   }
 }

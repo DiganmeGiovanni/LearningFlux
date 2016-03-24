@@ -4,13 +4,11 @@
  * changes in the ToWatchStore and passes the new data to its children
  */
 
-var React = require('react')
+var React     = require('react')
 var WatchList = require('./WatchList.react')
 
-// React components
-var Toolbar     = require('./Toolbar.react')
-var Welcome     = require('./Welcome.react')
-
+var Toolbar      = require('./Toolbar.react')
+var Welcome      = require('./Welcome.react')
 var ToWatchStore = require('../stores/ToWatchStore')
 var LoginStore   = require('../stores/LoginStore')
 
@@ -48,7 +46,7 @@ var ToWatchApp = React.createClass({
     if(this.state.isUserLogged) {
       return (
         <div className="container">
-          {/*<Toolbar />*/}
+          <Toolbar />
 
           <div style={{marginTop: '100px'}}>
             <WatchList

@@ -5,5 +5,5 @@ var ToWatchApp = require('./components/ToWatchApp.react')
 
 ReactDOM.render(
   <ToWatchApp/>,
-  document.getElementById('towatch-app')
+  document.getElementById('to-watch-app')
 )
