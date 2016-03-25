@@ -48,7 +48,7 @@ var ToWatchApp = React.createClass({
         <div className="container">
           <Toolbar />
 
-          <div style={{marginTop: '100px'}}>
+          <div style={{marginTop: '60px'}}>
             <WatchList
               toWatches={this.state.allToWatchs}
               areAllWatched={this.state.areAllWatched}

@@ -82400,7 +82400,7 @@ var React = require('react');
 var ReactDOM = require('react-dom');
 var ToWatchApp = require('./components/ToWatchApp.react');
 
-ReactDOM.render(React.createElement(ToWatchApp, null), document.getElementById('towatch-app'));
+ReactDOM.render(React.createElement(ToWatchApp, null), document.getElementById('to-watch-app'));
 
 },{"./components/ToWatchApp.react":446,"react":368,"react-dom":212}],446:[function(require,module,exports){
 
@@ -82412,10 +82412,8 @@ ReactDOM.render(React.createElement(ToWatchApp, null), document.getElementById('
 var React = require('react');
 var WatchList = require('./WatchList.react');
 
-// React components
 var Toolbar = require('./Toolbar.react');
 var Welcome = require('./Welcome.react');
-
 var ToWatchStore = require('../stores/ToWatchStore');
 var LoginStore = require('../stores/LoginStore');
 
@@ -82456,9 +82454,10 @@ var ToWatchApp = React.createClass({
       return React.createElement(
         'div',
         { className: 'container' },
+        React.createElement(Toolbar, null),
         React.createElement(
           'div',
-          { style: { marginTop: '100px' } },
+          { style: { marginTop: '60px' } },
           React.createElement(WatchList, {
             toWatches: this.state.allToWatchs,
             areAllWatched: this.state.areAllWatched
@@ -82477,6 +82476,7 @@ module.exports = ToWatchApp;
 },{"../stores/LoginStore":461,"../stores/ToWatchStore":462,"./Toolbar.react":447,"./WatchList.react":448,"./Welcome.react":450,"react":368}],447:[function(require,module,exports){
 
 var React = require('react');
+
 var ToWatchActions = require('../actions/ToWatchActions');
 var LoginActions = require('../actions/LoginActions');
 var ToWatchForm = require('./towatchform/ToWatchForm.react');
@@ -82497,11 +82497,15 @@ var Toolbar = React.createClass({
         React.createElement(
           'div',
           { className: 'col-sm-4 hidden-xs' },
-          React.createElement('h1', { className: 'glyphicon glyphicon-film', style: { margin: '0px' } })
+          React.createElement(
+            'h1',
+            { style: { margin: '0px' } },
+            'WATCHLIST'
+          )
         ),
         React.createElement(
           'div',
-          { className: 'col-xs-12 col-sm-8' },
+          { className: 'col-xs-12 col-sm-8', style: { paddingRight: '0px', paddingTop: '4px' } },
           React.createElement(
             'div',
             { className: 'btn-toolbar pull-right' },
@@ -82511,30 +82515,26 @@ var Toolbar = React.createClass({
               React.createElement(
                 'button',
                 {
-                  className: 'btn btn-default',
+                  className: 'btn btn-primary btn-topbar hidden-xs',
                   'data-target': '#towatch-form-modal',
                   'data-toggle': 'modal',
                   type: 'button' },
                 React.createElement(
                   'span',
                   null,
+                  React.createElement('span', { className: 'glyphicon glyphicon-film' }),
                   React.createElement(
                     'span',
-                    { className: 'hidden-xss' },
-                    React.createElement('span', { className: 'glyphicon glyphicon-film' }),
+                    null,
                     React.createElement(
                       'span',
-                      null,
-                      React.createElement(
-                        'span',
-                        { className: 'hidden-xs' },
-                        '  Add movie'
-                      ),
-                      React.createElement(
-                        'span',
-                        { className: 'visible-xs-inline' },
-                        '  Add'
-                      )
+                      { className: 'hidden-xs' },
+                      '  Add movie'
+                    ),
+                    React.createElement(
+                      'span',
+                      { className: 'visible-xs-inline' },
+                      '  Add'
                     )
                   )
                 )
@@ -82545,22 +82545,36 @@ var Toolbar = React.createClass({
               { className: 'btn-group' },
               React.createElement(
                 'button',
-                { className: 'btn btn-default' },
+                { className: 'btn btn-primary btn-topbar' },
                 React.createElement('span', { className: 'glyphicon glyphicon-share' }),
                 React.createElement(
                   'span',
                   null,
                   '  Share list'
                 )
+              )
+            ),
+            React.createElement(
+              'div',
+              { className: 'btn-group' },
+              React.createElement(
+                'button',
+                { className: 'btn btn-primary btn-topbar' },
+                React.createElement('span', { className: 'glyphicon glyphicon-trash' })
               ),
               React.createElement(
                 'button',
-                { className: 'btn btn-default dropdown-toggle', 'data-toggle': 'dropdown' },
-                React.createElement('span', { className: 'glyphicon glyphicon-option-horizontal' })
+                { className: 'btn btn-primary btn-topbar' },
+                React.createElement('span', { className: 'glyphicon glyphicon-off' })
+              ),
+              React.createElement(
+                'button',
+                { className: 'btn btn-primary btn-topbar dropdown-toggle', 'data-toggle': 'dropdown' },
+                React.createElement('span', { className: 'glyphicon glyphicon-option-vertical' })
               ),
               React.createElement(
                 'ul',
-                { className: 'dropdown-menu' },
+                { className: 'dropdown-menu dropdown-menu-right' },
                 React.createElement(
                   'li',
                   null,
@@ -82590,23 +82604,18 @@ var Toolbar = React.createClass({
                   )
                 )
               )
-            ),
-            React.createElement(
-              'div',
-              { className: 'btn-group' },
-              React.createElement(
-                'button',
-                { className: 'btn btn-default' },
-                React.createElement('span', { className: 'glyphicon glyphicon-trash' })
-              ),
-              React.createElement(
-                'button',
-                { className: 'btn btn-default' },
-                React.createElement('span', { className: 'glyphicon glyphicon-off' })
-              )
             )
           )
         )
+      ),
+      React.createElement(
+        'button',
+        {
+          className: 'btn btn-primary btn-fab-blue visible-xs-block',
+          'data-target': '#towatch-form-modal',
+          'data-toggle': 'modal',
+          type: 'button' },
+        React.createElement('span', { className: 'glyphicon glyphicon-plus' })
       ),
       React.createElement(ToWatchForm, null)
     );
@@ -82630,7 +82639,10 @@ module.exports = Toolbar;
 },{"../actions/LoginActions":443,"../actions/ToWatchActions":444,"./towatchform/ToWatchForm.react":453,"react":368}],448:[function(require,module,exports){
 
 var React = require('react');
+
 var WatchListItem = require('./WatchListItem.react');
+
+/******************************************************************************/
 
 var WatchList = React.createClass({
   displayName: 'WatchList',
@@ -82648,7 +82660,6 @@ var WatchList = React.createClass({
     var allToWatches = this.state.allToWatches;
     var toWatchesJSX = [];
 
-    //
     // Construct the JSX for each 'to watch' item
     for (var i = 0; i < allToWatches.length; i++) {
       if (allToWatches[i].isActive && !allToWatches[i].isWatched) {
@@ -82669,6 +82680,16 @@ var WatchList = React.createClass({
     return React.createElement(
       'div',
       { className: 'row' },
+      React.createElement(
+        'div',
+        { className: 'col-xs-12' },
+        React.createElement(
+          'h3',
+          null,
+          'Personal list'
+        ),
+        React.createElement('hr', null)
+      ),
       toWatchesJSX
     );
   },
@@ -82686,8 +82707,12 @@ module.exports = WatchList;
 },{"./WatchListItem.react":449,"react":368}],449:[function(require,module,exports){
 
 var React = require('react');
+var moment = require('moment');
+
 var ToWatchActions = require('../actions/ToWatchActions');
 var ToWatchConstants = require('../constants/toWatchConstants');
+
+/******************************************************************************/
 
 var WatchListItem = React.createClass({
   displayName: 'WatchListItem',
@@ -82715,6 +82740,7 @@ var WatchListItem = React.createClass({
 
     if (this.props.displayDetails) {
       document.getElementById(this.props.toWatch.idDatastore + "").scrollIntoView();
+      window.scrollBy(0, -70);
     }
   },
 
@@ -82742,7 +82768,7 @@ var WatchListItem = React.createClass({
     };
 
     // Style classes for action buttons
-    var actionBtnClasses = "btn btn-default btn-lg btn-dark-trans";
+    var actionBtnClasses = "btn btn-primary btn-lg btn-dark-trans";
 
     return React.createElement(
       'div',
@@ -82802,7 +82828,7 @@ var WatchListItem = React.createClass({
             'div',
             { onClick: this._onToggleDisplayDetails, style: { width: '100%' } },
             React.createElement('img', {
-              src: ToWatchConstants.TMDB_API_IMGBASE_SM + toWatch.posterPath,
+              src: this.props.displayDetails ? ToWatchConstants.TMDB_API_IMGBASE_MD + toWatch.posterPath : ToWatchConstants.TMDB_API_IMGBASE_SM + toWatch.posterPath,
               alt: '',
               width: '100%' })
           )
@@ -82868,7 +82894,7 @@ var WatchListItem = React.createClass({
     // Styles for directors and genres labels
     var styleLabel = {
       display: 'inline-block',
-      marginBottom: '5px',
+      marginBottom: '10px',
       marginRight: '5px'
     };
 
@@ -82919,6 +82945,9 @@ var WatchListItem = React.createClass({
       toWatch.synopsis
     );
 
+    // Formatted release date
+    var releaseDate = moment(toWatch.releaseDate).format('YYYY, MMMM Do');
+
     // Joining details in a single node
     return React.createElement(
       'div',
@@ -82951,7 +82980,7 @@ var WatchListItem = React.createClass({
               'span',
               null,
               '  ',
-              toWatch.releaseDate
+              releaseDate
             )
           ),
           React.createElement('br', null),
@@ -83017,7 +83046,7 @@ var WatchListItem = React.createClass({
         { className: 'modal-dialog modal-responsive', role: 'document' },
         React.createElement(
           'div',
-          { className: 'modal-content modal-dark' },
+          { className: 'modal-content' },
           React.createElement(
             'div',
             { className: 'modal-header' },
@@ -83083,7 +83112,7 @@ var WatchListItem = React.createClass({
 
 module.exports = WatchListItem;
 
-},{"../actions/ToWatchActions":444,"../constants/toWatchConstants":456,"react":368}],450:[function(require,module,exports){
+},{"../actions/ToWatchActions":444,"../constants/toWatchConstants":456,"moment":172,"react":368}],450:[function(require,module,exports){
 
 var React = require('react');
 var LoginActions = require('../actions/LoginActions');
@@ -83144,6 +83173,8 @@ var React = require('react');
 
 var ToWatchActions = require('../../actions/ToWatchActions');
 
+/******************************************************************************/
+
 var FormAddMovie = React.createClass({
   displayName: 'FormAddMovie',
 
@@ -83176,7 +83207,7 @@ var FormAddMovie = React.createClass({
         React.createElement(
           'h4',
           { className: 'modal-title' },
-          'Add a movie to the list'
+          'Add movie to list'
         )
       ),
       React.createElement(
@@ -83190,7 +83221,7 @@ var FormAddMovie = React.createClass({
         React.createElement(
           'button',
           {
-            className: 'btn btn-default',
+            className: 'btn btn-primary btn-sm',
             onClick: this.cancel,
             type: 'button' },
           'Cancel'
@@ -83198,7 +83229,7 @@ var FormAddMovie = React.createClass({
         React.createElement(
           'button',
           {
-            className: 'btn btn-default',
+            className: 'btn btn-primary btn-sm',
             onClick: this.save },
           React.createElement(
             'span',
@@ -83212,32 +83243,49 @@ var FormAddMovie = React.createClass({
 
   constructsFormFields: function () {
 
-    // Genres labels
-    var genresJSX = [];
-    var genres = this.state.movie.genres;
-    for (var i = 0; i < genres.length; i++) {
-      genresJSX.push(React.createElement(
-        'h4',
-        { key: i },
+    // Styles for directors and genres labels
+    var styleLabel = {
+      display: 'inline-block',
+      marginBottom: '10px',
+      marginRight: '5px'
+    };
+
+    // Directors JSX
+    var dirs = this.state.movie.directors;
+    var directorsJSX = [];
+    for (var i = 0; i < dirs.length; i++) {
+      directorsJSX.push(React.createElement(
+        'span',
+        { key: i, style: styleLabel },
         React.createElement(
           'span',
-          { className: 'label label-default no-margin' },
-          genres[i]
+          { className: 'label label-primary' },
+          dirs[i]
+        ),
+        React.createElement(
+          'span',
+          null,
+          ' '
         )
       ));
     }
 
-    // Directors labels
-    var directorsJSX = [];
-    var directors = this.state.movie.directors;
-    for (var i = 0; i < directors.length; i++) {
-      directorsJSX.push(React.createElement(
-        'h4',
-        { key: i },
+    // Genres JSX
+    var genres = this.state.movie.genres;
+    var genresJSX = [];
+    for (var i = 0; i < genres.length; i++) {
+      genresJSX.push(React.createElement(
+        'span',
+        { key: i, style: styleLabel },
         React.createElement(
           'span',
-          { className: 'label label-primary no-margin' },
-          directors[i]
+          { className: 'label label-default' },
+          genres[i]
+        ),
+        React.createElement(
+          'span',
+          null,
+          ' '
         )
       ));
     }
@@ -83275,7 +83323,7 @@ var FormAddMovie = React.createClass({
             React.createElement(
               'button',
               {
-                className: 'btn btn-default btn-sm',
+                className: 'btn btn-danger btn-sm',
                 onClick: this.searchYoutubeTrailer,
                 type: 'button' },
               React.createElement('span', { className: 'glyphicon glyphicon-facetime-video' }),
@@ -83308,7 +83356,7 @@ var FormAddMovie = React.createClass({
             React.createElement(
               'button',
               {
-                className: 'btn btn-default',
+                className: 'btn btn-danger btn-sm',
                 onClick: this.searchYoutubeTrailer,
                 type: 'button' },
               React.createElement('span', { className: 'glyphicon glyphicon-facetime-video' }),
@@ -83334,17 +83382,13 @@ var FormAddMovie = React.createClass({
           { className: 'col-sm-12' },
           React.createElement(
             'label',
-            { htmlFor: 'inp-title' },
+            null,
             'Movie\'s title'
           ),
           React.createElement(
             'p',
             { className: 'lead' },
-            React.createElement(
-              'mark',
-              null,
-              this.state.movie.title
-            )
+            this.state.movie.title
           )
         )
       ),
@@ -83357,7 +83401,7 @@ var FormAddMovie = React.createClass({
           React.createElement('br', null),
           React.createElement(
             'label',
-            { htmlFor: 'inp-director' },
+            null,
             'Movie\'s directors'
           ),
           React.createElement('br', null),
@@ -83369,7 +83413,7 @@ var FormAddMovie = React.createClass({
           React.createElement('br', null),
           React.createElement(
             'label',
-            { htmlFor: 'inp-genre' },
+            null,
             'Movie\'s genres'
           ),
           React.createElement('br', null),
@@ -83385,7 +83429,7 @@ var FormAddMovie = React.createClass({
           React.createElement('br', null),
           React.createElement(
             'label',
-            { htmlFor: 'inp-synopsis' },
+            null,
             'Movie\'s Synopsis'
           ),
           React.createElement(
@@ -83432,8 +83476,11 @@ module.exports = FormAddMovie;
 
 var React = require('react');
 var moment = require('moment');
+
 var tmdbService = require('../../services/tmdbService');
 var ToWatchConstants = require('../../constants/toWatchConstants');
+
+/******************************************************************************/
 
 var SearchTMDb = React.createClass({
   displayName: 'SearchTMDb',
@@ -83457,7 +83504,7 @@ var SearchTMDb = React.createClass({
       var result = searchResults[i];
       var imageSrc = "./src/img/movie-icon.jpg";
       if (result.posterPath && result.posterPath.length > 0) {
-        imageSrc = ToWatchConstants.TMDB_API_IMGBASE_MD + result.posterPath;
+        imageSrc = ToWatchConstants.TMDB_API_IMGBASE_SM + result.posterPath;
       }
       var releaseDate = moment(result.releaseDate).format('YYYY, MMMM Do');
 
@@ -83469,7 +83516,7 @@ var SearchTMDb = React.createClass({
           { className: 'col-xs-12' },
           React.createElement(
             'div',
-            { className: 'movie-search-result-card' },
+            { className: 'card-result' },
             React.createElement(
               'div',
               { className: 'row' },
@@ -83507,7 +83554,7 @@ var SearchTMDb = React.createClass({
                   React.createElement(
                     'span',
                     null,
-                    React.createElement('span', { className: 'glyphicon glyphicon-star' }),
+                    React.createElement('span', { className: 'glyphicon glyphicon-star', style: { color: '#e67e22' } }),
                     React.createElement(
                       'span',
                       null,
@@ -83523,13 +83570,18 @@ var SearchTMDb = React.createClass({
                 ),
                 React.createElement(
                   'div',
-                  { className: 'text-right movie-search-result-card-buttons' },
+                  { className: 'text-right card-result-bottom-buttons' },
                   React.createElement(
                     'button',
                     {
-                      className: 'btn btn-default',
+                      className: 'btn btn-default btn-sm',
                       onClick: this.chooseMovie.bind(null, i) },
-                    'Add this one'
+                    React.createElement('span', { className: 'glyphicon glyphicon-film' }),
+                    React.createElement(
+                      'span',
+                      null,
+                      '  Add movie'
+                    )
                   )
                 )
               )
@@ -83546,7 +83598,13 @@ var SearchTMDb = React.createClass({
     var resultsJSX = this.constructsResultsList();
     var resultsViewerStyle = {
       maxHeight: '400px',
+      paddingTop: '20px',
       overflow: 'auto'
+    };
+
+    var searchBoxStyle = {
+      paddingBottom: '20px',
+      borderBottom: '2px solid #AAA'
     };
 
     return React.createElement(
@@ -83567,7 +83625,7 @@ var SearchTMDb = React.createClass({
         React.createElement(
           'h4',
           { className: 'modal-title' },
-          'Search your movie by title'
+          'Add movie'
         )
       ),
       React.createElement(
@@ -83578,7 +83636,7 @@ var SearchTMDb = React.createClass({
           { className: 'row' },
           React.createElement(
             'div',
-            { className: 'col-xs-12' },
+            { className: 'col-xs-12', style: searchBoxStyle },
             React.createElement(
               'label',
               { htmlFor: '' },
@@ -83589,8 +83647,7 @@ var SearchTMDb = React.createClass({
               className: 'form-control',
               onKeyUp: this.searchMovies,
               placeholder: 'Type to search your movie',
-              type: 'text' }),
-            React.createElement('hr', null)
+              type: 'text' })
           )
         ),
         React.createElement(
@@ -83680,6 +83737,8 @@ var TrailerChooser = require('./TrailerChooser.react');
 var TrailerViewer = require('./TrailerViewer.react');
 var SearchTMDb = require('./SearchTMDb.react');
 
+/******************************************************************************/
+
 var ToWatchForm = React.createClass({
   displayName: 'ToWatchForm',
 
@@ -83688,6 +83747,7 @@ var ToWatchForm = React.createClass({
     return {
       movie: {
         tmdbId: '',
+        idDatastore: '',
         title: '',
         synopsis: '',
         trailerId: '',
@@ -83697,6 +83757,7 @@ var ToWatchForm = React.createClass({
         genres: [],
         directors: []
       },
+
       displaying: 'movie-search'
     };
   },
@@ -83721,6 +83782,7 @@ var ToWatchForm = React.createClass({
       contentJSX = React.createElement(TrailerViewer, {
         videoId: this.state.movie.trailerId,
         chooseTrailer: this.chooseTrailer,
+        movieTitle: this.state.movie.title,
         showTrailersList: this.showTrailersList });
     }
 
@@ -83816,7 +83878,10 @@ module.exports = ToWatchForm;
 },{"../../actions/ToWatchActions":444,"./FormAddMovie.react":451,"./SearchTMDb.react":452,"./TrailerChooser.react":454,"./TrailerViewer.react":455,"react":368}],454:[function(require,module,exports){
 
 var React = require('react');
+
 var youtubeService = require('../../services/youtubeService');
+
+/******************************************************************************/
 
 var TrailerChooser = React.createClass({
   displayName: 'TrailerChooser',
@@ -83844,66 +83909,73 @@ var TrailerChooser = React.createClass({
         { key: trailer.videoId, className: 'row' },
         React.createElement(
           'div',
-          { className: 'col-xs-12 visible-xs-block' },
-          React.createElement(
-            'h5',
-            null,
-            trailer.videoTitle
-          )
-        ),
-        React.createElement(
-          'div',
           { className: 'col-xs-12' },
-          React.createElement('img', {
-            src: trailer.videoImgUrl,
-            alt: 'Youtube video image',
-            width: '196',
-            height: '110',
-            className: 'pull-left trailer-chooser-result-image' }),
-          React.createElement(
-            'h5',
-            { className: 'hidden-xs' },
-            trailer.videoTitle
-          ),
           React.createElement(
             'div',
-            { className: 'movie-search-result-card-buttons' },
+            { className: 'card-result' },
             React.createElement(
               'div',
-              { className: 'btn-group' },
+              { className: 'row' },
               React.createElement(
-                'button',
-                {
-                  className: 'btn btn-default',
-                  onClick: this.chooseTrailer.bind(null, trailer.videoId),
-                  type: 'button' },
-                React.createElement('span', { className: 'glyphicon glyphicon-check' }),
+                'div',
+                { className: 'col-xs-12 visible-xs-block' },
                 React.createElement(
-                  'span',
-                  { className: 'hidden-xs' },
-                  '  Choose'
+                  'h5',
+                  { style: { marginLeft: '15px' } },
+                  trailer.videoTitle
                 )
               ),
               React.createElement(
-                'button',
-                {
-                  className: 'btn btn-default',
-                  onClick: this.playTrailer.bind(null, trailer.videoId),
-                  type: 'button' },
-                React.createElement('span', { className: 'glyphicon glyphicon-play' }),
+                'div',
+                { className: 'col-xs-12' },
+                React.createElement('img', {
+                  src: trailer.videoImgUrl,
+                  alt: 'Youtube video image',
+                  width: '196',
+                  height: '140',
+                  className: 'pull-left trailer-chooser-result-image' }),
                 React.createElement(
-                  'span',
+                  'h5',
                   { className: 'hidden-xs' },
-                  '  Watch'
+                  trailer.videoTitle
+                ),
+                React.createElement(
+                  'div',
+                  { className: 'card-result-bottom-buttons' },
+                  React.createElement(
+                    'div',
+                    { className: 'btn-group' },
+                    React.createElement(
+                      'button',
+                      {
+                        className: 'btn btn-default btn-sm',
+                        onClick: this.chooseTrailer.bind(null, trailer.videoId),
+                        type: 'button' },
+                      React.createElement('span', { className: 'glyphicon glyphicon-check' }),
+                      React.createElement(
+                        'span',
+                        { className: 'hidden-xs' },
+                        '  Choose'
+                      )
+                    ),
+                    React.createElement(
+                      'button',
+                      {
+                        className: 'btn btn-default btn-sm',
+                        onClick: this.playTrailer.bind(null, trailer.videoId),
+                        type: 'button' },
+                      React.createElement('span', { className: 'glyphicon glyphicon-play' }),
+                      React.createElement(
+                        'span',
+                        { className: 'hidden-xs' },
+                        '  Watch'
+                      )
+                    )
+                  )
                 )
               )
             )
           )
-        ),
-        React.createElement(
-          'div',
-          { className: 'col-xs-12' },
-          React.createElement('hr', null)
         )
       ));
     }
@@ -83937,22 +84009,29 @@ var TrailerChooser = React.createClass({
         React.createElement(
           'h4',
           { className: 'modal-title' },
-          'Trailers for movie: ',
           this.props.movieTitle
         )
       ),
       React.createElement(
         'div',
-        { className: 'modal-body no-padding-vertical', style: styleChooser },
-        trailersJSX
+        { className: 'modal-body', style: styleChooser },
+        React.createElement(
+          'div',
+          { className: 'row' },
+          React.createElement(
+            'div',
+            { className: 'col-xs-12' },
+            trailersJSX
+          )
+        )
       ),
       React.createElement(
         'div',
-        { className: 'modal-footer' },
+        { className: 'modal-footer', style: { borderTop: '1px solid #333' } },
         React.createElement(
           'button',
           {
-            className: 'btn btn-default',
+            className: 'btn btn-danger',
             onClick: this.backToForm,
             type: 'button' },
           React.createElement(
@@ -84015,6 +84094,8 @@ module.exports = TrailerChooser;
 
 var React = require('react');
 
+/******************************************************************************/
+
 var TrailerViewer = React.createClass({
   displayName: 'TrailerViewer',
 
@@ -84054,7 +84135,6 @@ var TrailerViewer = React.createClass({
         React.createElement(
           'h4',
           { className: 'modal-title' },
-          'Trailer for movie: ',
           this.props.movieTitle
         )
       ),
@@ -84068,7 +84148,7 @@ var TrailerViewer = React.createClass({
         { className: 'modal-footer' },
         React.createElement(
           'button',
-          { className: 'btn btn-default', onClick: this.backToList },
+          { className: 'btn btn-primary btn-sm', onClick: this.backToList },
           React.createElement('span', { className: 'glyphicon glyphicon-chevron-left' }),
           React.createElement(
             'span',
@@ -84078,7 +84158,7 @@ var TrailerViewer = React.createClass({
         ),
         React.createElement(
           'button',
-          { className: 'btn btn-default', onClick: this.chooseTrailer },
+          { className: 'btn btn-primary btn-sm', onClick: this.chooseTrailer },
           React.createElement('span', { className: 'glyphicon glyphicon-check' }),
           React.createElement(
             'span',

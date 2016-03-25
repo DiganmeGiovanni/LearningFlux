@@ -40,6 +40,10 @@ var WatchList = React.createClass({
 
     return (
       <div className="row">
+        <div className="col-xs-12">
+          <h3>Personal list</h3>
+          <hr />
+        </div>
         {toWatchesJSX}
       </div>
     )
