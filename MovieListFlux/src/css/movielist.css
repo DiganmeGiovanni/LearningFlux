@@ -1,8 +1,14 @@
+/*@import url(https://fonts.googleapis.com/css?family=Lato:400,900);*/
+/*@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,800);*/
+/*@import url(https://fonts.googleapis.com/css?family=Roboto);*/
+/*@import url(https://fonts.googleapis.com/css?family=Roboto:300);*/
+@import url(https://fonts.googleapis.com/css?family=PT+Sans:400,700);
+
 
 body {
   background: #00141b;
   color: #DDD;
-  font-family: 'Open Sans';
+  font-family: 'PT Sans', 'Roboto', 'Lato', 'Open Sans';
 }
 
 .btn-dark-trans {
@@ -71,6 +77,10 @@ body {
   bottom: 0px;
   padding: 17px 17px 8px;
   right: 0px
+}
+
+.g-signin2-custom > div {
+  margin: auto;
 }
 
 .no-padding-left {

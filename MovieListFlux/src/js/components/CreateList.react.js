@@ -40,7 +40,7 @@ var CreateList = React.createClass({
             </div>
             <div className="modal-footer">
               <button
-                className="btn btn-success"
+                className="btn btn-default"
                 onClick={this._createList}>
                 <span>Create</span>
               </button>

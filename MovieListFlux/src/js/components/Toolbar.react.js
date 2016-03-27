@@ -18,7 +18,7 @@ var Toolbar = React.createClass({
         <div className="top-bar">
           <div className="col-sm-4 hidden-xs">
             <img
-              src="https://cdn0.iconfinder.com/data/icons/multimedia-and-electronics/512/film_roll_strip_movie_video_cinema_equipment_reel_cassette_retro_hollywood_filmstrip_industry_media_cinematography_flat_design_icon-512.png"
+              src="http://framesinaction.com/wp-content/uploads/2016/02/clapper-icon.png"
               alt="logo"
               width="38px"
               height="38px" />
