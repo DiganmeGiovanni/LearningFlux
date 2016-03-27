@@ -162,7 +162,7 @@ var FormAddMovie = React.createClass({
 
   save() {
     if (this.validateForm()) {
-      ToWatchActions.create(this.state.movie)
+      ToWatchActions.addMovieToCurrentList(this.state.movie)
       this.props.cancel()
     }
   },

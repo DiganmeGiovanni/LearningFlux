@@ -73,6 +73,10 @@ body {
   right: 0px
 }
 
+.no-padding-left {
+  padding-left: 0px;
+}
+
 .movie-search-result-card-content {
   max-height: 135px;
   min-height: 135px;
@@ -108,11 +112,12 @@ body {
   color: #FFF;
 }
 
+.subtle-text {
+  color: #888;
+}
+
 .top-bar {
-  /*background: rgba(255, 255, 255, 0.95);*/
-  /*background: #111;*/
   background: #2980b9;
-  /*background: #f94877;*/
   border-bottom: 2px solid #000;
   color: #DDD;
   height: 55px;

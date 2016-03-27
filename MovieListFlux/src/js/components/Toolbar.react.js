@@ -4,6 +4,9 @@ var React = require('react')
 var ToWatchActions = require('../actions/ToWatchActions')
 var LoginActions   = require('../actions/LoginActions')
 var ToWatchForm    = require('./towatchform/ToWatchForm.react')
+var ShareList      = require('./ShareList.react')
+var CreateList     = require('./CreateList.react')
+var GoToList       = require('./GoToList.react')
 
 /*****************************************************************************/
 
@@ -14,7 +17,12 @@ var Toolbar = React.createClass({
       <div>
         <div className="top-bar">
           <div className="col-sm-4 hidden-xs">
-            <h1 style={{margin: '0px'}}>WATCHLIST</h1>
+            <img
+              src="https://cdn0.iconfinder.com/data/icons/multimedia-and-electronics/512/film_roll_strip_movie_video_cinema_equipment_reel_cassette_retro_hollywood_filmstrip_industry_media_cinematography_flat_design_icon-512.png"
+              alt="logo"
+              width="38px"
+              height="38px" />
+            {/*<h1 style={{margin: '0px'}}>WATCHLIST</h1>*/}
           </div>
 
           <div className="col-xs-12 col-sm-8" style={{paddingRight: '0px', paddingTop: '4px'}}>
@@ -36,7 +44,11 @@ var Toolbar = React.createClass({
               </div>
 
               <div className="btn-group">
-                <button className="btn btn-primary btn-topbar">
+                <button
+                  className="btn btn-primary btn-topbar"
+                  data-target="#share-list-modal"
+                  data-toggle="modal"
+                  type="button">
                   <span className="glyphicon glyphicon-share"></span>
                   <span>&nbsp;&nbsp;Share list</span>
                 </button>
@@ -46,7 +58,9 @@ var Toolbar = React.createClass({
                 <button className="btn btn-primary btn-topbar">
                   <span className="glyphicon glyphicon-trash"></span>
                 </button>
-                <button className="btn btn-primary btn-topbar">
+                <button
+                  className="btn btn-primary btn-topbar"
+                  onClick={this._logout}>
                   <span className="glyphicon glyphicon-off"></span>
                 </button>
 
@@ -56,15 +70,20 @@ var Toolbar = React.createClass({
                 </button>
                 <ul className="dropdown-menu dropdown-menu-right">
                   <li>
-                    <a href="#">
+                    <a
+                      href="#"
+                      data-target="#create-list-modal"
+                      data-toggle="modal">
                       <span className="glyphicon glyphicon-th-list"></span>
-                      <span>&nbsp;&nbsp;Create list</span>
+                      <span>&nbsp;&nbsp;Create another list</span>
                     </a>
                   </li>
                   <li>
-                    <a href="#">
-                      <span className="glyphicon glyphicon-transfer"></span>
-                      <span>&nbsp;&nbsp;Change to list</span>
+                    <a
+                      href="#"
+                      onClick={this._displayListChooser} >
+                      <span className="glyphicon glyphicon-share-alt"></span>
+                      <span>&nbsp;&nbsp;Go to list</span>
                     </a>
                   </li>
                 </ul>
@@ -83,12 +102,20 @@ var Toolbar = React.createClass({
         </button>
 
         <ToWatchForm />
+        <ShareList currentList={this.props.currentList} />
+        <CreateList />
+        <GoToList listsWithoutContents={this.props.listsWithoutContents}/>
       </div>
     )
   },
 
   _deleteWatchedMovies() {
     ToWatchActions.destroyWatched()
+  },
+
+  _displayListChooser() {
+    ToWatchActions.fetchListsWithoutContents()
+    $('#goto-list-modal').modal('show')
   },
 
   _logout() {

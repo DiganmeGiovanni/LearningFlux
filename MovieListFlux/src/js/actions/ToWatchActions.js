@@ -1,38 +1,57 @@
 
 var AppDispatcher   = require('../dispatcher/AppDispatcher')
-var ToWatchConstans = require('../constants/toWatchConstants')
+var ToWatchConstants = require('../constants/toWatchConstants')
 
 var ToWatchActions = {
 
   /**
-   * Adds a movie to the backend.
-   * @param movie Movie object, please be sure that object
-   *              has: [tmdbId, title, trailerId, directors, genres and synopsis]
-   *              properties.
+   * Adds a movie to the current list on backend
    */
-  create: function (movie) {
+  addMovieToCurrentList: function (movie) {
     AppDispatcher.dispatch({
-      actionType: ToWatchConstans.TOWATCH_CREATE,
+      actionType: ToWatchConstants.TOWATCH_ADD_TO_CURR_LIST,
       movie: movie
+    })
+  },
+
+  createList: function (listName, email) {
+    AppDispatcher.dispatch({
+      actionType: ToWatchConstants.TOWATCH_CREATE_LIST,
+      listName: listName,
+      email: email
     })
   },
   
   destroy: function (tmdbId) {
     AppDispatcher.dispatch({
-      actionType: ToWatchConstans.TOWATCH_DESTROY,
+      actionType: ToWatchConstants.TOWATCH_DESTROY,
       tmdbId: tmdbId
     })
   },
 
   destroyWatched: function () {
     AppDispatcher.dispatch({
-      actionType: ToWatchConstans.TOWATCH_DESTROY_COMPLETED
+      actionType: ToWatchConstants.TOWATCH_DESTROY_COMPLETED
     })
   },
 
-  fetchToWatchList: function () {
+  fetchToWatchList: function (listIdDatastore) {
     AppDispatcher.dispatch({
-      actionType: ToWatchConstans.TOWATCH_FETCH_ALL
+      actionType: ToWatchConstants.TOWATCH_FETCH_LIST,
+      listIdDatastore: listIdDatastore
+    })
+  },
+
+  fetchListsWithoutContents: function () {
+    AppDispatcher.dispatch({
+      actionType: ToWatchConstants.TOWATCH_FETCH_LISTS_WITHOUT_CONTENTS
+    })
+  },
+
+  shareCurrentList: function(email) {
+    AppDispatcher.dispatch({
+      actionType: ToWatchConstants.TOWATCH_SHARE_CURR_LIST,
+      email: email
     })
   },
 
@@ -40,23 +59,10 @@ var ToWatchActions = {
     toWatch.isWatched = (toWatch.isWatched ? false : true)
 
     AppDispatcher.dispatch({
-      actionType: (toWatch.isWatched ? ToWatchConstans.TOWATCH_MARK_AS_SEEN : ToWatchConstans.TOWATCH_MARK_AS_NOTSEEN),
+      actionType: (toWatch.isWatched ? ToWatchConstants.TOWATCH_MARK_AS_SEEN : ToWatchConstants.TOWATCH_MARK_AS_NOTSEEN),
       tmdbId: toWatch.tmdbId
     })
   },
-
-  userLoggin: function (userEmail) {
-    AppDispatcher.dispatch({
-      actionType: ToWatchConstans.USER_LOGIN,
-      userEmail: userEmail
-    })
-  },
-
-  userLogout: function() {
-    AppDispatcher.dispatch({
-      actionType: ToWatchConstans.USER_LOGOUT
-    })
-  }
 
 }
 

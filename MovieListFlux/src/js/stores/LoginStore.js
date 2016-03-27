@@ -5,29 +5,40 @@ var objectAssign  = require('object-assign')
 
 var ToWatchStore     = require('./ToWatchStore')
 var ToWatchConstants = require('../constants/toWatchConstants')
+var userService      = require('../services/userService')
+var EVENT_CHANGE     = 'event-change-login'
 
-var youtubeService = require('../services/youtubeService')
 
-var EVENT_CHANGE = 'event-change-login'
+/******************************************************************************/
 
 var LoginStore = objectAssign({}, EventEmitter.prototype, {
 
   isUserLogged: function () {
-    return (ToWatchConstants.user_data.email &&
-        ToWatchConstants.user_data.email.length > 0)
+    return (ToWatchConstants.userData.email &&
+        ToWatchConstants.userData.email.length > 0)
   },
 
-  loginUser: function (firstName, lastName, email) {
-    ToWatchConstants.user_data.firstName = firstName
-    ToWatchConstants.user_data.lastName  = lastName
-    ToWatchConstants.user_data.email     = email
+  loginUser: function (name, email) {
+    var self = this
 
-    this.emitChange()
-    ToWatchStore.getAllFromBackend()
+    userService.loginUser(name, email, function (err, body) {
+      if(err) {
+        console.error("Error login user on backend (" + email + ")")
+        console.error(err)
+      }
+      else {
+        body = JSON.parse(body)
+        ToWatchConstants.userData = body
+        self.emitChange()
+
+        // Retrieve user personal list from backend
+        ToWatchStore.fetchPersonalList()
+      }
+    })
   },
 
   logoutUser: function () {
-    ToWatchConstants.user_data = {}
+    ToWatchConstants.userData = {}
     this.emitChange()
   },
 
@@ -49,10 +60,9 @@ AppDispatcher.register(function (action) {
   switch (action.actionType) {
 
     case ToWatchConstants.USER_LOGIN:
-      var firstName = action.firstName
-      var lastName  = action.lastName
-      var email     = action.email
-      LoginStore.loginUser(firstName, lastName, email)
+      var name  = action.name
+      var email = action.email
+      LoginStore.loginUser(name, email)
       break
 
     case ToWatchConstants.USER_LOGOUT:

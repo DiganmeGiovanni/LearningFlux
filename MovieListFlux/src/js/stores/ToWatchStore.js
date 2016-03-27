@@ -2,115 +2,38 @@
 /**
  * To Watch store
  *
- * Each to watch has this structure;
- * {
- *    "tmdbId":   4785074604081152,
- *    "title":    "Titanic edited",
- *    "directors": [],
- *    "genres":    [],
- *    "trailerId": "Youtube video id",
- *    "synopsis":   "Synopsis redaction",
- *    "userEmail":  "giovanni.fi05@gmail.com",
- *    "isWatched":  false,
- *    "isActive":   true
- * }
  */
 
 var AppDispatcher    = require('../dispatcher/AppDispatcher')
-var EventEmmiter     = require('events').EventEmitter
-var ToWatchConstants = require('../constants/toWatchConstants')
+var EventEmitter     = require('events').EventEmitter
 var objAssign        = require('object-assign')
 
-var movieService = require('../services/movieService')
+var ToWatchConstants = require('../constants/toWatchConstants')
+var movieListService = require('../services/movieListService')
 
 /*****************************************************************************/
 
 var EVENT_CHANGE = 'event-change'
-var _toWatchs = []
-
-/**
- * Adds a movie to the backend.
- * @param movie Movie object, please be sure that object
- *              has: [tmdbId, title, trailerId, directors, genres and synopsis]
- *              properties.
- */
-function createToWatch(movie) {
-
-  var toWatchMovie = {
-    tmdbId: movie.tmdbId,
-    title: movie.title,
-    directors: movie.directors,
-    genres: movie.genres,
-    trailerId: movie.trailerId,
-    synopsis: movie.synopsis,
-    posterPath: movie.posterPath,
-    releaseDate: movie.releaseDate,
-    voteAverage: movie.voteAverage,
-    userEmail: ToWatchConstants.user_data.email,
-    isWatched: false,
-    isActive: true
-  }
-
-  movieService.postToWatch(toWatchMovie, function (err, toWatch) {
-    if (err) {
-      console.error("Error creating movie on backend")
-      console.error(err)
-    }
-    else {
-      _toWatchs.push(toWatch)
-      ToWatchStore.emitChange()
-    }
-  })
+var listsWithoutContent = []
+var currentList = {
+  idDatastore: 0,
+  movies: [],
+  sharedWith: []
 }
 
-function updateToWatch(tmdbId, updatedToWatch) {
-  for(var i=0; i<_toWatchs.length; i++) {
-    if(_toWatchs[i].tmdbId === tmdbId) {
 
-      var nonUpdatedToWatch = _toWatchs[i]
-      _toWatchs[i] = objAssign({}, _toWatchs[i], updatedToWatch)
+var ToWatchStore = objAssign({}, EventEmitter.prototype, {
 
-      movieService.putToWatch(_toWatchs[i], function (err, body) {
-        if(err) {
-          console.error("Error updating to watch")
-          console.error(err)
+  addChangeListener: function(callback) {
+    this.on(EVENT_CHANGE, callback)
+  },
 
-          _toWatchs[i] = nonUpdatedToWatch
-        }
-        else {
-          ToWatchStore.emitChange()
-        }
-      })
-    }
-  }
-}
-
-function destroyToWatch(tmdbId) {
-  for(var i=0; i<_toWatchs.length; i++) {
-    if(_toWatchs[i].tmdbId === tmdbId) {
-
-      _toWatchs[i].isActive = false
-      updateToWatch(tmdbId, _toWatchs[i])
-      break
-    }
-  }
-}
-
-function destroyWatchedToWatchs() {
-  for(var i=0; i<_toWatchs.length; i++) {
-    if(_toWatchs[i].isWatched) {
-      destroyToWatch(_toWatchs[i].tmdbId)
-    }
-  }
-}
-
-var ToWatchStore = objAssign({}, EventEmmiter.prototype, {
-
-  areAllWatched: function() {
+  areCurrentListAllWatched: function() {
     var allComplete = true;
+    var movies = currentList.movies
 
-    for(var i=0; i<_toWatchs.length; i++) {
-      if(!_toWatchs[i].isWatched) {
+    for(var i=0; i<movies.length; i++) {
+      if(!movies[i].isWatched) {
         allComplete = false
       }
     }
@@ -118,74 +41,283 @@ var ToWatchStore = objAssign({}, EventEmmiter.prototype, {
     return allComplete
   },
 
-  getAll: function() {
-    return _toWatchs
-  },
-
-  getAllFromBackend: function() {
+  createList: function (listName, email) {
     var self = this
-    movieService.fetchAllMovies(function(err, remoteToWatches) {
-      if(err) {
-        console.error("Error fetching movies from backend")
+    movieListService.createList(listName, email, function (err, body) {
+      if (err) {
+        console.error("Fatal error creating list")
         console.error(err)
       }
       else {
-        remoteToWatches = JSON.parse(remoteToWatches)
-        for(var i=0; i<remoteToWatches.length; i++) {
-          _toWatchs.push(remoteToWatches[i])
-        }
+        body = JSON.parse(body)
+        self.fetchList(body.idDatastore)
+      }
+    })
+  },
 
+  /**
+   * Adds a movie to the current list on backend
+   * @param movie Movie object, please be sure that object
+   * contains fields: [tmdbId, title, trailerId, directors, genres and synopsis]
+   */
+  createToWatch: function (movie) {
+    var self = this
+
+    var postMovie = {
+      listIdDatastore: currentList.idDatastore,
+      movie: {
+        tmdbId: movie.tmdbId,
+        title: movie.title,
+        directors: movie.directors,
+        genres: movie.genres,
+        trailerId: movie.trailerId,
+        synopsis: movie.synopsis,
+        posterPath: movie.posterPath,
+        releaseDate: movie.releaseDate,
+        voteAverage: movie.voteAverage,
+        addedByEmail: ToWatchConstants.userData.email,
+        addedByName: ToWatchConstants.userData.name,
+        isWatched: false,
+        isActive: true
+      }
+    }
+
+    movieListService.addMovieToList(postMovie, function (err, addedMovie) {
+      if (err) {
+        console.error("Error adding movie to list on backend")
+        console.error(err)
+      }
+      else {
+        currentList.movies.push(addedMovie)
         self.emitChange()
       }
     })
+  },
+
+  destroyToWatch: function (tmdbId) {
+    var self = this
+
+    for(var i=0; i<currentList.movies.length; i++) {
+      if(currentList.movies[i].tmdbId === tmdbId) {
+
+        var postMovie = {
+          listIdDatastore: currentList.idDatastore,
+          movie: currentList.movies[i]
+        }
+
+        movieListService.destroyMovie(postMovie, function (err, body) {
+          if (err) {
+            console.error('Fatal error while destroying movie on backend')
+            console.error(err)
+          }
+          else {
+            currentList.movies.splice(i, 1)
+            self.emitChange()
+          }
+        })
+        break
+      }
+    }
+  },
+
+  destroyWatchedToWatches: function () {
+    var self = this
+
+    for(var i=0; i<currentList.movies.length; i++) {
+      if(currentList.movies[i].isWatched) {
+        self.destroyToWatch(currentList.movies[i].tmdbId)
+      }
+    }
   },
 
   emitChange: function() {
     this.emit(EVENT_CHANGE)
   },
 
-  addChangeListener: function(callback) {
-    this.on(EVENT_CHANGE, callback)
+  fetchPersonalList: function () {
+    var email = ToWatchConstants.userData.email
+    if (email && email.length > 0) {
+      var self = this
+
+      movieListService.fetchPersonalList(email, function(err, body) {
+        if (err) {
+          console.error("Fatal while fetching personal list for: " + email)
+          console.error(err)
+        }
+        else {
+          body = JSON.parse(body)
+          currentList = body
+
+          self.emitChange()
+        }
+      })
+    }
+    else {
+      console.error("User is not logged in")
+    }
+  },
+
+  fetchList: function (listIdDatastore) {
+    var email = ToWatchConstants.userData.email
+    if (email && email.length > 0) {
+      var self = this
+
+      movieListService.fetchList(listIdDatastore, function(err, body) {
+        if (err) {
+          console.error("Fatal while fetching list for: " + email)
+          console.error(err)
+        }
+        else {
+          body = JSON.parse(body)
+          currentList = body
+
+          self.emitChange()
+        }
+      })
+    }
+    else {
+      console.error("User is not logged in")
+    }
+  },
+
+  fetchListsWithoutContents: function () {
+    var email = ToWatchConstants.userData.email
+    if (email && email.length > 0) {
+      var self = this
+
+      movieListService.fetchListsWithoutContent(email, function(err, body) {
+        if (err) {
+          console.error("Fatal while fetching lists for: " + email)
+          console.error(err)
+        }
+        else {
+          body = JSON.parse(body)
+          listsWithoutContent = body
+
+          self.emitChange()
+        }
+      })
+    }
+    else {
+      console.error("User is not logged in")
+    }
+  },
+
+  getCurrentList: function () {
+    return currentList
+  },
+
+  getListsWithoutContents: function () {
+    return listsWithoutContent
   },
 
   removeChangeListener: function(callback) {
     this.removeListener(callback)
-  }
+  },
+
+  shareCurrentList: function (email) {
+    var self = this
+    var yetShared = false
+    for(var i=0; i< currentList.sharedWith.length; i++) {
+      if (currentList.sharedWith[i] === email) {
+        yetShared = true
+        break
+      }
+    }
+
+    if(!yetShared) {
+      movieListService.shareList(currentList.idDatastore, email, function (err, body) {
+        if (err) {
+          console.error("Fatal error sharing list")
+          console.error(err)
+        }
+        else {
+          body = JSON.parse(body)
+          currentList = body
+
+          self.emitChange()
+        }
+      })
+    }
+  },
+
+  updateToWatch: function (tmdbId, updatedToWatch) {
+    var self = this
+
+    for(var i=0; i< currentList.movies.length; i++) {
+      if(currentList.movies[i].tmdbId === tmdbId) {
+
+        var nonUpdatedToWatch = currentList.movies[i]
+        currentList.movies[i] = objAssign({}, currentList.movies[i], updatedToWatch)
+        self.emitChange()
+
+        // Send update request to backend
+        var postMovie = {
+          listIdDatastore: currentList.idDatastore,
+          movie: currentList.movies[i]
+        }
+
+        movieListService.updateToWatch(postMovie, function (err, body) {
+          if (err) {
+            console.error("Error updating to watch")
+            console.error(err)
+
+            currentList.movies[i] = nonUpdatedToWatch
+            self.emitChange()
+          }
+          else {
+            self.emitChange()
+          }
+        })
+
+        break
+      }
+    }
+  },
 
 })
 
 AppDispatcher.register(function (action) {
   switch (action.actionType) {
 
-    case ToWatchConstants.TOWATCH_CREATE:
-      createToWatch(action.movie)
+    case ToWatchConstants.TOWATCH_FETCH_LIST:
+      ToWatchStore.fetchList(action.listIdDatastore)
+      break
+
+    case ToWatchConstants.TOWATCH_FETCH_LISTS_WITHOUT_CONTENTS:
+      ToWatchStore.fetchListsWithoutContents()
+      break
+
+    case ToWatchConstants.TOWATCH_ADD_TO_CURR_LIST:
+      ToWatchStore.createToWatch(action.movie)
+      break
+
+    case ToWatchConstants.TOWATCH_CREATE_LIST:
+      ToWatchStore.createList(action.listName, action.email)
       break
 
     case ToWatchConstants.TOWATCH_DESTROY:
-      destroyToWatch(action.tmdbId)
-      ToWatchStore.emitChange()
+      ToWatchStore.destroyToWatch(action.tmdbId)
       break
 
     case ToWatchConstants.TOWATCH_DESTROY_COMPLETED:
-      destroyWatchedToWatchs()
-      ToWatchStore.emitChange()
+      ToWatchStore.destroyWatchedToWatches()
       break
 
     case ToWatchConstants.TOWATCH_MARK_AS_SEEN:
-      updateToWatch(action.tmdbId, {isWatched: true})
-      ToWatchStore.emitChange()
+      ToWatchStore.updateToWatch(action.tmdbId, {isWatched: true})
       break
 
     case ToWatchConstants.TOWATCH_MARK_AS_NOTSEEN:
-      updateToWatch(action.tmdbId, {isWatched: false})
-      ToWatchStore.emitChange()
+      ToWatchStore.updateToWatch(action.tmdbId, {isWatched: false})
       break
+
+    case ToWatchConstants.TOWATCH_SHARE_CURR_LIST:
+      ToWatchStore.shareCurrentList(action.email)
+      break
+
 
     case ToWatchConstants.TOWATCH_UPDATE:
-      break
-
-    case ToWatchConstants.TOWATCH_FETCH_ALL:
-      ToWatchStore.getAllFromBackend()
       break
 
     default:

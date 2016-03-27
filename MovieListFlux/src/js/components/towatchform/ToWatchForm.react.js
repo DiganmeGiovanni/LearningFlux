@@ -15,7 +15,6 @@ var ToWatchForm = React.createClass({
     return {
       movie: {
         tmdbId: '',
-        idDatastore: '',
         title: '',
         synopsis: '',
         trailerId: '',
@@ -23,7 +22,12 @@ var ToWatchForm = React.createClass({
         releaseDate: '',
         voteAverage: '',
         genres: [],
-        directors: []
+        directors: [],
+        addedByEmail: '',
+        addedByName: '',
+        addedAt: '',
+        isWatched: false,
+        isActive: true
       },
 
       displaying: 'movie-search'

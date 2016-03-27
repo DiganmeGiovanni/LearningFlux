@@ -4,11 +4,10 @@ var ToWatchConstants = require('../constants/toWatchConstants')
 
 var LoginActions = {
 
-  loginUser: function (firstName, lastName, email) {
+  loginUser: function (name, email) {
     AppDispatcher.dispatch({
       actionType: ToWatchConstants.USER_LOGIN,
-      firstName: firstName,
-      lastName: lastName,
+      name: name,
       email: email
     })
   },

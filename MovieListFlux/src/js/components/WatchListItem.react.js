@@ -17,7 +17,7 @@ var WatchListItem = React.createClass({
 
   componentDidUpdate() {
     if(this.state.playingTrailer) {
-      var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.idDatastore
+      var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.tmdbId
       new YT.Player(trailerContainerId, {
         width: '100%',
         videoId: this.props.toWatch.trailerId,
@@ -30,7 +30,7 @@ var WatchListItem = React.createClass({
     }
 
     if(this.props.displayDetails) {
-      document.getElementById(this.props.toWatch.idDatastore + "").scrollIntoView()
+      document.getElementById(this.props.toWatch.tmdbId + "").scrollIntoView()
       window.scrollBy(0, -70)
     }
   },
@@ -63,7 +63,7 @@ var WatchListItem = React.createClass({
     var actionBtnClasses = "btn btn-primary btn-lg btn-dark-trans"
 
     return (
-      <div id={toWatch.idDatastore} className={watchItemClasses} style={watchItemStyles}>
+      <div id={toWatch.tmdbId} className={watchItemClasses} style={watchItemStyles}>
         <div className="row">
 
           {/*Buttons toolbar for small and up devices*/}
@@ -79,8 +79,14 @@ var WatchListItem = React.createClass({
               </div>
 
               <div className="btn-group pull-right">
-                <button className={actionBtnClasses}>
-                  <span className="glyphicon glyphicon-eye-open"></span>
+                <button
+                  className={actionBtnClasses}
+                  onClick={this._onToggleWatched}>
+                  <span
+                    className={toWatch.isWatched ?
+                          "glyphicon glyphicon-eye-close":
+                          "glyphicon glyphicon-eye-open"}
+                  ></span>
                 </button>
                 <button
                   className={actionBtnClasses}
@@ -90,7 +96,10 @@ var WatchListItem = React.createClass({
               </div>
 
               <div className="btn-group pull-right">
-                <button className={actionBtnClasses} style={{color: '#e74c3c'}}>
+                <button
+                  className={actionBtnClasses}
+                  onClick={this._onDestroyClick}
+                  style={{color: '#e74c3c'}}>
                   <span className="glyphicon glyphicon-trash"></span>
                 </button>
               </div>
@@ -99,7 +108,7 @@ var WatchListItem = React.createClass({
 
           {/*Poster image */}
           <div className={this.props.displayDetails ? "col-xs-9 col-sm-4" : "col-xs-12"}>
-            <div onClick={this._onToggleDisplayDetails} style={{width: '100%'}}>
+            <div onClick={this._onToggleDisplayDetails} style={{cursor: 'pointer', width: '100%'}}>
               <img
                 src={
                   this.props.displayDetails ?
@@ -124,8 +133,14 @@ var WatchListItem = React.createClass({
 
               <br/><br/>
               <div className="btn-group-vertical">
-                <button className={actionBtnClasses}>
-                  <span className="glyphicon glyphicon-eye-open"></span>
+                <button
+                  className={actionBtnClasses}
+                  onClick={this._onToggleWatched}>
+                  <span
+                      className={toWatch.isWatched ?
+                          "glyphicon glyphicon-eye-close":
+                          "glyphicon glyphicon-eye-open"}
+                    ></span>
                 </button>
                 <button
                   className={actionBtnClasses}
@@ -136,7 +151,10 @@ var WatchListItem = React.createClass({
 
               <br/><br/>
               <div className="btn-group-vertical">
-                <button className={actionBtnClasses} style={{color: '#e74c3c'}}>
+                <button
+                  className={actionBtnClasses}
+                  onClick={this._onDestroyClick}
+                  style={{color: '#e74c3c'}}>
                   <span className="glyphicon glyphicon-trash"></span>
                 </button>
               </div>
@@ -235,8 +253,8 @@ var WatchListItem = React.createClass({
   },
 
   constructTrailerModal() {
-    var idTrailerModal = 'modal-trailer-' + this.props.toWatch.idDatastore
-    var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.idDatastore
+    var idTrailerModal = 'modal-trailer-' + this.props.toWatch.tmdbId
+    var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.tmdbId
 
     return (
       <div className="modal fade" id={idTrailerModal} tabIndex="-1" role="dialog">
@@ -262,7 +280,7 @@ var WatchListItem = React.createClass({
   },
 
   playTrailer() {
-    var idTrailerModal = 'modal-trailer-' + this.props.toWatch.idDatastore
+    var idTrailerModal = 'modal-trailer-' + this.props.toWatch.tmdbId
     $('#' + idTrailerModal).modal('show')
 
     this.setState({
@@ -272,10 +290,16 @@ var WatchListItem = React.createClass({
 
   _onToggleDisplayDetails: function () {
     if(!this.props.displayDetails) {
-      this.props.displayItemDetails(this.props.toWatch.idDatastore)
+      this.props.displayItemDetails(
+        this.props.toWatch.tmdbId,
+        this.props.toWatch.isWatched
+      )
     }
     else {
-      this.props.displayItemDetails('')
+      this.props.displayItemDetails(
+        '',
+        this.props.toWatch.isWatched
+      )
     }
   },
 

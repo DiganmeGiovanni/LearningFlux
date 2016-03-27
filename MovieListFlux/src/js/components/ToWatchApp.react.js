@@ -16,9 +16,10 @@ var LoginStore   = require('../stores/LoginStore')
 
 function getToWatchState() {
   return {
-    allToWatchs: ToWatchStore.getAll(),
-    areAllWatched: ToWatchStore.areAllWatched(),
-    isUserLogged: LoginStore.isUserLogged()
+    areAllWatched: ToWatchStore.areCurrentListAllWatched(),
+    currentList: ToWatchStore.getCurrentList(),
+    isUserLogged: LoginStore.isUserLogged(),
+    listsWithoutContents: ToWatchStore.getListsWithoutContents()
   }
 }
 
@@ -46,12 +47,16 @@ var ToWatchApp = React.createClass({
     if(this.state.isUserLogged) {
       return (
         <div className="container">
-          <Toolbar />
+          <Toolbar
+            currentList={this.state.currentList}
+            listsWithoutContents={this.state.listsWithoutContents}
+          />
 
           <div style={{marginTop: '60px'}}>
             <WatchList
-              toWatches={this.state.allToWatchs}
               areAllWatched={this.state.areAllWatched}
+              listName={this.state.currentList.name}
+              toWatches={this.state.currentList.movies}
             />
           </div>
         </div>

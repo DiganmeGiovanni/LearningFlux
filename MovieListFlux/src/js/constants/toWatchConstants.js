@@ -5,12 +5,18 @@ module.exports = {
   // To watch actions names
   //
   TOWATCH_FETCH_ALL: "towatch-fetch-allmovies",
-  TOWATCH_CREATE: "towatch-create",
+  TOWATCH_FETCH_LIST: "towatch-fetch-list",
+  TOWATCH_FETCH_LISTS_WITHOUT_CONTENTS: "towatch-fetch-lists-nocontents",
+  TOWATCH_ADD_TO_CURR_LIST: "towatch-addMovieToCurrentList",
   TOWATCH_DESTROY: "towatch-destroy",
   TOWATCH_DESTROY_COMPLETED: "towatch-destroy-completed",
   TOWATCH_MARK_AS_SEEN: "towatch-mark-as-seen",
   TOWATCH_MARK_AS_NOTSEEN: "towatch-mark-as-notseen",
+  TOWATCH_SHARE_CURR_LIST: "towatch-share-curr-list",
   TOWATCH_UPDATE: "towatch-update",
+
+  TOWATCH_CREATE_LIST: "towatch-create-list",
+
 
   //
   // Login actions names
@@ -21,7 +27,7 @@ module.exports = {
   //
   // API Info
   //
-  API_URL: "http://localhost:8080/api/moviestowatch/", // TODO Replace with online api
+  API_URL: "http://localhost:8080/api/", // TODO Replace with online api
 
   //
   // Google APIs urls
@@ -41,11 +47,10 @@ module.exports = {
   TMDB_API_IMGBASE_OR: 'http://image.tmdb.org/t/p/original',
 
   //
-  // user in-memory data
+  // user in-memory data (Taken from backend JSON response on user login
   //
-  user_data: {
-    firstName: '',
-    lastName: '',
+  userData: {
+    name: '',
     email: ''
   }
 }

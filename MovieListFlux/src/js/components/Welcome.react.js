@@ -20,7 +20,7 @@ var Welcome = React.createClass({
         var email = profile.getEmail()
         var name  = profile.getName()
 
-        LoginActions.loginUser(name, '', email)
+        LoginActions.loginUser(name, email)
       },
       'onfailure': function (error) {
         console.error("Error callback")
@@ -31,11 +31,9 @@ var Welcome = React.createClass({
 
   render: function () {
     return (
-      <div>
-        <div className="row"><br/><br/>
-          <div className="col-sm-offset-6 text-center">
-            <div id="g-signin2-custom" className="g-signin2-custom"></div>
-          </div>
+      <div className="row"><br/><br/>
+        <div className="col-sm-offset-6 text-center">
+          <div id="g-signin2-custom" className="g-signin2-custom"></div>
         </div>
       </div>
     )
