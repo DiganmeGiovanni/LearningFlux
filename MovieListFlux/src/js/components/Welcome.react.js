@@ -8,7 +8,14 @@ var Welcome = React.createClass({
     this.renderGoogleSigninButton()
   },
 
+  displayAnimatedLoadProcess() {
+    var loading = $('<span>').text("Loading watchlist ...")
+    $('#g-signin2-custom').replaceWith(loading)
+  },
+
   renderGoogleSigninButton: function () {
+    var self = this
+
     gapi.signin2.render('g-signin2-custom', {
       'scope': 'profile email',
       'width': '240',
@@ -16,6 +23,7 @@ var Welcome = React.createClass({
       'longtitle': true,
       'theme': 'dark',
       'onsuccess': function (googleUser) {
+        self.displayAnimatedLoadProcess()
 
         var profile = googleUser.getBasicProfile()
         var email = profile.getEmail()

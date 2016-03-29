@@ -68,7 +68,7 @@ var WatchList = React.createClass({
         <div className="col-xs-12">
           <div className="row">
             <div className="col-xs-12">
-              <h4 className="subtle-text">Yet watched items:</h4>
+              <h4 className="subtle-text">Watched:</h4>
             </div>
             {toWatchesWatchedJSX}
           </div>
