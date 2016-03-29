@@ -1,12 +1,13 @@
 
 var React = require('react')
 
-var ToWatchActions = require('../actions/ToWatchActions')
-var LoginActions   = require('../actions/LoginActions')
-var ToWatchForm    = require('./towatchform/ToWatchForm.react')
-var ShareList      = require('./ShareList.react')
-var CreateList     = require('./CreateList.react')
-var GoToList       = require('./GoToList.react')
+var ToWatchActions  = require('../actions/ToWatchActions')
+var LoginActions    = require('../actions/LoginActions')
+var ToWatchForm     = require('./towatchform/ToWatchForm.react')
+var ShareList       = require('./ShareList.react')
+var CreateList      = require('./CreateList.react')
+var GoToList        = require('./GoToList.react')
+var EditPreferences = require('./EditPreferences.react')
 
 /*****************************************************************************/
 
@@ -62,8 +63,9 @@ var Toolbar = React.createClass({
                 </button>
                 <button
                   className="btn btn-primary btn-topbar"
-                  onClick={this._logout}>
-                  <span className="glyphicon glyphicon-off"></span>
+                  data-target="#preferences-modal"
+                  data-toggle="modal">
+                  <span className="glyphicon glyphicon-cog" />
                 </button>
 
                 {/* More options */}
@@ -88,6 +90,15 @@ var Toolbar = React.createClass({
                       <span>&nbsp;&nbsp;Go to list</span>
                     </a>
                   </li>
+                  <li role="separator" className="divider" />
+                  <li>
+                    <a
+                      href="#"
+                      onClick={this._logout}>
+                      <span className="glyphicon glyphicon-off"></span>
+                      <span>&nbsp;&nbsp;Logout</span>
+                    </a>
+                  </li>
                 </ul>
               </div>
             </div>
@@ -107,6 +118,8 @@ var Toolbar = React.createClass({
         <ShareList currentList={this.props.currentList} />
         <CreateList />
         <GoToList listsWithoutContents={this.props.listsWithoutContents}/>
+
+        <EditPreferences />
       </div>
     )
   },
