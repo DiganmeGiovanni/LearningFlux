@@ -35,6 +35,20 @@ module.exports = {
     })
   },
 
+  deleteList: function (listIdDatastore, callback) {
+    var params = {
+      method: 'POST',
+      url: API_URL + "deletelist",
+      form: {
+        listIdDatastore: listIdDatastore
+      }
+    }
+
+    request(params, function (err, res, body) {
+      callback(err, body)
+    })
+  },
+
   destroyMovie: function (postMovie, callback) {
     var params = {
       method: 'POST',
@@ -94,6 +108,21 @@ module.exports = {
     var params = {
       method: 'POST',
       url: API_URL + "sharelist",
+      form: {
+        listIdDatastore: listIdDatastore,
+        email: email
+      }
+    }
+
+    request(params, function (err, res, body) {
+      callback(err, body)
+    })
+  },
+
+  unShareList: function (listIdDatastore, email, callback) {
+    var params = {
+      method: 'POST',
+      url: API_URL + "unsharelist",
       form: {
         listIdDatastore: listIdDatastore,
         email: email

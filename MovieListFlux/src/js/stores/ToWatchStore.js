@@ -17,6 +17,8 @@ var EVENT_CHANGE = 'event-change'
 var listsWithoutContent = []
 var currentList = {
   idDatastore: 0,
+  isPersonalList: true,
+  ownerEmail: '',
   movies: [],
   sharedWith: []
 }
@@ -92,6 +94,83 @@ var ToWatchStore = objAssign({}, EventEmitter.prototype, {
         self.emitChange()
       }
     })
+  },
+
+  deleteCurrList: function () {
+    var self = this
+
+    if (currentList.isPersonalList) {
+      swal({
+        title: 'Trying remove personal list',
+        text: 'The personal list can not be removed. (IT\'S YOUR LIST)',
+        type: 'warning',
+        buttonsStyling: false,
+        confirmButtonClass: 'btn btn-default btn-lg'
+      })
+    }
+    else if (currentList.ownerEmail !== ToWatchConstants.userData.email) {
+      swal({
+        title: 'Leave list instead?',
+        text: 'Only the creator of list can delete. Do you want leave the list instead?',
+        type: 'warning',
+        closeOnConfirm: false,
+        buttonsStyling: false,
+        showCancelButton: true,
+        allowOutsideClick: false,
+        confirmButtonText: 'Leave list',
+        confirmButtonClass: 'btn btn-danger btn-lg',
+        cancelButtonClass: 'btn btn-default btn-lg'
+      },
+      function (isConfirm) {
+        if (isConfirm) {
+          swal.disableButtons()
+
+          var idDS = currentList.idDatastore
+          var email = ToWatchConstants.userData.email
+          movieListService.unShareList(idDS, email, function (err, body) {
+            if (err) {
+              console.error("Error unsharing list")
+              console.error(err)
+            }
+            else {
+              swal('You has been removed from the list!')
+              self.fetchPersonalList()
+            }
+          })
+        }
+      })
+    }
+    else {
+      swal({
+        title: 'This can\'t be undone',
+        text: 'Are you sure you wish delete current list and all its contents?',
+        type: 'warning',
+        buttonsStyling: false,
+        showCancelButton: true,
+        closeOnConfirm: false,
+        allowOutsideClick: false,
+        confirmButtonText: 'Delete list',
+        confirmButtonClass: 'btn btn-danger btn-lg',
+        cancelButtonClass: 'btn btn-default btn-lg'
+      },
+      function (isConfirm) {
+        if (isConfirm) {
+          swal.disableButtons()
+
+          var idDS = currentList.idDatastore
+          movieListService.deleteList(idDS, function (err, body) {
+            if (err) {
+              console.error("Error deleting list")
+              console.error(err)
+            }
+            else {
+              swal('Your list has been deleted!')
+              self.fetchPersonalList()
+            }
+          })
+        }
+      })
+    }
   },
 
   destroyToWatch: function (tmdbId) {
@@ -294,6 +373,10 @@ AppDispatcher.register(function (action) {
 
     case ToWatchConstants.TOWATCH_CREATE_LIST:
       ToWatchStore.createList(action.listName, action.email)
+      break
+
+    case ToWatchConstants.TOWATCH_DELETE_CURR_LIST:
+      ToWatchStore.deleteCurrList()
       break
 
     case ToWatchConstants.TOWATCH_DESTROY:

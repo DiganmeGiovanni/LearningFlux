@@ -16,6 +16,7 @@ module.exports = {
   TOWATCH_UPDATE: "towatch-update",
 
   TOWATCH_CREATE_LIST: "towatch-create-list",
+  TOWATCH_DELETE_CURR_LIST: "towatch_delete_curr_list",
 
 
   //
@@ -28,6 +29,7 @@ module.exports = {
   // API Info
   //
   API_URL: "http://localhost:8080/api/", // TODO Replace with online api
+  //API_URL: "http://movies-to-watch.appspot.com/api/",
 
   //
   // Google APIs urls

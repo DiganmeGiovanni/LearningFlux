@@ -21,7 +21,13 @@ var ToWatchActions = {
       email: email
     })
   },
-  
+
+  deleteCurrList: function () {
+    AppDispatcher.dispatch({
+      actionType: ToWatchConstants.TOWATCH_DELETE_CURR_LIST,
+    })
+  },
+
   destroy: function (tmdbId) {
     AppDispatcher.dispatch({
       actionType: ToWatchConstants.TOWATCH_DESTROY,

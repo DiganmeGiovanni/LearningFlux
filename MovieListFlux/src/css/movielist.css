@@ -126,6 +126,20 @@ body {
   color: #888;
 }
 
+.sweet-alert {
+  background: #F2F1EF;
+  border-radius: 0px;
+}
+
+.sweet-alert button {
+  border-radius: 2px;
+  margin: 5px;
+}
+
+.sweet-content {
+  color: #000;
+}
+
 .top-bar {
   background: #2980b9;
   border-bottom: 2px solid #000;

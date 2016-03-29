@@ -55,7 +55,9 @@ var Toolbar = React.createClass({
               </div>
 
               <div className="btn-group">
-                <button className="btn btn-primary btn-topbar">
+                <button
+                  className="btn btn-primary btn-topbar"
+                  onClick={this._deleteCurrentList}>
                   <span className="glyphicon glyphicon-trash"></span>
                 </button>
                 <button
@@ -107,6 +109,10 @@ var Toolbar = React.createClass({
         <GoToList listsWithoutContents={this.props.listsWithoutContents}/>
       </div>
     )
+  },
+
+  _deleteCurrentList() {
+    ToWatchActions.deleteCurrList()
   },
 
   _deleteWatchedMovies() {
