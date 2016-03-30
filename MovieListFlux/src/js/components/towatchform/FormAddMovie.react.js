@@ -33,13 +33,17 @@ var FormAddMovie = React.createClass({
         <div className="modal-footer">
 
           <button
-            className="btn btn-primary btn-sm"
+            className="btn btn-danger"
             onClick={this.cancel}
-            type="button">Cancel</button>
+            type="button">
+            <span className="glyphicon glyphicon-remove-circle"></span>
+            <span>&nbsp;&nbsp;Cancel</span>
+          </button>
           <button
-            className="btn btn-primary btn-sm"
+            className="btn btn-success"
             onClick={this.save}>
-            <span>Save</span>
+            <span className="glyphicon glyphicon-film"></span>
+            <span>&nbsp;&nbsp;&nbsp;Save</span>
           </button>
         </div>
       </div>
@@ -89,15 +93,16 @@ var FormAddMovie = React.createClass({
             <div>
               <span htmlFor="" className="label label-success">
                 <span className="glyphicon glyphicon-ok"></span>
-                <span>&nbsp;&nbsp;Trailer has been assigned&nbsp;&nbsp;</span>
+                <span>&nbsp;&nbsp;&nbsp;Trailer has been assigned&nbsp;&nbsp;</span>
               </span>
               &nbsp;&nbsp;&nbsp;
               <button
-                className="btn btn-danger btn-sm"
+                className="btn btn-danger"
                 onClick={this.searchYoutubeTrailer}
-                type="button">
+                type="button"
+                style={{background: '#e52d27'}}>
                 <span className="glyphicon glyphicon-facetime-video"></span>
-                <span>&nbsp;&nbsp;Change</span>
+                <span>&nbsp;&nbsp;&nbsp;Change</span>
               </button>
             </div>
           </div>
@@ -111,11 +116,12 @@ var FormAddMovie = React.createClass({
             <label htmlFor="">Movie's trailer</label><br/>
             <div>
               <button
-                className="btn btn-danger btn-sm"
+                className="btn btn-danger"
                 onClick={this.searchYoutubeTrailer}
-                type="button">
+                type="button"
+                style={{background: '#e52d27'}}>
                 <span className="glyphicon glyphicon-facetime-video"></span>
-                <span>&nbsp;&nbsp;Search from Youtube</span>
+                <span>&nbsp;&nbsp;&nbsp;Search from Youtube</span>
               </button>
             </div>
           </div>

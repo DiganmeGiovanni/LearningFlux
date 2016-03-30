@@ -60,7 +60,7 @@ var WatchListItem = React.createClass({
     }
 
     // Style classes for action buttons
-    var actionBtnClasses = "btn btn-primary btn-lg btn-dark-trans"
+    var actionBtnClasses = "btn btn-link btn-lg btn-transparent"
 
     return (
       <div id={toWatch.tmdbId} className={watchItemClasses} style={watchItemStyles}>

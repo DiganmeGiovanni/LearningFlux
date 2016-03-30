@@ -6,56 +6,24 @@
 
 
 body {
-  background: #00141b;
-  color: #DDD;
   font-family: 'PT Sans', 'Roboto', 'Lato', 'Open Sans';
 }
 
-.btn-dark-trans {
-  background: transparent;
-  border: none;
-  color: #DDD;
-}
-
-.btn-dark-trans:hover,
-.btn-dark-trans:active {
-  background: transparent;
-  border: none;
-  color: #EEE;
-}
-
-.btn-topbar {
-  background: transparent;
-  border: none;
-  color: #EEE;
-}
-
-.btn-topbar:hover {
-  background: transparent;
-  color: #FFF;
-}
-
-.btn-fab-blue {
-  background: #337ab7;
-  border-color: #2e6da4;
-  /*background: #f94877;
-  border-color: #f94877;*/
-  border-radius: 50%;
+.btn-fab {
+  border-radius: 50% !important;
   bottom: 20px;
-  box-shadow: 0px 0px 5px #333;
-  color: #EEE;
-  height: 45px;
-  max-height: 45px;
-  min-height: 45px;
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);
+  height: 56px;
+  max-height: 56px;
+  min-height: 56px;
   padding: 10px 2%;
   position: fixed;
   right: 20px;
-  width: 45px;
+  width: 56px;
   z-index: 2;
 }
 
 .card-towatch-item {
-  background: #22313F;
   padding-bottom: 15px;
   padding-top: 30px;
 }
@@ -65,8 +33,6 @@ body {
 }
 
 .card-result {
-  background: #FFF;
-  box-shadow: 0px 0px 5px #888;
   margin-bottom: 10px;
   margin-top: 10px;
   padding-right: 5px;
@@ -79,14 +45,6 @@ body {
   right: 0px
 }
 
-.g-signin2-custom > div {
-  margin: auto;
-}
-
-.no-padding-left {
-  padding-left: 0px;
-}
-
 .movie-search-result-card-content {
   max-height: 135px;
   min-height: 135px;
@@ -97,53 +55,7 @@ body {
   width: 100px;
 }
 
-.modal-dialog > .modal-content {
-  border: none;
-  border-radius: 0px;
-}
-
-.modal-dialog > .modal-content > .modal-body {
-  background: #F2F1EF;
-  color: #111;
-}
-
-.modal-dialog > .modal-content > .modal-footer {
-  background: #F2F1EF;
-  color: #111;
-}
-
-.modal-dialog > .modal-content > .modal-header {
-  background: #317589;
-  border-bottom: none;
-  color: #F2F1EF;
-}
-
-.modal-dialog > .modal-content > .modal-header .close {
-  color: #FFF;
-}
-
-.subtle-text {
-  color: #888;
-}
-
-.sweet-alert {
-  background: #F2F1EF;
-  border-radius: 0px;
-}
-
-.sweet-alert button {
-  border-radius: 2px;
-  margin: 5px;
-}
-
-.sweet-content {
-  color: #000;
-}
-
 .top-bar {
-  background: #2980b9;
-  border-bottom: 2px solid #000;
-  color: #DDD;
   height: 55px;
   left: 0;
   max-height: 55px;
@@ -164,52 +76,6 @@ body {
 /******************************************************************************/
 /******************************************************************************/
 
-
-
-.background-even {
-  background: #FEFEFE;
-}
-
-.background-not-even {
-  background: #FFF;
-}
-
-.btn:focus {
-  outline: none !important;
-}
-
-.btn-dark-black {
-  background: #34465D;
-  border-color: #2980b9;
-  border-radius: 5px;
-  /*border-color: #f94877;*/
-  color: #DDD;
-}
-
-.btn-dark-black:hover {
-  background: #34465D;
-  border: 1px solid #2980b9;
-  color: #FFF;
-}
-
-.btn-dark-black:active {
-  background: #000;
-}
-
-
-
-.btn-dark-blue {
-  background: #00AFF0;
-  border: 1px solid #21759b;
-  color: #22313F;
-}
-
-.bordered {
-  border: 1px solid #FFF;
-}
-
-
-
 .hidden-overflow {
   overflow: hidden;
 }
@@ -223,6 +89,10 @@ body {
   padding-right: 0px;
 }
 
+.no-padding-left {
+  padding-left: 0px;
+}
+
 .no-padding-right {
   padding-right: 0px;
 }
@@ -232,6 +102,9 @@ body {
   padding-top: 0px;
 }
 
+.g-signin2-custom > div {
+  margin: auto;
+}
 
 
 /*****************************************************************************/
@@ -271,7 +144,6 @@ body {
     padding-top: 20px;
   }
 }
-
 
 
 /*****************************************************************************/

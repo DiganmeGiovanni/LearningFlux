@@ -28,8 +28,8 @@ module.exports = {
   //
   // API Info
   //
-  API_URL: "http://localhost:8080/api/", // TODO Replace with online api
-  //API_URL: "http://movies-to-watch.appspot.com/api/",
+  //API_URL: "http://localhost:8080/api/", // TODO Replace with online api
+  API_URL: "http://movies-to-watch.appspot.com/api/",
 
   //
   // Google APIs urls

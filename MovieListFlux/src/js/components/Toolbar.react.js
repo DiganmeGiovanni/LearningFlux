@@ -27,17 +27,17 @@ var Toolbar = React.createClass({
           </div>
 
           <div className="col-xs-12 col-sm-8" style={{paddingRight: '0px', paddingTop: '4px'}}>
-            <div className="btn-toolbar pull-right">
+            <div className="pull-right">
               <div className="btn-group">
                 <button
-                  className="btn btn-primary btn-topbar hidden-xs"
+                  className="btn btn-link btn-transparent hidden-xs"
                   data-target="#towatch-form-modal"
                   data-toggle="modal"
                   type="button">
                   <span>
                     <span className="glyphicon glyphicon-film"></span>
                     <span>
-                      <span className="hidden-xs">&nbsp;&nbsp;Add movie</span>
+                      <span className="hidden-xs">&nbsp;&nbsp;ADD MOVIE</span>
                       <span className="visible-xs-inline">&nbsp;&nbsp;Add</span>
                     </span>
                   </span>
@@ -46,30 +46,30 @@ var Toolbar = React.createClass({
 
               <div className="btn-group">
                 <button
-                  className="btn btn-primary btn-topbar"
+                  className="btn btn-link btn-transparent"
                   data-target="#share-list-modal"
                   data-toggle="modal"
                   type="button">
                   <span className="glyphicon glyphicon-share"></span>
-                  <span>&nbsp;&nbsp;Share list</span>
+                  <span>&nbsp;&nbsp;SHARE LIST</span>
                 </button>
               </div>
 
               <div className="btn-group">
                 <button
-                  className="btn btn-primary btn-topbar"
+                  className="btn btn-link btn-transparent"
                   onClick={this._deleteCurrentList}>
                   <span className="glyphicon glyphicon-trash"></span>
                 </button>
                 <button
-                  className="btn btn-primary btn-topbar"
+                  className="btn btn-link btn-transparent"
                   data-target="#preferences-modal"
                   data-toggle="modal">
                   <span className="glyphicon glyphicon-cog" />
                 </button>
 
                 {/* More options */}
-                <button className="btn btn-primary btn-topbar dropdown-toggle" data-toggle="dropdown">
+                <button className="btn btn-link btn-transparent dropdown-toggle" data-toggle="dropdown">
                   <span className="glyphicon glyphicon-option-vertical"></span>
                 </button>
                 <ul className="dropdown-menu dropdown-menu-right">
@@ -107,7 +107,7 @@ var Toolbar = React.createClass({
 
         {/* FAB Button for extra small devices */}
         <button
-          className="btn btn-primary btn-fab-blue visible-xs-block"
+          className="btn btn-fab visible-xs-block"
           data-target="#towatch-form-modal"
           data-toggle="modal"
           type="button">

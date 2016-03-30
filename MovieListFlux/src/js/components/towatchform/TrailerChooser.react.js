@@ -49,14 +49,14 @@ var TrailerChooser = React.createClass({
                   <div className="card-result-bottom-buttons">
                     <div className="btn-group">
                       <button
-                        className="btn btn-default btn-sm"
+                        className="btn btn-default"
                         onClick={this.chooseTrailer.bind(null, trailer.videoId)}
                         type="button">
                         <span className="glyphicon glyphicon-check"></span>
                         <span className="hidden-xs">&nbsp;&nbsp;Choose</span>
                       </button>
                       <button
-                        className="btn btn-default btn-sm"
+                        className="btn btn-default"
                         onClick={this.playTrailer.bind(null, trailer.videoId)}
                         type="button">
                         <span className="glyphicon glyphicon-play"></span>
@@ -103,10 +103,11 @@ var TrailerChooser = React.createClass({
 
         <div className="modal-footer" style={{borderTop: '1px solid #333'}}>
           <button
-              className="btn btn-danger"
+              className="btn btn-warning"
               onClick={this.backToForm}
               type="button">
-            <span>Skip trailer chooser</span>
+            <span className="glyphicon glyphicon-menu-right"></span>
+            <span>&nbsp;&nbsp;Skip trailer chooser</span>
           </button>
         </div>
       </div>

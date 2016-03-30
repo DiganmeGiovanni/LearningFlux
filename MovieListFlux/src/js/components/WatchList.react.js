@@ -2,6 +2,7 @@
 var React = require('react')
 
 var WatchListItem = require('./WatchListItem.react')
+var ToWatchConstants = require('../constants/toWatchConstants')
 
 /******************************************************************************/
 
@@ -11,6 +12,18 @@ var WatchList = React.createClass({
     return {
       idDisplayedItem: '', // The id 'tmdbid' of item which display details
       idWatchedDisplayedItem: ''
+    }
+  },
+
+  componentDidMount() {
+    var userPreferences = ToWatchConstants.userData.preferences
+    switch (userPreferences.theme) {
+      case 'pink-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css')
+        break
+      case 'blue-dark':
+      default:
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css')
     }
   },
 

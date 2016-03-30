@@ -1,10 +1,15 @@
 
 var React = require('react')
 var ToWatchActions = require('../actions/ToWatchActions')
+var ToWatchConstants = require('../constants/toWatchConstants')
 
 /******************************************************************************/
 
 var EditPreferences = React.createClass({
+
+  componentDidMount() {
+    this._takeValuesFromUserData()
+  },
 
   render() {
     return(
@@ -21,13 +26,9 @@ var EditPreferences = React.createClass({
               <div className="row">
                 <div className="col-xs-12">
                   <b>Theme</b>
-                  <select className="form-control">
-                    <option value="default-dark">Default dark</option>
-                    <option value="default-dark">Default light</option>
-                    <option value="default-dark">Pink dark</option>
-                    <option value="default-dark">Pink light</option>
-                    <option value="default-dark">Blurred dark</option>
-                    <option value="default-dark">Blurred dark</option>
+                  <select id="theme-chooser" className="form-control" onChange={this._themeChanged}>
+                    <option value="blue-dark">Blue dark</option>
+                    <option value="pink-dark">Pink dark</option>
                   </select>
                 </div>
               </div>
@@ -36,21 +37,80 @@ var EditPreferences = React.createClass({
                   <b>Email Notifications</b>
                 </div>
                 <div className="col-xs-12">
-                  <span><input type="checkbox" value=""/>&nbsp;&nbsp;List shared with me</span>
+                  <span><input id="cb-list-shared" type="checkbox" value=""/>&nbsp;&nbsp;List shared with me</span>
                 </div>
                 <div className="col-xs-12">
-                  <span><input type="checkbox" value=""/>&nbsp;&nbsp;Movie added to your lists</span>
+                  <span><input id="cb-movie-added" type="checkbox" value=""/>&nbsp;&nbsp;Movie added to your lists</span>
                 </div>
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-default">Cancel</button>
-              <button className="btn btn-success">Save</button>
+              <button className="btn btn-danger">
+                <span className="glyphicon glyphicon-remove-circle"></span>
+                <span>&nbsp;&nbsp;Cancel</span>
+              </button>
+              <button className="btn btn-success">
+                <span className="glyphicon glyphicon-cloud-upload"></span>
+                <span>&nbsp;&nbsp;&nbsp;Save</span>
+              </button>
             </div>
           </div>
         </div>
       </div>
     )
+  },
+
+  _resetForm() {
+    this._takeValuesFromUserData()
+
+    // Reset to selected theme
+    switch (ToWatchConstants.userData.preferences.theme) {
+      case 'blue-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css')
+        break
+      case 'pink-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css')
+        break
+    }
+  },
+
+  _takeValuesFromUserData() {
+    var userPreferences = ToWatchConstants.userData.preferences
+
+    if (userPreferences.notiifyOnListAddition) {
+      document.getElementById('cb-list-shared').setAttribute('checked', 'true')
+    }
+    else {
+      document.getElementById('cb-list-shared').setAttribute('checked', 'true')
+    }
+
+    if (userPreferences.notiifyOnListMovieAddition) {
+      document.getElementById('cb-movie-added').setAttribute('checked', 'true')
+    }
+    else {
+      document.getElementById('cb-movie-added').setAttribute('checked', 'true')
+    }
+
+    switch (userPreferences.theme) {
+      case 'pink-dark':
+        document.getElementById('theme-chooser').value = 'pink-dark'
+        break
+      case 'blue-dark':
+      default:
+        document.getElementById('theme-chooser').value = 'blue-dark'
+    }
+  },
+
+  _themeChanged() {
+    var chosen = document.getElementById('theme-chooser').value
+    switch (chosen) {
+      case 'blue-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css')
+        break
+      case 'pink-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css')
+        break
+    }
   }
 
 })
