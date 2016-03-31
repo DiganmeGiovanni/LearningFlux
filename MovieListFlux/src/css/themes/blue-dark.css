@@ -10,6 +10,10 @@ body {
   font-family: 'Roboto';
 }
 
+.alertify .dialog {
+  color: #000;
+}
+
 .btn {
   border-radius: 2px;
   outline: none;

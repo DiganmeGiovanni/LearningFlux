@@ -7,6 +7,7 @@
 var AppDispatcher    = require('../dispatcher/AppDispatcher')
 var EventEmitter     = require('events').EventEmitter
 var objAssign        = require('object-assign')
+var alertify         = require('alertify.js')()
 
 var ToWatchConstants = require('../constants/toWatchConstants')
 var movieListService = require('../services/movieListService')
@@ -22,6 +23,10 @@ var currentList = {
   movies: [],
   sharedWith: []
 }
+
+// Alertify setup
+alertify.theme('bootstrap')
+alertify.logPosition("bottom right")
 
 
 var ToWatchStore = objAssign({}, EventEmitter.prototype, {
@@ -100,76 +105,61 @@ var ToWatchStore = objAssign({}, EventEmitter.prototype, {
     var self = this
 
     if (currentList.isPersonalList) {
-      swal({
-        title: 'Trying remove personal list',
-        text: 'The personal list can not be removed. (IT\'S YOUR LIST)',
-        type: 'warning',
-        buttonsStyling: false,
-        confirmButtonClass: 'btn btn-default btn-lg'
-      })
+      var alertMsg = '<b class="alert alert-danger">IT\'S YOUR LIST!</b><br/><br/>'
+      alertMsg += 'The personal list can not be removed.'
+
+      alertify
+        .okBtn('Ok')
+        .alert(alertMsg)
     }
     else if (currentList.ownerEmail !== ToWatchConstants.userData.email) {
-      swal({
-        title: 'Leave list instead?',
-        text: 'Only the creator of list can delete. Do you want leave the list instead?',
-        type: 'warning',
-        closeOnConfirm: false,
-        buttonsStyling: false,
-        showCancelButton: true,
-        allowOutsideClick: false,
-        confirmButtonText: 'Leave list',
-        confirmButtonClass: 'btn btn-danger btn-lg',
-        cancelButtonClass: 'btn btn-default btn-lg'
-      },
-      function (isConfirm) {
-        if (isConfirm) {
-          swal.disableButtons()
+      var confirmMsg = '<b class="alert alert-danger">LEAVE LIST INSTEAD?</b><br/><br/>'
+      confirmMsg += 'Only the list\'s creator can delete it.<br/>'
+      confirmMsg += 'Do you want to leave the list instead?'
 
-          var idDS = currentList.idDatastore
-          var email = ToWatchConstants.userData.email
-          movieListService.unShareList(idDS, email, function (err, body) {
-            if (err) {
-              console.error("Error unsharing list")
-              console.error(err)
-            }
-            else {
-              swal('You has been removed from the list!')
-              self.fetchPersonalList()
-            }
-          })
-        }
-      })
+      var okBtnFN = function (ev) {
+        var idDS = currentList.idDatastore
+        var email = ToWatchConstants.userData.email
+        movieListService.unShareList(idDS, email, function (err, body) {
+          if (err) {
+            console.error("Error unsharing list")
+            console.error(err)
+
+            alertify.error('You can not be removed from list')
+          }
+          else {
+            alertify.log('You have been removed from the list!')
+            self.fetchPersonalList()
+          }
+        })
+      }
+      
+      alertify
+        .okBtn('Leave list')
+        .confirm(confirmMsg, okBtnFN)
     }
     else {
-      swal({
-        title: 'This can\'t be undone',
-        text: 'Are you sure you wish delete current list and all its contents?',
-        type: 'warning',
-        buttonsStyling: false,
-        showCancelButton: true,
-        closeOnConfirm: false,
-        allowOutsideClick: false,
-        confirmButtonText: 'Delete list',
-        confirmButtonClass: 'btn btn-danger btn-lg',
-        cancelButtonClass: 'btn btn-default btn-lg'
-      },
-      function (isConfirm) {
-        if (isConfirm) {
-          swal.disableButtons()
+      var confirmMsg = '<b class="alert alert-danger">THIS ACTION CAN NOT BE UNDONE!</b><br/><br/>'
+      confirmMsg += 'Are you sure you wish delete current list and all its contents?'
+      var okBtnFN = function () {
+        var idDS = currentList.idDatastore
+        movieListService.deleteList(idDS, function (err, body) {
+          if (err) {
+            console.error("Error deleting list")
+            console.error(err)
 
-          var idDS = currentList.idDatastore
-          movieListService.deleteList(idDS, function (err, body) {
-            if (err) {
-              console.error("Error deleting list")
-              console.error(err)
-            }
-            else {
-              swal('Your list has been deleted!')
-              self.fetchPersonalList()
-            }
-          })
-        }
-      })
+            alertify.error('The list can not be deleted!')
+          }
+          else {
+            alertify.log('Your list has been deleted!')
+            self.fetchPersonalList()
+          }
+        })
+      }
+
+      alertify
+        .okBtn('Delete list')
+        .confirm(confirmMsg, okBtnFN)
     }
   },
 
