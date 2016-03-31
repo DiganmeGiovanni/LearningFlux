@@ -2,7 +2,7 @@
 var React = require('react')
 
 var ToWatchActions  = require('../actions/ToWatchActions')
-var LoginActions    = require('../actions/LoginActions')
+var LoginActions    = require('../actions/UserActions')
 var ToWatchForm     = require('./towatchform/ToWatchForm.react')
 var ShareList       = require('./ShareList.react')
 var CreateList      = require('./CreateList.react')

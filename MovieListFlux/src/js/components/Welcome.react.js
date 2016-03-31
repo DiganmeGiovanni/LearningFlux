@@ -1,6 +1,6 @@
 
 var React        = require('react')
-var LoginActions = require('../actions/LoginActions')
+var LoginActions = require('../actions/UserActions')
 
 var Welcome = React.createClass({
 

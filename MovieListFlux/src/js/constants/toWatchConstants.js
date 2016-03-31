@@ -20,16 +20,17 @@ module.exports = {
 
 
   //
-  // Login actions names
+  // User actions names
   //
   USER_LOGIN: "user_login",
   USER_LOGOUT: "user-logout",
+  USER_UPLOAD_PREFERENCES: "user_upload_preferences",
 
   //
   // API Info
   //
-  //API_URL: "http://localhost:8080/api/", // TODO Replace with online api
-  API_URL: "http://movies-to-watch.appspot.com/api/",
+  API_URL: "http://localhost:8080/api/", // TODO Replace with online api
+  //API_URL: "http://movies-to-watch.appspot.com/api/",
 
   //
   // Google APIs urls

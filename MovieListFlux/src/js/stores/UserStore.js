@@ -11,7 +11,7 @@ var EVENT_CHANGE     = 'event-change-login'
 
 /******************************************************************************/
 
-var LoginStore = objectAssign({}, EventEmitter.prototype, {
+var UserStore = objectAssign({}, EventEmitter.prototype, {
 
   isUserLogged: function () {
     return (ToWatchConstants.userData.email &&
@@ -52,6 +52,23 @@ var LoginStore = objectAssign({}, EventEmitter.prototype, {
 
   removeChangeListener: function(callback) {
     this.removeListener(callback)
+  },
+
+  uploadUserPreferences: function () {
+    var self = this
+
+    userService.uploadUserPreferences(function (err, body) {
+      if (err) {
+        console.error("Error updating user preferences")
+        console.error(err)
+      }
+      else {
+        body = JSON.parse(body)
+        ToWatchConstants.userData = body
+
+        self.emitChange()
+      }
+    })
   }
 
 })
@@ -62,11 +79,15 @@ AppDispatcher.register(function (action) {
     case ToWatchConstants.USER_LOGIN:
       var name  = action.name
       var email = action.email
-      LoginStore.loginUser(name, email)
+      UserStore.loginUser(name, email)
       break
 
     case ToWatchConstants.USER_LOGOUT:
-      LoginStore.logoutUser()
+      UserStore.logoutUser()
+      break
+
+    case ToWatchConstants.USER_UPLOAD_PREFERENCES:
+      UserStore.uploadUserPreferences()
       break
 
     default:
@@ -74,4 +95,4 @@ AppDispatcher.register(function (action) {
   }
 })
 
-module.exports = LoginStore
+module.exports = UserStore

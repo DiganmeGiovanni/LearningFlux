@@ -2,7 +2,7 @@
 var AppDispatcher = require('../dispatcher/AppDispatcher')
 var ToWatchConstants = require('../constants/toWatchConstants')
 
-var LoginActions = {
+var UserActions = {
 
   loginUser: function (name, email) {
     AppDispatcher.dispatch({
@@ -16,8 +16,14 @@ var LoginActions = {
     AppDispatcher.dispatch({
       actionType: ToWatchConstants.USER_LOGOUT
     })
+  },
+
+  uploadUserPreferences: function () {
+    AppDispatcher.dispatch({
+      actionType: ToWatchConstants.USER_UPLOAD_PREFERENCES
+    })
   }
 
 }
 
-module.exports = LoginActions
+module.exports = UserActions

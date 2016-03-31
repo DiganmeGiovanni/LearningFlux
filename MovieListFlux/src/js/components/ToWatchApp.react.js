@@ -10,7 +10,7 @@ var WatchList = require('./WatchList.react')
 var Toolbar      = require('./Toolbar.react')
 var Welcome      = require('./Welcome.react')
 var ToWatchStore = require('../stores/ToWatchStore')
-var LoginStore   = require('../stores/LoginStore')
+var LoginStore   = require('../stores/UserStore')
 
 /*****************************************************************************/
 

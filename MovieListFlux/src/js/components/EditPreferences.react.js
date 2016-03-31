@@ -2,6 +2,7 @@
 var React = require('react')
 var ToWatchActions = require('../actions/ToWatchActions')
 var ToWatchConstants = require('../constants/toWatchConstants')
+var UserActions = require('../actions/UserActions')
 
 /******************************************************************************/
 
@@ -45,11 +46,15 @@ var EditPreferences = React.createClass({
               </div>
             </div>
             <div className="modal-footer">
-              <button className="btn btn-danger">
+              <button
+                className="btn btn-danger"
+                onClick={this._resetForm}>
                 <span className="glyphicon glyphicon-remove-circle"></span>
                 <span>&nbsp;&nbsp;Cancel</span>
               </button>
-              <button className="btn btn-success">
+              <button
+                className="btn btn-success"
+                onClick={this._savePreferences}>
                 <span className="glyphicon glyphicon-cloud-upload"></span>
                 <span>&nbsp;&nbsp;&nbsp;Save</span>
               </button>
@@ -72,23 +77,38 @@ var EditPreferences = React.createClass({
         document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css')
         break
     }
+
+    $('#preferences-modal').modal('hide')
+  },
+
+  _savePreferences() {
+    var notifyOnListShared = document.getElementById('cb-list-shared').checked
+    var notifyOnMovieAdded = document.getElementById('cb-movie-added').checked
+    var theme = document.getElementById('theme-chooser').value
+
+    ToWatchConstants.userData.preferences.notifyOnListAddition = notifyOnListShared
+    ToWatchConstants.userData.preferences.notifyOnListMovieAddition = notifyOnMovieAdded
+    ToWatchConstants.userData.preferences.theme = theme
+
+    UserActions.uploadUserPreferences()
+    $('#preferences-modal').modal('hide')
   },
 
   _takeValuesFromUserData() {
     var userPreferences = ToWatchConstants.userData.preferences
 
-    if (userPreferences.notiifyOnListAddition) {
-      document.getElementById('cb-list-shared').setAttribute('checked', 'true')
+    if (userPreferences.notifyOnListAddition) {
+      document.getElementById('cb-list-shared').checked = true
     }
     else {
-      document.getElementById('cb-list-shared').setAttribute('checked', 'true')
+      document.getElementById('cb-list-shared').checked = false
     }
 
-    if (userPreferences.notiifyOnListMovieAddition) {
-      document.getElementById('cb-movie-added').setAttribute('checked', 'true')
+    if (userPreferences.notifyOnListMovieAddition) {
+      document.getElementById('cb-movie-added').checked = true
     }
     else {
-      document.getElementById('cb-movie-added').setAttribute('checked', 'true')
+      document.getElementById('cb-movie-added').checked = false
     }
 
     switch (userPreferences.theme) {
