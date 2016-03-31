@@ -11,7 +11,7 @@ var WatchListItem = React.createClass({
 
   getInitialState() {
     return {
-      playingTrailer: false
+      playingTrailer: false,
     }
   },
 
@@ -27,6 +27,7 @@ var WatchListItem = React.createClass({
           }
         }
       })
+
     }
 
     if(this.props.displayDetails) {
@@ -255,6 +256,7 @@ var WatchListItem = React.createClass({
   constructTrailerModal() {
     var idTrailerModal = 'modal-trailer-' + this.props.toWatch.tmdbId
     var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.tmdbId
+    var videoPlayerContainerId = 'video-player-container-' + this.props.toWatch.tmdbId
 
     return (
       <div className="modal fade" id={idTrailerModal} tabIndex="-1" role="dialog">
@@ -268,7 +270,7 @@ var WatchListItem = React.createClass({
             </div>
             <div className="modal-body">
               <div className="row">
-                <div className="col-xs-12">
+                <div id={videoPlayerContainerId} className="col-xs-12">
                   <div id={trailerContainerId}></div>
                 </div>
               </div>
@@ -280,11 +282,26 @@ var WatchListItem = React.createClass({
   },
 
   playTrailer() {
+    var self = this
+
     var idTrailerModal = 'modal-trailer-' + this.props.toWatch.tmdbId
+    var trailerContainerId = 'modal-trailer-container-' + this.props.toWatch.tmdbId
+    var videoPlayerContainerId = 'video-player-container-' + this.props.toWatch.tmdbId
+
     $('#' + idTrailerModal).modal('show')
 
     this.setState({
       playingTrailer: true
+    })
+
+    $('#' + idTrailerModal).on('hidden.bs.modal', function () {
+      $('#' + videoPlayerContainerId).empty()
+      var $newVideoContainer = $("<div>", {id: trailerContainerId})
+      $('#' + videoPlayerContainerId).append($newVideoContainer)
+
+      self.setState({
+        playingTrailer: false
+      })
     })
   },
 
