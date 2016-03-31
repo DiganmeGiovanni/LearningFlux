@@ -117,6 +117,7 @@ var WatchListItem = React.createClass({
                       ToWatchConstants.TMDB_API_IMGBASE_SM + toWatch.posterPath
                 }
                 alt=""
+                className={toWatch.isWatched ? "grayscaled-image" : ""}
                 width="100%"/>
             </div>
           </div>

@@ -45,6 +45,11 @@ body {
   right: 0px
 }
 
+.grayscaled-image {
+  filter: grayscale(100%);
+  -webkit-filter: grayscale(100%);
+}
+
 .movie-search-result-card-content {
   max-height: 135px;
   min-height: 135px;
