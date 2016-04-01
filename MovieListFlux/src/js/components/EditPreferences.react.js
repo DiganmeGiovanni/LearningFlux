@@ -30,6 +30,7 @@ var EditPreferences = React.createClass({
                   <select id="theme-chooser" className="form-control" onChange={this._themeChanged}>
                     <option value="blue-dark">Blue dark</option>
                     <option value="pink-dark">Pink dark</option>
+                    <option value="gradient-blue-dark">Gradient Blue</option>
                   </select>
                 </div>
               </div>
@@ -71,10 +72,13 @@ var EditPreferences = React.createClass({
     // Reset to selected theme
     switch (ToWatchConstants.userData.preferences.theme) {
       case 'blue-dark':
-        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css')
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css?r=' + Math.random())
         break
       case 'pink-dark':
-        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css')
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css?r=' + Math.random())
+        break
+      case 'gradient-blue-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/gradient-blue-dark.css?r=' + Math.random())
         break
     }
 
@@ -115,6 +119,9 @@ var EditPreferences = React.createClass({
       case 'pink-dark':
         document.getElementById('theme-chooser').value = 'pink-dark'
         break
+      case 'gradient-blue-dark':
+        document.getElementById('theme-chooser').value = 'gradient-blue-dark'
+        break
       case 'blue-dark':
       default:
         document.getElementById('theme-chooser').value = 'blue-dark'
@@ -125,10 +132,13 @@ var EditPreferences = React.createClass({
     var chosen = document.getElementById('theme-chooser').value
     switch (chosen) {
       case 'blue-dark':
-        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css')
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css?r=' + Math.random())
         break
       case 'pink-dark':
-        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css')
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css?r=' + Math.random())
+        break
+      case 'gradient-blue-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/gradient-blue-dark.css?r=' + Math.random())
         break
     }
   }

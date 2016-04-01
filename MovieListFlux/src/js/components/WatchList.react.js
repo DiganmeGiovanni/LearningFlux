@@ -19,11 +19,14 @@ var WatchList = React.createClass({
     var userPreferences = ToWatchConstants.userData.preferences
     switch (userPreferences.theme) {
       case 'pink-dark':
-        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css')
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/pink-dark.css?r=' + Math.random())
+        break
+      case 'gradient-blue-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/gradient-blue-dark.css?r=' + Math.random())
         break
       case 'blue-dark':
       default:
-        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css')
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css?r=' + Math.random())
     }
   },
 

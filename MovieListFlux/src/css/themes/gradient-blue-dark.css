@@ -1,0 +1,177 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+body {
+  background: #16a085;
+  background: linear-gradient(to right, #085078 0,#16a085 110%);
+  color: #EEE;
+  font-family: 'Roboto';
+}
+
+.alertify .dialog {
+  background: rgba(255, 255, 255, 0.6);
+  color: #000;
+}
+
+.btn {
+  border-radius: 2px;
+  outline: none;
+  /*box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);*/
+  /*box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2);*/
+}
+
+.btn:focus,
+.btn:active {
+  outline: none !important;
+}
+
+.btn-default {
+  background: #EEEEEE;
+}
+
+.btn-default:hover,
+.btn-default:active,
+.btn-default:focus {
+  background: #EEEEEE;
+}
+
+.btn-danger {
+  background: #f44336;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-danger:hover,
+.btn-danger:active,
+.btn-danger:focus {
+  background: #f44336;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-primary {
+  background: #00aa9a;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+  background: #00aa9a;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-success {
+  background: #4caf50;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-success:hover,
+.btn-success:active,
+.btn-success:focus {
+  background: #4caf50;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-warning {
+  background: #ff5722;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-warning:hover,
+.btn-warning:active,
+.btn-warning:focus {
+  background: #ff5722;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-fab {
+  background: #337AB7;
+  border-color: #2E6DA4;
+  color: #EEE;
+}
+
+.btn-fab:active,
+.btn-fab:hover,
+.btn-fab:focus {
+  background: #337AB7;
+  border-color: #2E6DA4;
+  color: #EEE;
+}
+
+.btn-transparent {
+  background: transparent;
+  border: none;
+  color: #EEE;
+}
+
+.btn-transparent:hover,
+.btn-transparent:active,
+.btn-transparent:focus,
+.btn-transparent:target {
+  background: transparent;
+  border: none;
+  color: #FFF;
+  outline: none;
+  text-decoration: none;
+}
+
+.card-towatch-item {
+  background: #3A6073;
+  background: linear-gradient(to left, #16222A 0, #3A6073 140%);
+}
+
+.card-result {
+  background: #FFF;
+  box-shadow: 0px 0px 5px #888;
+  color: #000;
+}
+
+.modal-dialog > .modal-content {
+  border: none;
+  border-radius: 0px;
+}
+
+.modal-dialog > .modal-content > .modal-body {
+  background: #F2F1EF;
+  color: #111;
+}
+
+.modal-dialog > .modal-content > .modal-footer {
+  background: #F2F1EF;
+  color: #111;
+}
+
+.modal-dialog > .modal-content > .modal-header {
+  background: #317589;
+  background: #4DA0B0;
+  background: linear-gradient(to right, #4DA0B0 , #D39D38);
+;
+  border-bottom: none;
+  color: #F2F1EF;
+}
+
+.modal-dialog > .modal-content > .modal-header .close {
+  color: #FFF;
+}
+
+.subtle-text {
+  color: #DDD;
+}
+
+.top-bar {
+  background: #FFF;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 60px 0 rgba(50,50,50,0.3);
+  color: #DDD;
+}
+
+.top-bar .btn-transparent {
+  color: #202128;
+}
