@@ -139,7 +139,7 @@ var ToWatchStore = objAssign({}, EventEmitter.prototype, {
         .confirm(confirmMsg, okBtnFN)
     }
     else {
-      var confirmMsg = '<b class="alert alert-danger">THIS ACTION CAN NOT BE UNDONE!</b><br/><br/>'
+      var confirmMsg = '<b class="alert alert-danger">THIS CAN\'T BE UNDONE!</b><br/><br/>'
       confirmMsg += 'Are you sure you wish delete current list and all its contents?'
       var okBtnFN = function () {
         var idDS = currentList.idDatastore

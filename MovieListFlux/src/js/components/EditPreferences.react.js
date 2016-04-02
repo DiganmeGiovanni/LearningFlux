@@ -31,6 +31,7 @@ var EditPreferences = React.createClass({
                     <option value="blue-dark">Blue dark</option>
                     <option value="pink-dark">Pink dark</option>
                     <option value="gradient-blue-dark">Gradient Blue</option>
+                    <option value="gradient-pink-dark">Gradient Pink</option>
                   </select>
                 </div>
               </div>
@@ -80,6 +81,9 @@ var EditPreferences = React.createClass({
       case 'gradient-blue-dark':
         document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/gradient-blue-dark.css?r=' + Math.random())
         break
+      case 'gradient-pink-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/gradient-pink-dark.css?r=' + Math.random())
+        break
     }
 
     $('#preferences-modal').modal('hide')
@@ -122,6 +126,9 @@ var EditPreferences = React.createClass({
       case 'gradient-blue-dark':
         document.getElementById('theme-chooser').value = 'gradient-blue-dark'
         break
+      case 'gradient-pink-dark':
+        document.getElementById('theme-chooser').value = 'gradient-pink-dark'
+        break
       case 'blue-dark':
       default:
         document.getElementById('theme-chooser').value = 'blue-dark'
@@ -139,6 +146,9 @@ var EditPreferences = React.createClass({
         break
       case 'gradient-blue-dark':
         document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/gradient-blue-dark.css?r=' + Math.random())
+        break
+      case 'gradient-pink-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/gradient-pink-dark.css?r=' + Math.random())
         break
     }
   }

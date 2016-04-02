@@ -24,6 +24,9 @@ var WatchList = React.createClass({
       case 'gradient-blue-dark':
         document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/gradient-blue-dark.css?r=' + Math.random())
         break
+      case 'gradient-pink-dark':
+        document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/gradient-pink-dark.css?r=' + Math.random())
+        break
       case 'blue-dark':
       default:
         document.getElementById('theme-stylesheet').setAttribute('href', './src/css/themes/blue-dark.css?r=' + Math.random())

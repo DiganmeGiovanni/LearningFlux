@@ -1,0 +1,173 @@
+@import url(https://fonts.googleapis.com/css?family=Roboto);
+
+body {
+  background: #B24592;
+  background: linear-gradient(to right, #B24592 0, #F15F79 150%);
+  color: #EEE;
+  font-family: 'Roboto';
+}
+
+.alertify .dialog {
+  background: rgba(255, 255, 255, 0.6);
+  color: #000;
+}
+
+.btn {
+  border-radius: 2px;
+  outline: none;
+}
+
+.btn:focus,
+.btn:active {
+  outline: none !important;
+}
+
+.btn-default {
+  background: #EEEEEE;
+}
+
+.btn-default:hover,
+.btn-default:active,
+.btn-default:focus {
+  background: #EEEEEE;
+}
+
+.btn-danger {
+  background: #f44336;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-danger:hover,
+.btn-danger:active,
+.btn-danger:focus {
+  background: #f44336;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-primary {
+  background: #00aa9a;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-primary:hover,
+.btn-primary:active,
+.btn-primary:focus {
+  background: #00aa9a;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-success {
+  background: #4caf50;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-success:hover,
+.btn-success:active,
+.btn-success:focus {
+  background: #4caf50;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-warning {
+  background: #ff5722;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-warning:hover,
+.btn-warning:active,
+.btn-warning:focus {
+  background: #ff5722;
+  border: none;
+  color: rgba(255, 255, 255, 0.97);
+}
+
+.btn-fab {
+  background: #F62459;
+  border-color: #F62459;
+  color: #EEE;
+}
+
+.btn-fab:active,
+.btn-fab:hover,
+.btn-fab:focus {
+  background: #F62459;
+  border-color: #F62459;
+  color: #EEE;
+}
+
+.btn-transparent {
+  background: transparent;
+  border: none;
+  color: #EEE;
+}
+
+.btn-transparent:hover,
+.btn-transparent:active,
+.btn-transparent:focus,
+.btn-transparent:target {
+  background: transparent;
+  border: none;
+  color: #FFF;
+  outline: none;
+  text-decoration: none;
+}
+
+.card-towatch-item {
+  background: #3A6073;
+  background: linear-gradient(to left, #556270 0, #FF6B6B 150%);
+}
+
+.card-result {
+  background: #FFF;
+  box-shadow: 0px 0px 5px #888;
+  color: #000;
+}
+
+.modal-dialog > .modal-content {
+  border: none;
+  border-radius: 0px;
+}
+
+.modal-dialog > .modal-content > .modal-body {
+  background: #F2F1EF;
+  color: #111;
+}
+
+.modal-dialog > .modal-content > .modal-footer {
+  background: #F2F1EF;
+  color: #111;
+}
+
+.modal-dialog > .modal-content > .modal-header {
+  background: #7b4397;
+  background: linear-gradient(to left, #7b4397 , #dc2430);
+  border-bottom: none;
+  color: #F2F1EF;
+}
+
+.modal-dialog > .modal-content > .modal-header .close {
+  color: #FFF;
+}
+
+.subtle-text {
+  color: #DDD;
+}
+
+.top-bar {
+  background: #FFF;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 0 60px 0 rgba(50,50,50,0.3);
+  color: #DDD;
+}
+
+.top-bar .btn-transparent {
+  color: #202128;
+}
