@@ -40,7 +40,7 @@ var WatchList = React.createClass({
     var toWatchesWatchedJSX = []
 
     // Construct the JSX for each 'to watch' item
-    for(var i=0; i< toWatches.length; i++) {
+    for(var i= toWatches.length - 1; i>=0; i--) {
       if (toWatches[i].isActive && !toWatches[i].isWatched) {
 
         // Should display details?
